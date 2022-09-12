@@ -1,0 +1,26 @@
+{
+  "name": "paastis-proxy",
+  "version": "0.0.1",
+  "description": "An HTTP-proxy/gateway that automatically pause and restart Scalingo apps in case of inactivity ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "J. Buget <contact@jbuget.fr>",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@clevercloud/client": "^7.10.0",
+    "dotenv": "^16.0.2",
+    "http-proxy": "^1.18.1",
+    "lodash": "^4.17.21",
+    "node-cron": "^3.0.2",
+    "redis": "^4.3.1",
+    "scalingo": "^0.7.0"
+  },
+  "type": "module",
+  "engines": {
+    "node": "16",
+    "npm": "8"
+  }
+}
