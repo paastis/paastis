@@ -53,36 +53,11 @@ export class CleverCloudProvider extends PaasProvider {
     return getStatus(app) === 'stopped';
   }
 
-  async startApp(appId) {
-    console.log(`Starting app ${appId}…`);
-    const res = await application.redeploy({ appId }).then(this._sendToApi);
-
-    let count = 0;
-    while (count++ < 30) {
-      console.log(`Waiting app ${appId} to be running…`);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const isAppRunning = await this.isAppRunning(appId);
-      if (isAppRunning) {
-        return
-      }
-    }
-    new Error(`Timed out waiting for app ${appId} to be running`);
+  async awakeApp(appId) {
+    return await application.redeploy({ appId }).then(this._sendToApi);
   }
 
-  async stopApp(appId) {
-    console.log(`Stopping app ${appId}…`);
-    await application.undeploy({ appId }).then(this._sendToApi);
-    let count = 0;
-    while (count++ < 30) {
-      console.log(`Waiting app ${appId} to be stopped…`);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const isAppStopped = await this.isAppStopped(appId);
-      if (isAppStopped) {
-        return
-      }
-    }
-    new Error(`Timed out waiting for app ${appId} to be stopped`);
+  async asleepApp(appId) {
+    return await application.undeploy({ appId }).then(this._sendToApi);
   }
 }

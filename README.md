@@ -4,10 +4,10 @@
 
 ```shell
 # 1/ Fetch sources
-git clone git@github.com:jbuget/paastis.git
+git clone git@github.com:paastis/paastis-proxy.git
 
 # 2/ Enter project directory
-cd paastis
+cd paastis-proxy
 
 # 3/ Generate and edit .env file (especially, define SCALINGO_API_TOKEN value with your own API key)
 cp env.sample .env
@@ -33,7 +33,7 @@ curl -v http://localhost:3000 -H Host:my-cloud-app.proxy.example.com
 | REDIS_URL                             | false    | String  | redis://<host/>:<port/>               | -         |  
 | START_AND_STOP_CHECKING_INTERVAL_CRON | false    | String  | CRON expression                       | * * * * * |  
 | START_AND_STOP_MAX_IDLE_TIME          | false    | Number  | Number of minutes                     | 51        |  
-| SCALINGO_API_TOKEN (required)         | **true**     | String  | tk-us-xxxxxx-yyyyyy                   | -         |  
+| SCALINGO_API_TOKEN (required)         | **true** | String  | tk-us-xxxxxx-yyyyyy                   | -         |  
 | SCALINGO_OPERATION_TIMEOUT            | false    | Number  | Number of seconds                     | 30        |  
 | HOOKS_BEFORE_START                    | false    | String  | Shell command(s)                      | -         |  
 | HOOKS_AFTER_START                     | false    | String  | Shell command(s)                      | -         |  
