@@ -39,3 +39,6 @@ curl -v http://localhost:3000 -H Host:my-cloud-app.proxy.example.com
 | HOOKS_AFTER_START                     | false    | String  | Shell command(s)                      | -         |  
 | HOOKS_BEFORE_STOP                     | false    | String  | Shell command(s)                      | -         |  
 | HOOKS_AFTER_STOP                      | false    | String  | Shell command(s)                      | -         |  
+| ROUTING_SYSTEM_API_ENABLED            | false    | Boolean |                                       | false     |  
+| ROUTING_SYSTEM_API_TOKEN              | false    | String  | xxx-yyy-zzz                           | -         | 
+
