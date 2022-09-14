@@ -19,6 +19,14 @@ const startServer = async () => {
     const server = http.createServer({
       insecureHTTPParser: true
     }, (req, res) => {
+
+      let target = req.headers['PaastisProxyTarget'.toLowerCase()] || 'upstream';
+      if (target === 'system') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'ok' }));
+        return;
+      }
+
       const url = new URL(req.url, `https://${req.headers.host}`);
       const appKey = url.hostname.replace(/\..*/, '');
       provider.ensureAppIsRunning(appKey)
@@ -99,12 +107,3 @@ const startCron = async () => {
 
 startServer();
 startCron();
-
-console.log('Active apps: ', (await provider.listAllApps()));
-
-/*
-
-console.log('Active apps: ', (await provider.isAppRunning('app_0210ab5c-6baf-477b-8c0f-32c18a0e7fb6')));
-
-*/
-
