@@ -5,6 +5,7 @@ import config from './config.js';
 import provider from "./provider/index.js";
 import registry from './registry/index.js';
 import RunningApp from "./registry/RunningApp.js";
+import redis from "./redis.js";
 
 const startServer = async () => {
   try {
@@ -12,34 +13,38 @@ const startServer = async () => {
 
     const proxy = httpProxy.createProxyServer({ changeOrigin: true, secure: false, preserveHeaderKeyCase: true });
 
-    proxy.on('error', (err) => {
-      console.error(err);
-    });
+    proxy.on('error', console.error);
 
     const server = http.createServer({
       insecureHTTPParser: true
-    }, (req, res) => {
+    }, async (req, res) => {
 
-      let target = req.headers['PaastisProxyTarget'.toLowerCase()] || 'upstream';
-      if (target === 'system') {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'ok' }));
-        return;
-      }
+      try {
+        let proxyTarget = req.headers['PaastisProxyTarget'.toLowerCase()] || 'upstream';
+        if (config.routing.systemApiEnabled && proxyTarget === 'system') {
+          const givenApiToken = req.headers['PaastisProxySystemApiToken'];
 
-      const url = new URL(req.url, `https://${req.headers.host}`);
-      const appKey = url.hostname.replace(/\..*/, '');
-      provider.ensureAppIsRunning(appKey)
-        .then(() => registry.getApp(appKey))
-        .then((runningApp) => {
+          if (givenApiToken === config.routing.systemApiToken) {
+            const data = await redis.keys('*');
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ status: 'ok', running_apps: data }));
+          } else {
+           res.end(JSON.stringify(new Error('Wrong Paastis proxy system API token')));
+          }
+        } else {
+          const url = new URL(req.url, `https://${req.headers.host}`);
+          const appKey = url.hostname.replace(/\..*/, '');
+
+          await provider.ensureAppIsRunning(appKey);
+          let runningApp = await registry.getApp(appKey);
           if (runningApp) {
             runningApp.updateLastAccessedAt();
-            return runningApp;
+          } else {
+            runningApp = new RunningApp(provider.name, appKey, 'osc-fr1');
           }
-          return new RunningApp(provider.name, appKey, 'osc-fr1');
-        })
-        .then((runningApp) => registry.setApp(runningApp))
-        .then(() => {
+
+          await registry.setApp(runningApp);
+
           let target;
           if (config.provider.name === 'clever-cloud') {
             target = `https://${appKey.replace('app_', 'app-')}.cleverapps.io`;
@@ -48,11 +53,13 @@ const startServer = async () => {
           }
           console.log(`target URL = ${target}`);
           proxy.web(req, res, { target });
-        }, (err) => {
-          console.error(err);
-          res.statusCode = 502;
-          res.end(err.toString());
-        });
+        }
+
+      } catch (err) {
+        console.error(err);
+        res.statusCode = 502;
+        res.end(err.toString());
+      }
     });
 
     server.listen(port, host, () => {

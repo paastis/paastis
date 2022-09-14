@@ -10,10 +10,18 @@ function parseIgnoredApps() {
   return value.trim().split(',');
 }
 
+function parseBoolean(value) {
+  return value && value.trim().toLowerCase() === 'true';
+}
+
 const config = {
   server: {
     host: process.env.HOST || '0.0.0.0',
     port: parseInt(process.env.PORT, 10) || 3000,
+  },
+  routing: {
+    systemApiEnabled: parseBoolean(process.env.ROUTING_SYSTEM_API_ENABLED),
+    systemApiToken: process.env.ROUTING_SYSTEM_API_TOKEN,
   },
   registry: {
     type: process.env.REGISTRY_TYPE || 'in-memory', // ['in-memory', 'redis']

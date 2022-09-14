@@ -48,8 +48,6 @@ export class CleverCloudApp extends PaasApp {
   }
 
   get status() {
-    const res = getStatus(this._app, this._deployments, this._instances);
-    console.log(`status of app ${this.key} = ${res}`);
-    return res;
+    return getStatus(this._app, this._deployments, this._instances);
   }
 }
