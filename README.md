@@ -1,4 +1,34 @@
-# paastis-proxy
+# paastis-engine
+
+## Features
+
+Paastis engine is the heart of the Paastis project.
+
+**Its goal is to monitor and manage (start & stop) PaaS applications based on their activity.**
+
+Scenario : 
+- Paastis detects that there is a new review app on Scalingo ; it begins to monitor it
+- If the app is not accessed during the next 15mn (editable duration), then it is shut down (but not delete)
+- If someone wants to finally access the app, then it is awakened
+- Thus, the engine proxies the HTTP request to the upstream desired location 
+
+It is composed of the following building blocks :
+- a proxy that forwards ingoing HTTP requests to an upstream server (based on the predefined PaaS provider)
+- a registry of the running PaaS applications to monitor (in-memory or Redis-based)
+- a cron process that regularly (every minute by default) update the registry with new / deleted / running / sleeping PaaS applications
+
+Paastis engine supports **multiple PaaS providers** (but not yet all their regions) : 
+- Clever Cloud
+- Scalingo
+
+It is also possible to define Shell commands (a.k.a. **hooks**) to be executed for each application on the following phases : 
+- before an app to be stopped
+- after it stopped
+- before an app to be started
+- after it started
+
+Sometimes, we do not want to monitor and manage some apps (for example, an instance of Paastis engine 😙).
+We can exclude / **ignore apps to me managed** (with environment variable `REGISTRY_IGNORED_APPS`. 
 
 ## Installation
 

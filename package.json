@@ -1,5 +1,5 @@
 {
-  "name": "paastis-proxy",
+  "name": "paastis-engine",
   "version": "0.0.1",
   "description": "An HTTP-proxy/gateway that automatically pause and restart Scalingo apps in case of inactivity ",
   "main": "server.js",
