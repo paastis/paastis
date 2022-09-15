@@ -31,15 +31,16 @@ const config = {
   provider: {
     name: process.env.PROVIDER_NAME || 'scalingo', // ['clever-cloud', 'scalingo']
     clever: {
-      apiHost: process.env.CLEVER_API_HOST || 'https://api.clever-cloud.com',
-      oauthConsumerKey: process.env.CLEVER_OAUTH_CONSUMER_KEY,
-      oauthConsumerSecret: process.env.CLEVER_OAUTH_CONSUMER_SECRET,
-      apiOauthToken: process.env.CLEVER_TOKEN,
-      apiOauthTokenSecret: process.env.CLEVER_SECRET,
+      apiHost: process.env.PROVIDER_CLEVER_API_HOST || 'https://api.clever-cloud.com',
+      oauthConsumerKey: process.env.PROVIDER_CLEVER_OAUTH_CONSUMER_KEY,
+      oauthConsumerSecret: process.env.PROVIDER_CLEVER_OAUTH_CONSUMER_SECRET,
+      apiOauthToken: process.env.PROVIDER_CLEVER_TOKEN,
+      apiOauthTokenSecret: process.env.PROVIDER_CLEVER_SECRET,
+      operationTimeout: parseInt(process.env.PROVIDER_CLEVER_OPERATION_TIMEOUT, 10) || 60,
     },
     scalingo: {
-      apiToken: process.env.SCALINGO_API_TOKEN || 'tk-us-xxx',
-      operationTimeout: parseInt(process.env.SCALINGO_OPERATION_TIMEOUT, 10) || 30,
+      apiToken: process.env.PROVIDER_SCALINGO_API_TOKEN || 'tk-us-xxx',
+      operationTimeout: parseInt(process.env.PROVIDER_SCALINGO_OPERATION_TIMEOUT, 10) || 30,
     },
   },
   startAndStop: {
