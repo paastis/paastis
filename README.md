@@ -36,10 +36,10 @@ We can exclude / **ignore apps to me managed** (with environment variable `REGIS
 
 ```shell
 # 1/ Fetch sources
-git clone git@github.com:paastis/paastis-proxy.git
+git clone git@github.com:paastis/paastis-engine.git
 
 # 2/ Enter project directory
-cd paastis-proxy
+cd paastis-engine
 
 # 3/ Generate and edit .env file (especially, define SCALINGO_API_TOKEN value with your own API key)
 cp env.sample .env
