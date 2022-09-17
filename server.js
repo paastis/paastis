@@ -7,11 +7,6 @@ import RunningApp from "./registry/RunningApp.js";
 import { system, upstream } from "./router/index.js";
 import client from "./redis.js";
 
-async function startRedisClient() {
-  await client.connect();
-  await client.ping();
-}
-
 async function startServer() {
   try {
 
@@ -91,7 +86,6 @@ const startCron = async () => {
 };
 
 async function main() {
-  await startRedisClient();
   await startCron();
   await startServer();
 }

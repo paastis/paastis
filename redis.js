@@ -17,6 +17,8 @@ if (!client) {
   client.on('ready', () => {
     console.log('Redis Client is ready');
   });
+
+  await client.connect();
 }
 
 export default client;
