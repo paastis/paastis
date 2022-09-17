@@ -6,7 +6,8 @@ let client;
 if (!client) {
   client = createClient({
     url: config.registry.redisUrl,
-    legacyMode: true
+    disableOfflineQueue: true,
+    legacyMode: false
   });
 
   client.on('error', (err) => {
@@ -16,8 +17,6 @@ if (!client) {
   client.on('ready', () => {
     console.log('Redis Client is ready');
   });
-
-  await client.connect();
 }
 
 export default client;

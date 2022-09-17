@@ -1,3 +1,4 @@
+import Promise   from "bluebird";
 import RunningApp from "./RunningApp.js";
 
 export class RunningAppRegistryStore {
@@ -100,11 +101,15 @@ export class RedisRunningAppRegistryStore extends RunningAppRegistryStore {
     try {
       const keys = await this.#_redisClient.keys('*');
       if (keys) {
-        const managedApps = await keys.reduce(async (k, apps) => {
-          const field = await this.#_redisClient.get(k);
-          const app = new RunningApp(field._provider, field._name, field._region, field._startedAt, field._lastAccessedAt);
-          apps.push(app);
+        const managedApps = Promise.reduce(keys, async (apps, k) => {
+          const result = await this.#_redisClient.get(k);
+          const object = JSON.parse(result);
+          if (object) {
+            const app = new RunningApp(object._provider, object._name, object._region, object._startedAt, object._lastAccessedAt);
+            apps.push(app);
+          }
           return apps;
+
         }, []);
         return managedApps;
       }

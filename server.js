@@ -5,6 +5,12 @@ import provider from "./provider/index.js";
 import registry from './registry/index.js';
 import RunningApp from "./registry/RunningApp.js";
 import { system, upstream } from "./router/index.js";
+import client from "./redis.js";
+
+async function startRedisClient() {
+  await client.connect();
+  await client.ping();
+}
 
 async function startServer() {
   try {
@@ -72,7 +78,9 @@ const startCron = async () => {
         }
       }
       const runningApps = await registry.listApps();
-      console.log('Active apps: ', runningApps.map(app => app.name));
+      if (runningApps) {
+        console.log('Active apps: ', runningApps.map(app => app.name));
+      }
     } catch (err) {
       console.error(err);
     }
@@ -82,5 +90,10 @@ const startCron = async () => {
   cron.schedule(config.startAndStop.checkingIntervalCron, stopIdleApps);
 };
 
-startServer();
-startCron();
+async function main() {
+  await startRedisClient();
+  await startCron();
+  await startServer();
+}
+
+await main();
