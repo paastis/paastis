@@ -25,6 +25,11 @@ export default class RunningAppRegistry {
   }
 
   async listApps() {
-    return Array.from(await this._runningApps.keys());
+    const runningApps = await this._runningApps.all();
+    return runningApps;
+  }
+
+  async clear() {
+    return await this._runningApps.clear();
   }
 }

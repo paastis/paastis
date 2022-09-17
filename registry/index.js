@@ -3,8 +3,18 @@ import redis from '../redis.js';
 import RunningAppsRegistry from "./RunningAppRegistry.js";
 import { InMemoryRunningAppRegistryStore, RedisRunningAppRegistryStore } from "./RunningAppRegistryStore.js";
 
-let runningAppsStore = (config.registry.type === 'redis') ? new RedisRunningAppRegistryStore(redis) : new InMemoryRunningAppRegistryStore();
+let runningAppsStore;
+if (!runningAppsStore) {
+  if (config.registry.type === 'redis') {
+    runningAppsStore = new RedisRunningAppRegistryStore(redis);
+  } else {
+    runningAppsStore = new InMemoryRunningAppRegistryStore();
+  }
+}
 
-const registry = new RunningAppsRegistry(runningAppsStore);
+let registry;
+if (!registry) {
+  registry = new RunningAppsRegistry(runningAppsStore);
+}
 
 export default registry;

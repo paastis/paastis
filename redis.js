@@ -1,12 +1,23 @@
 import { createClient } from 'redis';
 import config from "./config.js";
 
-const client = createClient({
-  url: config.registry.redisUrl
-});
+let client;
 
-client.on('error', (err) => console.log('Redis Client Error', err));
+if (!client) {
+  client = createClient({
+    url: config.registry.redisUrl,
+    legacyMode: true
+  });
 
-await client.connect();
+  client.on('error', (err) => {
+    console.log('Redis Client Error', err);
+  });
+
+  client.on('ready', () => {
+    console.log('Redis Client is ready');
+  });
+
+  await client.connect();
+}
 
 export default client;

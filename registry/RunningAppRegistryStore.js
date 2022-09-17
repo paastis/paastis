@@ -1,3 +1,5 @@
+import RunningApp from "./RunningApp.js";
+
 export class RunningAppRegistryStore {
 
   async delete(appName) {
@@ -16,8 +18,16 @@ export class RunningAppRegistryStore {
     throw new Error('Implement #set()');
   }
 
+  async all() {
+    throw new Error('Implement #all()');
+  }
+
   async keys() {
-    throw new Error('Implement #set()');
+    throw new Error('Implement #keys()');
+  }
+
+  async clear() {
+    throw new Error('Implement #clear()');
   }
 }
 
@@ -44,35 +54,71 @@ export class InMemoryRunningAppRegistryStore extends RunningAppRegistryStore {
     return this._map.set(appName, managedApp);
   }
 
+  async all() {
+    return Array.from(this._map.values());
+  }
+
   async keys() {
     return this._map.keys();
+  }
+
+  async clear() {
+    this._map.clear();
   }
 }
 
 export class RedisRunningAppRegistryStore extends RunningAppRegistryStore {
 
+  #_redisClient;
+
   constructor(redisClient) {
     super();
-    this._redisClient = redisClient;
+    this.#_redisClient = redisClient;
   }
 
   async delete(appName) {
-    return await this._redisClient.del(appName);
+    return await this.#_redisClient.del(appName);
   }
 
   async get(appName) {
-    return JSON.parse(await this._redisClient.get(appName));
+    const data = await this.#_redisClient.get(appName);
+    if (data) {
+      return JSON.parse(data);
+    }
   }
 
   async has(appName) {
-    return await this._redisClient.exists(appName);
+    return await this.#_redisClient.exists(appName);
   }
 
   async set(appName, managedApp) {
-    return await this._redisClient.set(appName, JSON.stringify(managedApp));
+    console.log(`set app ${appName}`, managedApp);
+    return await this.#_redisClient.set(appName, JSON.stringify(managedApp));
   }
 
+  async all() {
+    try {
+      const keys = await this.#_redisClient.keys('*');
+      if (keys) {
+        const managedApps = await keys.reduce(async (k, apps) => {
+          const field = await this.#_redisClient.get(k);
+          const app = new RunningApp(field._provider, field._name, field._region, field._startedAt, field._lastAccessedAt);
+          apps.push(app);
+          return apps;
+        }, []);
+        return managedApps;
+      }
+      return [];
+    } catch (err) {
+      console.error(err);
+    }
+   }
+
   async keys() {
-    return await this._redisClient.keys('*');
+    return await this.#_redisClient.keys('*');
+  }
+
+  async clear() {
+    return await this.#_redisClient.flushAll();
   }
 }

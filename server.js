@@ -6,8 +6,9 @@ import registry from './registry/index.js';
 import RunningApp from "./registry/RunningApp.js";
 import { system, upstream } from "./router/index.js";
 
-const startServer = async () => {
+async function startServer() {
   try {
+
     const { host, port } = config.server;
 
     const server = http.createServer({
@@ -37,39 +38,44 @@ const startServer = async () => {
 const startCron = async () => {
 
   async function stopIdleApps() {
-    console.log('⏰ Checking apps to idle');
-    const now = new Date();
+    try {
+      console.log('⏰ Checking apps to idle');
+      const now = new Date();
 
-    const ignoredApps = config.registry.ignoredApps;
+      const ignoredApps = config.registry.ignoredApps;
 
-    const apps = (await provider.listAllApps()).filter((a) => !ignoredApps.includes(a.name));
+      const apps = (await provider.listAllApps()).filter((a) => !ignoredApps.includes(a.name));
 
-    // TODO: unregister apps that are not fetched from `listAllApps`
+      // TODO: unregister apps that are not fetched from `listAllApps`
 
-    for (const app of apps) {
-      if (app.status !== 'running') {
-        await registry.removeApp(app.key);
-      } else {
-        let runningApp = await registry.getApp(app.key);
-        if (runningApp) {
-          // already managed
-          const managedApp = await registry.getApp(app.key);
-          const diffMs = Math.abs(now - managedApp.lastAccessedAt);
-          const diffMins = Math.floor(((diffMs % 86400000) % 3600000) / 60000);
-
-          if (diffMins > config.startAndStop.maxIdleTime - 1) {
-            // ☠️ app should be stopped
-            await provider.stopApp(app.key, app.region)
-            await registry.removeApp(app.key);
-          }
+      for (const app of apps) {
+        if (app.status !== 'running') {
+          await registry.removeApp(app.key);
         } else {
-          // not yet managed
-          const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1');
-          await registry.setApp(runningApp);
+          let runningApp = await registry.getApp(app.key);
+          if (runningApp) {
+            // already managed
+            const managedApp = await registry.getApp(app.key);
+            const diffMs = Math.abs(now - managedApp.lastAccessedAt);
+            const diffMins = Math.floor(((diffMs % 86400000) % 3600000) / 60000);
+
+            if (diffMins > config.startAndStop.maxIdleTime - 1) {
+              // ☠️ app should be stopped
+              await provider.stopApp(app.key, app.region)
+              await registry.removeApp(app.key);
+            }
+          } else {
+            // not yet managed
+            const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1');
+            await registry.setApp(runningApp);
+          }
         }
       }
+      const runningApps = await registry.listApps();
+      console.log('Active apps: ', runningApps.map(app => app.name));
+    } catch (err) {
+      console.error(err);
     }
-    console.log('Active apps: ', (await registry.listApps()));
   }
 
   await stopIdleApps();
