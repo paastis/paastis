@@ -20,7 +20,7 @@ const config = {
     port: parseInt(process.env.PORT, 10) || 3000,
   },
   routing: {
-    systemApiEnabled: parseBoolean(process.env.ROUTING_SYSTEM_API_ENABLED),
+    systemApiEnabled: parseBoolean(process.env.ROUTING_SYSTEM_API_ENABLED) || false,
     systemApiToken: process.env.ROUTING_SYSTEM_API_TOKEN,
   },
   registry: {
