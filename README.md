@@ -6,6 +6,8 @@ Paastis engine is the heart of the Paastis project.
 
 **Its goal is to monitor and manage (start & stop) PaaS applications based on their activity.**
 
+![Paastis schema](./docs/paastis_schema.png)
+
 Scenario : 
 - Paastis detects that there is a new review app on Scalingo ; it begins to monitor it
 - If the app is not accessed during the next 15mn (editable duration), then it is shut down (but not delete)
