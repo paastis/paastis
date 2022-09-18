@@ -25,6 +25,8 @@ export default async (req, res) => {
   let target;
   if (config.provider.name === 'clever-cloud') {
     target = `https://${appKey.replace('app_', 'app-')}.cleverapps.io`;
+  } else if (config.provider.name === 'heroku') {
+    target = `https://${appKey}.herokuapp.com`;
   } else {
     target = `https://${appKey}.osc-fr1.scalingo.io`;
   }

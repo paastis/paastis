@@ -1,14 +1,14 @@
+import application from '@clevercloud/client/cjs/api/v2/application.js';
 import { addOauthHeader } from '@clevercloud/client/cjs/oauth.node.js';
 import { prefixUrl } from '@clevercloud/client/cjs/prefix-url.js';
 import { request } from '@clevercloud/client/cjs/request.superagent.js';
-import application from '@clevercloud/client/cjs/api/v2/application.js';
-
-import { PaasProvider } from "./PaasProvider.js";
-import config from "../config.js";
 import { getStatus } from "@clevercloud/client/cjs/utils/app-status.js";
-import { CleverCloudApp } from "./PaasApp.js";
 
-export class CleverCloudProvider extends PaasProvider {
+import config from "../../config.js";
+import PaasProvider from "../PaasProvider.js";
+import CleverCloudApp from "./CleverCloudApp.js";
+
+export default class CleverCloudProvider extends PaasProvider {
 
   constructor() {
     super('clever-cloud');
@@ -34,7 +34,7 @@ export class CleverCloudProvider extends PaasProvider {
 
   async listAllApps() {
     const apps = await application.getAll({}).then(this._sendToApi);
-    return Promise.all(apps.map(async (app) => {
+    return await Promise.all(apps.map(async (app) => {
       const instances = await (application.getAllInstances({ appId: app.id }).then(this._sendToApi));
       return new CleverCloudApp(app, null, instances);
     }));

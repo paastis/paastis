@@ -38,6 +38,10 @@ const config = {
       apiOauthTokenSecret: process.env.PROVIDER_CLEVER_SECRET,
       operationTimeout: parseInt(process.env.PROVIDER_CLEVER_OPERATION_TIMEOUT, 10) || 60,
     },
+    heroku: {
+      apiToken: process.env.PROVIDER_HEROKU_API_TOKEN || 'tk-us-xxx',
+      operationTimeout: parseInt(process.env.PROVIDER_HEROKU_OPERATION_TIMEOUT, 10) || 30,
+    },
     scalingo: {
       apiToken: process.env.PROVIDER_SCALINGO_API_TOKEN || 'tk-us-xxx',
       operationTimeout: parseInt(process.env.PROVIDER_SCALINGO_OPERATION_TIMEOUT, 10) || 30,

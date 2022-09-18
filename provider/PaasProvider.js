@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import config from "../config.js";
 
-export class PaasProvider {
+export default class PaasProvider {
 
   _name = 'undefined';
 

@@ -13,6 +13,7 @@
     "@clevercloud/client": "^7.10.0",
     "bluebird": "^3.7.2",
     "dotenv": "^16.0.2",
+    "heroku-client": "^3.1.0",
     "http-proxy": "^1.18.1",
     "lodash": "^4.17.21",
     "node-cron": "^3.0.2",

@@ -5,7 +5,6 @@ import provider from "./provider/index.js";
 import registry from './registry/index.js';
 import RunningApp from "./registry/RunningApp.js";
 import { system, upstream } from "./router/index.js";
-import client from "./redis.js";
 
 async function startServer() {
   try {
@@ -50,7 +49,7 @@ const startCron = async () => {
       // TODO: unregister apps that are not fetched from `listAllApps`
 
       for (const app of apps) {
-        if (app.status !== 'running') {
+        if (!app.isRunning) {
           await registry.removeApp(app.key);
         } else {
           let runningApp = await registry.getApp(app.key);

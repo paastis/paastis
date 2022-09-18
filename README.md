@@ -21,6 +21,7 @@ It is composed of the following building blocks :
 
 Paastis engine supports **multiple PaaS providers** (but not yet all their regions) : 
 - Clever Cloud
+- Heroku
 - Scalingo
 
 It is also possible to define Shell commands (a.k.a. **hooks**) to be executed for each application on the following phases : 
