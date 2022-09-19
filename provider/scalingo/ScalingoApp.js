@@ -1,4 +1,4 @@
-import { PaasApp } from "../PaasApp.js";
+import PaasApp from "../PaasApp.js";
 
 export default class ScalingoApp extends PaasApp {
 
@@ -12,6 +12,10 @@ export default class ScalingoApp extends PaasApp {
 
   get status() {
     return this._app.status;
+  }
+
+  get isRunning() {
+    return this.status === 'running'
   }
 
   get id() {

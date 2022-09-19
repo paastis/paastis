@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { clientFromToken } from 'scalingo'
 import config from "../../config.js";
 import PaasProvider from "../PaasProvider.js";
-import ScalingoApp from "../PaasApp.js";
+import ScalingoApp from "./ScalingoApp.js";
 
 export default class ScalingoProvider extends PaasProvider {
 
@@ -21,7 +21,8 @@ export default class ScalingoProvider extends PaasProvider {
 
   async listAllApps() {
     let clientOscFr1 = await this._getClient();
-    return (await clientOscFr1.Apps.all()).map(app => new ScalingoApp(app));
+    let scalingoApps = await clientOscFr1.Apps.all();
+    return scalingoApps.map(app => new ScalingoApp(app));
   }
 
   async isAppRunning(appId) {
