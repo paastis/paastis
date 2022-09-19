@@ -59,8 +59,4 @@ const config = {
   }
 }
 
-console.debug();
-console.debug(config);
-console.debug();
-
 export default config;
