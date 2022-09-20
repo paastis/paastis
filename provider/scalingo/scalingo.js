@@ -13,6 +13,7 @@ async function getClient() {
     if (((now - tokenLastUpdate) / 1000) > (3600 - 60)) {
       // if current bearer token was generated 59mn ago or more…
       client._token = await client.Tokens.exchange(config.provider.scalingo.apiToken);
+      tokenLastUpdate = new Date();
     }
   }
   return client;
