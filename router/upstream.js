@@ -17,7 +17,7 @@ export default async (req, res) => {
   if (runningApp) {
     runningApp.updateLastAccessedAt();
   } else {
-    runningApp = new RunningApp(provider.name, appKey, 'osc-fr1');
+    runningApp = new RunningApp(provider.name, appKey, 'osc-fr1', config.startAndStop.maxIdleTime);
   }
 
   await registry.setApp(runningApp);

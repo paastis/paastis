@@ -16,7 +16,7 @@ export default class RunningAppRegistry {
   async getApp(appName) {
     const data = await this._runningApps.get(appName);
     if (data) {
-      return new RunningApp(data._provider, data._name, data._region, data._startedAt, data._lastAccessedAt);
+      return new RunningApp(data._provider, data._name, data._region, data._maxIdleTime, data._startedAt, data._lastAccessedAt);
     }
   }
 

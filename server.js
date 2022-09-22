@@ -55,18 +55,17 @@ const startScheduler = async () => {
           let runningApp = await registry.getApp(app.key);
           if (runningApp) {
             // already managed
-            const managedApp = await registry.getApp(app.key);
-            const diffMs = Math.abs(now - managedApp.lastAccessedAt);
+            const diffMs = Math.abs(now - runningApp.lastAccessedAt);
             const diffMins = Math.floor(((diffMs % 86400000) % 3600000) / 60000);
 
-            if (diffMins > config.startAndStop.maxIdleTime - 1) {
+            if (diffMins > runningApp.maxIdleTime - 1) {
               // ☠️ app should be stopped
               await provider.stopApp(app.key, app.region)
               await registry.removeApp(app.key);
             }
           } else {
             // not yet managed
-            const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1');
+            const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1', config.startAndStop.maxIdleTime);
             await registry.setApp(runningApp);
           }
         }

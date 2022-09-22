@@ -1,10 +1,11 @@
 export default class RunningApp {
 
-  constructor(provider, name, region, startedAt, lastAccessedAt) {
+  constructor(provider, name, region, maxIdleTime, startedAt, lastAccessedAt) {
     const now = new Date();
     this._provider = provider;
     this._name = name;
     this._region = region;
+    this._maxIdleTime = maxIdleTime;
 
     if (startedAt) {
       this._startedAt = ((typeof startedAt) !== 'Date') ? new Date(startedAt) : startedAt;
@@ -29,6 +30,10 @@ export default class RunningApp {
 
   get region() {
     return this._region;
+  }
+
+  get maxIdleTime() {
+    return this._maxIdleTime;
   }
 
   updateLastAccessedAt(lastAccessedAt) {
