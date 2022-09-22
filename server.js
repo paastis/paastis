@@ -35,7 +35,7 @@ async function startServer() {
   }
 }
 
-const startCron = async () => {
+const startScheduler = async () => {
 
   async function stopIdleApps() {
     try {
@@ -85,7 +85,7 @@ const startCron = async () => {
 };
 
 async function main() {
-  await startCron();
+  await startScheduler();
   await startServer();
 }
 
