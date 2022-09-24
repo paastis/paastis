@@ -17,6 +17,8 @@ export default async (req, res) => {
     runningApp.updateLastAccessedAt();
   } else {
     runningApp = new RunningApp(provider.name, appKey, 'osc-fr1', config.startAndStop.maxIdleTime);
+
+    // TODO execute discovery rules
   }
   await registry.setApp(runningApp);
 
@@ -30,6 +32,5 @@ export default async (req, res) => {
   } else {
     target = `https://${appKey}.osc-fr1.scalingo.io`;
   }
-  console.log(`target URL = ${target}`);
   return proxy.web(req, res, { target });
 }
