@@ -28,7 +28,7 @@ export default async (req, res) => {
             name: paasApp.name,
             region: paasApp.region,
             status: paasApp.status,
-            sticky_session: paasApp.stickySession,
+            sticky_session: paasApp.stickySessions,
             updated_at: paasApp.updatedAt,
             url: paasApp.url,
           };

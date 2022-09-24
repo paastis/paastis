@@ -14,12 +14,15 @@ export default class PaasProvider {
   }
 
   async listAllApps() {
+    throw new Error('Not yet implemented');
   }
 
   async isAppRunning(appId) {
+    throw new Error('Not yet implemented');
   }
 
   async isAppStopped(appId) {
+    throw new Error('Not yet implemented');
   }
 
   async ensureAppIsRunning(appId) {
@@ -28,8 +31,12 @@ export default class PaasProvider {
     }
   }
 
-  async awakeApp(appId) {
+  async ensureGroupIsRunning(groupId) {
+    throw new Error('Not yet implemented');
+  }
 
+  async awakeApp(appId) {
+    throw new Error('Not yet implemented');
   }
 
   async startApp(appId) {
@@ -88,7 +95,7 @@ export default class PaasProvider {
   }
 
   async asleepApp(appId) {
-
+    throw new Error('Not yet implemented');
   }
 
   async stopApp(appId) {
