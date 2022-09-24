@@ -1,48 +1,35 @@
-import http from 'http';
 import cron from 'node-cron';
-import config from './config.js';
 import provider from "./provider/index.js";
-import registry from './registry/index.js';
+import registry from "./registry/index.js";
 import RunningApp from "./registry/RunningApp.js";
-import { system, upstream } from "./router/index.js";
 
-async function startServer() {
-  try {
+export default class Scheduler {
 
-    const { host, port } = config.server;
+  constructor(config) {
+    this._config = config;
 
-    const server = http.createServer({
-      insecureHTTPParser: true
-    }, async (req, res) => {
-      try {
-        let proxyTarget = req.headers['PaastisProxyTarget'.toLowerCase()] || 'upstream';
-        if (config.routing.systemApiEnabled && proxyTarget === 'system') {
-          return system(req, res);
-        }
-        return upstream(req, res);
-      } catch (err) {
-        console.error(err);
-        res.statusCode = 502;
-        res.end(err.toString());
-      }
+    this.stopIdleApps = this._stopIdleApps.bind(this);
+
+    this._task = cron.schedule(this._config.startAndStop.checkingIntervalCron, this.stopIdleApps, {
+      scheduled: false
     });
-
-    server.listen(port, host, () => {
-      console.log(`Server is running on https://${host}:${port}`);
-    });
-  } catch (err) {
-    process.exit(1);
   }
-}
 
-const startScheduler = async () => {
+  async start() {
+    await this.stopIdleApps();
+    this._task.start();
+  }
 
-  async function stopIdleApps() {
+  async stop() {
+    this._task.stop();
+  }
+
+  async _stopIdleApps() {
     try {
       console.log('⏰ Checking apps to idle');
       const now = new Date();
 
-      const ignoredApps = config.registry.ignoredApps;
+      const ignoredApps = this._config.registry.ignoredApps;
 
       const apps = (await provider.listAllApps()).filter((a) => !ignoredApps.includes(a.name));
 
@@ -65,7 +52,7 @@ const startScheduler = async () => {
             }
           } else {
             // not yet managed
-            const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1', config.startAndStop.maxIdleTime);
+            const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1', this._config.startAndStop.maxIdleTime);
             await registry.setApp(runningApp);
           }
         }
@@ -79,13 +66,4 @@ const startScheduler = async () => {
     }
   }
 
-  await stopIdleApps();
-  cron.schedule(config.startAndStop.checkingIntervalCron, stopIdleApps);
-};
-
-async function main() {
-  await startScheduler();
-  await startServer();
 }
-
-await main();

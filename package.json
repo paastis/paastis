@@ -2,9 +2,9 @@
   "name": "paastis-engine",
   "version": "0.0.1",
   "description": "An HTTP-proxy/gateway that automatically pause and restart Scalingo apps in case of inactivity ",
-  "main": "server.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "J. Buget <contact@jbuget.fr>",
