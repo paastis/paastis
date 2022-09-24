@@ -1,9 +1,0 @@
-groups:
-  - pattern: 'cdb-app-review-pr(\d+)-back|front'
-    name: 'cdb-app-review-pr$1'
-
-  - pattern: 'pix-app-review-pr(\d+)-(back|front)'
-    name: 'pix-app-review-pr$1-$2'
-
-  - pattern: 'titi(.*)'
-    name: 'titi'

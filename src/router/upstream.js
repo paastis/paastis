@@ -1,6 +1,5 @@
 import provider from "../provider/index.js";
-import registry from "../registry/index.js";
-import RunningApp from "../registry/RunningApp.js";
+import { factory, registry } from "../registry/index.js";
 import config from "../config.js";
 import httpProxy from "http-proxy";
 
@@ -16,7 +15,7 @@ export default async (req, res) => {
   if (runningApp) {
     runningApp.updateLastAccessedAt();
   } else {
-    runningApp = new RunningApp(provider.name, appKey, 'osc-fr1', config.startAndStop.maxIdleTime);
+    runningApp = factory.createRunningAppForRegistration(provider.name, 'zone', appKey, null);
 
     // TODO execute discovery rules
   }

@@ -1,7 +1,6 @@
 import cron from 'node-cron';
 import provider from "./provider/index.js";
-import registry from "./registry/index.js";
-import RunningApp from "./registry/RunningApp.js";
+import { factory, registry } from "./registry/index.js";
 
 export default class Scheduler {
 
@@ -31,7 +30,8 @@ export default class Scheduler {
 
       const ignoredApps = this._config.registry.ignoredApps;
 
-      const apps = (await provider.listAllApps()).filter((a) => !ignoredApps.includes(a.name));
+      const allApps = await provider.listAllApps();
+      const apps = allApps.filter((a) => !ignoredApps.includes(a.name));
 
       // TODO: unregister apps that are not fetched from `listAllApps`
 
@@ -52,7 +52,7 @@ export default class Scheduler {
             }
           } else {
             // not yet managed
-            const runningApp = new RunningApp(provider.name, app.key, 'osc-fr1', this._config.startAndStop.maxIdleTime);
+            const runningApp = factory.createRunningAppForRegistration(provider.name, 'zone', app.key, null);
             await registry.setApp(runningApp);
           }
         }

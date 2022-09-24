@@ -1,0 +1,11 @@
+
+rules:
+  - pattern: 'pix-app-review-pr(\d+)-(back|front)'
+    group_name: 'pix-app-review-pr$1-$2'
+    provider_name: 'clever-cloud'
+    provider_zone: 'par'
+    app_name: 'toto-pr$1-$2'
+    app_max_idle_time: 30
+
+  - pattern: 'titi(.*)'
+    name: 'titi'

@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_OPTIONS=--experimental-vm-modules ./node_modules/.bin/jest"
   },
   "author": "J. Buget <contact@jbuget.fr>",
   "license": "AGPL-3.0",
@@ -15,6 +15,7 @@
     "dotenv": "^16.0.2",
     "heroku-client": "^3.1.0",
     "http-proxy": "^1.18.1",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "node-cron": "^3.0.2",
     "redis": "^4.3.1",
@@ -24,5 +25,8 @@
   "engines": {
     "node": "16",
     "npm": "8"
+  },
+  "devDependencies": {
+    "jest": "^29.0.3"
   }
 }
