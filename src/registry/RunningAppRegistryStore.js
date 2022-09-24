@@ -105,7 +105,7 @@ export class RedisRunningAppRegistryStore extends RunningAppRegistryStore {
           const result = await this.#_redisClient.get(k);
           const object = JSON.parse(result);
           if (object) {
-            const app = new RunningApp(object.provider, object.name, object.region, object.startedAt, object.lastAccessedAt);
+            const app = new RunningApp(object.provider, object.region, object.name, object.group, object.startedAt, object.lastAccessedAt);
             apps.push(app);
           }
           return apps;

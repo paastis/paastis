@@ -1,10 +1,11 @@
 export default class RunningApp {
 
-  constructor(provider, name, region, maxIdleTime, startedAt, lastAccessedAt) {
+  constructor(provider, region, name, group, maxIdleTime, startedAt, lastAccessedAt) {
     const now = new Date();
     this.provider = provider;
-    this.name = name;
     this.region = region;
+    this.name = name;
+    this.group = group;
     this.maxIdleTime = maxIdleTime;
 
     if (startedAt) {

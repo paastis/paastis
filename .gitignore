@@ -11,3 +11,5 @@ node_modules
 .log
 .idea
 .clever.json
+coverage
+paastis.yml

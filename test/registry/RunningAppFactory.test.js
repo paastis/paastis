@@ -27,6 +27,7 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     expect(app.provider).toBe(providerName);
     expect(app.region).toBe(providerZone);
     expect(app.name).toBe(appKey);
+    expect(app.group).toBe(appGroup);
     expect(app.maxIdleTime).toStrictEqual(1);
     expect(app.startedAt).toStrictEqual(startedAt);
     expect(app.lastAccessedAt).toStrictEqual(lastAccessedAt);
@@ -41,18 +42,18 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     const providerZone = 'osc-secnum-fr1';
     const appKey = 'pix-app-review-pr123-back';
     const appGroup = 'hello-fastify-pr123';
-    const appMaxIdleTime = 15;
     const startedAt = new Date();
     const lastAccessedAt = new Date();
 
     // when
-    const app = factory.createRunningAppForRegistration(providerName, providerZone, appKey, appGroup, appMaxIdleTime);
+    const app = factory.createRunningAppForRegistration(providerName, providerZone, appKey, null);
 
     // then
     expect(app).toBeInstanceOf(RunningApp);
     expect(app.provider).toBe('clever-cloud');
     expect(app.region).toBe('par');
     expect(app.name).toBe('toto-pr123-back');
+    expect(app.group).toBe(appGroup);
     expect(app.maxIdleTime).toStrictEqual(30);
     expect(app.startedAt).toStrictEqual(startedAt);
     expect(app.lastAccessedAt).toStrictEqual(lastAccessedAt);

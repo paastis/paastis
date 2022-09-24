@@ -5,6 +5,7 @@ rules:
     provider_name: 'clever-cloud'
     provider_zone: 'par'
     app_name: 'toto-pr$1-$2'
+    app_group: 'hello-fastify-pr123'
     app_max_idle_time: 30
 
   - pattern: 'titi(.*)'

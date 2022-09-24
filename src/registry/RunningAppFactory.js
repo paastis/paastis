@@ -11,7 +11,7 @@ export default class RunningAppFactory {
   }
 
   createRunningAppForRegistration(providerName, providerZone, appKey, appGroup) {
-    const runningApp = new RunningApp(provider.name, appKey, providerZone, config.startAndStop.maxIdleTime);
+    const runningApp = new RunningApp(provider.name, providerZone, appKey, appGroup, config.startAndStop.maxIdleTime);
 
     this._userConfig?.rules?.forEach((rule) => {
       const regex = new RegExp(rule.pattern);
@@ -30,6 +30,7 @@ export default class RunningAppFactory {
         if (rule.provider_name) runningApp.provider = interpolate(rule.provider_name);
         if (rule.provider_zone) runningApp.region = interpolate(rule.provider_zone);
         if (rule.app_name) runningApp.name = interpolate(rule.app_name);
+        if (rule.app_group) runningApp.group = interpolate(rule.app_group);
         if (rule.app_max_idle_time) runningApp.maxIdleTime = rule.app_max_idle_time;
       }
     });
