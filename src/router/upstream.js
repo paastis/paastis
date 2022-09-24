@@ -12,15 +12,15 @@ export default async (req, res) => {
   const url = new URL(req.url, `https://${req.headers.host}`);
   const appKey = url.hostname.replace(/\..*/, '');
 
-  await provider.ensureAppIsRunning(appKey);
   let runningApp = await registry.getApp(appKey);
   if (runningApp) {
     runningApp.updateLastAccessedAt();
   } else {
     runningApp = new RunningApp(provider.name, appKey, 'osc-fr1', config.startAndStop.maxIdleTime);
   }
-
   await registry.setApp(runningApp);
+
+  await provider.ensureAppIsRunning(appKey);
 
   let target;
   if (config.provider.name === 'clever-cloud') {
