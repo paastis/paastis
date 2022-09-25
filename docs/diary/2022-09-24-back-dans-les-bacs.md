@@ -1,4 +1,4 @@
-# 2022-09-24 - Back dans les bacs
+# 2022-09-24 - 🧢 Back dans les bacs
 
 Retour aux affaires après 1 semaine de séminaire en Touraine.
 
@@ -97,7 +97,7 @@ Il y a 3 endroits dans le code où l'on fait `= new RunningApp(` :
 - au moment de récupérer une App depuis le registre
 
 
-## Tests with Jest
+## 🙌 Tests with Jest
 
 Avec les modules ESM : https://jestjs.io/docs/ecmascript-modules
 

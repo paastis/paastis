@@ -21,7 +21,13 @@ export default async (req, res) => {
   }
   await registry.setApp(runningApp);
 
-  await provider.ensureAppIsRunning(appKey);
+  if (runningApp.group) {
+    const apps = await registry.getGroupApps(runningApp.group);
+    const appKeys = apps.map(app => app.name);
+    await provider.ensureGroupIsRunning(appKeys);
+  } else {
+    await provider.ensureAppIsRunning(appKey);
+  }
 
   let target;
   if (config.provider.name === 'clever-cloud') {

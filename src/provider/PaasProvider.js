@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import Promise from 'bluebird';
 import config from "../config.js";
 
 export default class PaasProvider {
@@ -7,6 +8,7 @@ export default class PaasProvider {
 
   constructor(name) {
     this._name = name;
+    this.ensureAppIsRunning = this.ensureAppIsRunning.bind(this);
   }
 
   get name() {
@@ -31,8 +33,8 @@ export default class PaasProvider {
     }
   }
 
-  async ensureGroupIsRunning(groupId) {
-    throw new Error('Not yet implemented');
+  async ensureGroupIsRunning(appKeys) {
+    return Promise.all(appKeys.map(appKey => this.ensureAppIsRunning(appKey)));
   }
 
   async awakeApp(appId) {

@@ -30,6 +30,10 @@ export class RunningAppRegistryStore {
   async clear() {
     throw new Error('Implement #clear()');
   }
+
+  async findByGroup(groupName) {
+    throw new Error('Implement #clear()');
+  }
 }
 
 export class InMemoryRunningAppRegistryStore extends RunningAppRegistryStore {
@@ -65,6 +69,12 @@ export class InMemoryRunningAppRegistryStore extends RunningAppRegistryStore {
 
   async clear() {
     this._map.clear();
+  }
+
+  async findByGroup(groupName) {
+    return Array.from(this._map.values())
+      .filter((object) => (object.group && object.group === groupName))
+      .map(object => new RunningApp(object.provider, object.region, object.name, object.group, object.startedAt, object.lastAccessedAt));
   }
 }
 
@@ -125,5 +135,27 @@ export class RedisRunningAppRegistryStore extends RunningAppRegistryStore {
 
   async clear() {
     return await this.#_redisClient.flushAll();
+  }
+
+  async findByGroup(groupName) {
+    try {
+      const keys = await this.#_redisClient.keys('*');
+      if (keys) {
+        const managedApps = Promise.reduce(keys, async (apps, k) => {
+          const result = await this.#_redisClient.get(k);
+          const object = JSON.parse(result);
+          if (object && object.group && object.group === groupName) {
+            const app = new RunningApp(object.provider, object.region, object.name, object.group, object.startedAt, object.lastAccessedAt);
+            apps.push(app);
+          }
+          return apps;
+
+        }, []);
+        return managedApps;
+      }
+      return [];
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

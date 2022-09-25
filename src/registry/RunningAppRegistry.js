@@ -20,6 +20,13 @@ export default class RunningAppRegistry {
     }
   }
 
+  async getGroupApps(groupName) {
+    const data = await this._runningApps.findByGroup(groupName);
+    if (data) {
+      return data.map(object => new RunningApp(object.provider, object.region, object.name, object.group, object.maxIdleTime, object.startedAt, object.lastAccessedAt));
+    }
+  }
+
   async removeApp(appName) {
     await this._runningApps.delete(appName);
   }
