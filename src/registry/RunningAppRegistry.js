@@ -1,41 +1,67 @@
-import RunningApp from "./RunningApp.js";
+import config from '../config.js';
+import RunningApp from './RunningApp.js';
 
 export default class RunningAppRegistry {
 
   /**
    * @param runningAppsStore  // [app_name<String>, app<MonitoredApplication>]
    */
-  constructor(runningAppsStore) {
-    this._runningApps = runningAppsStore;
+  constructor(store, factory) {
+    this._store = store;
+    this._factory = factory;
+  }
+
+  /**
+   * @param appKey
+   * @returns {Promise<*[]>} An array with the app's name and its linked apps names
+   */
+  async registerApp(appKey) {
+
+    const that = this;
+
+    const registeredApps = [];
+
+    async function doRegistration(appName) {
+      if (registeredApps.includes(appName)) {
+        return;
+      }
+      let runningApp = await that.getApp(appName);
+      if (runningApp) {
+        runningApp.updateLastAccessedAt();
+      } else {
+        runningApp = that._factory.createRunningAppForRegistration(appName);
+      }
+      await that.setApp(runningApp);
+      registeredApps.push(appName);
+      for (const linkedApp of runningApp.linkedApps) {
+        await doRegistration(linkedApp);
+      }
+    }
+
+    await doRegistration(appKey);
+    return registeredApps;
   }
 
   async setApp(runningApp) {
-    return await this._runningApps.set(runningApp.name, runningApp);
+    return await this._store.set(runningApp.name, runningApp);
   }
 
   async getApp(appName) {
-    const data = await this._runningApps.get(appName);
+    const data = await this._store.get(appName);
     if (data) {
-      return new RunningApp(data.provider, data.region, data.name, data.group, data.maxIdleTime, data.startedAt, data.lastAccessedAt);
-    }
-  }
-
-  async getGroupApps(groupName) {
-    const data = await this._runningApps.findByGroup(groupName);
-    if (data) {
-      return data.map(object => new RunningApp(object.provider, object.region, object.name, object.group, object.maxIdleTime, object.startedAt, object.lastAccessedAt));
+      return new RunningApp(data.provider, data.region, data.name, data.maxIdleTime, data.linkedApps, data.startedAt, data.lastAccessedAt);
     }
   }
 
   async removeApp(appName) {
-    await this._runningApps.delete(appName);
+    await this._store.delete(appName);
   }
 
   async listApps() {
-    return await this._runningApps.all();
+    return await this._store.all();
   }
 
   async clear() {
-    return await this._runningApps.clear();
+    return await this._store.clear();
   }
 }

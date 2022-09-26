@@ -2,6 +2,8 @@ import provider from "../provider/index.js";
 import { factory, registry } from "../registry/index.js";
 import config from "../config.js";
 import httpProxy from "http-proxy";
+import yaml from "js-yaml";
+import fs from "fs";
 
 const proxy = httpProxy.createProxyServer({ changeOrigin: true, secure: false, preserveHeaderKeyCase: true });
 
@@ -11,24 +13,15 @@ export default async (req, res) => {
   const url = new URL(req.url, `https://${req.headers.host}`);
   const appKey = url.hostname.replace(/\..*/, '');
 
-  let runningApp = await registry.getApp(appKey);
-  if (runningApp) {
-    runningApp.updateLastAccessedAt();
-  } else {
-    runningApp = factory.createRunningAppForRegistration(provider.name, 'zone', appKey, null);
+  // 1) Register app
+  const appKeys = await registry.registerApp(appKey);
 
-    // TODO execute discovery rules
-  }
-  await registry.setApp(runningApp);
-
-  if (runningApp.group) {
-    const apps = await registry.getGroupApps(runningApp.group);
-    const appKeys = apps.map(app => app.name);
-    await provider.ensureGroupIsRunning(appKeys);
-  } else {
+  // 2) Run apps
+  for (const appKey of appKeys) {
     await provider.ensureAppIsRunning(appKey);
   }
 
+  // 3) Redirect to upstream
   let target;
   if (config.provider.name === 'clever-cloud') {
     target = `https://${appKey.replace('app_', 'app-')}.cleverapps.io`;

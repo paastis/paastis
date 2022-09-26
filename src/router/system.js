@@ -36,6 +36,7 @@ export default async (req, res) => {
           if (registeredApp) {
             app.provider = registeredApp.provider;
             app.region = registeredApp.region;
+            app.max_idle_time = registeredApp.maxIdleTime;
             app.last_accessed_at = registeredApp.lastAccessedAt;
           }
           arr.push(app);

@@ -30,6 +30,7 @@ const config = {
   },
   provider: {
     name: process.env.PROVIDER_NAME || 'scalingo', // ['clever-cloud', 'scalingo']
+    region: process.env.PROVIDER_REGION || 'to_be_defined',
     clever: {
       apiHost: process.env.PROVIDER_CLEVER_API_HOST || 'https://api.clever-cloud.com',
       oauthConsumerKey: process.env.PROVIDER_CLEVER_OAUTH_CONSUMER_KEY,

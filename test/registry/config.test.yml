@@ -1,12 +1,15 @@
 
 rules:
-  - pattern: 'pix-app-review-pr(\d+)-(back|front)'
-    group_name: 'pix-app-review-pr$1-$2'
-    provider_name: 'clever-cloud'
-    provider_zone: 'par'
-    app_name: 'toto-pr$1-$2'
-    app_group: 'hello-fastify-pr123'
+  - pattern: 'app-review-pr(\d+)-(back|front)'
+    app_name: 'renamed-app-pr$1-$2'
     app_max_idle_time: 30
+    linked_apps:
+      - 'app-review-pr$1-front'
 
   - pattern: 'titi(.*)'
     name: 'titi'
+
+  - pattern: 'my-app-pr(\d+)-front'
+    linked_apps:
+      - 'my-app-pr$1-back'
+

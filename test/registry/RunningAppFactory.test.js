@@ -1,8 +1,8 @@
-import { jest } from '@jest/globals';
+import fs from "fs";
+import { jest, describe, it, expect } from '@jest/globals';
+import yaml from "js-yaml";
 import RunningAppFactory from '../../src/registry/RunningAppFactory.js';
 import RunningApp from "../../src/registry/RunningApp.js";
-import yaml from "js-yaml";
-import fs from "fs";
 
 jest.useFakeTimers();
 
@@ -10,24 +10,24 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
 
   it('should create an App', () => {
     // given
-    const factory = new RunningAppFactory();
+    const config = { "rules": [] };
+    const factory = new RunningAppFactory(config);
 
     const providerName = 'scalingo';
-    const providerZone = 'osc-secnum-fr1';
+    const providerZone = 'to_be_defined';
     const appKey = 'hello-fastify-pr123-front';
-    const appGroup = 'hello-fastify-pr123';
     const startedAt = new Date();
     const lastAccessedAt = new Date();
 
     // when
-    const app = factory.createRunningAppForRegistration(providerName, providerZone, appKey, appGroup);
+    const app = factory.createRunningAppForRegistration(appKey);
 
     // then
     expect(app).toBeInstanceOf(RunningApp);
     expect(app.provider).toBe(providerName);
     expect(app.region).toBe(providerZone);
     expect(app.name).toBe(appKey);
-    expect(app.group).toBe(appGroup);
+    expect(app.linkedApps).toStrictEqual([]);
     expect(app.maxIdleTime).toStrictEqual(1);
     expect(app.startedAt).toStrictEqual(startedAt);
     expect(app.lastAccessedAt).toStrictEqual(lastAccessedAt);
@@ -38,22 +38,20 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     const config = yaml.load(fs.readFileSync(process.cwd() + '/test/registry/config.test.yml', 'utf8'));
     const factory = new RunningAppFactory(config);
 
-    const providerName = 'scalingo';
-    const providerZone = 'osc-secnum-fr1';
-    const appKey = 'pix-app-review-pr123-back';
-    const appGroup = 'hello-fastify-pr123';
+    const appKey = 'app-review-pr123-back';
+    const linkedApps = null;
     const startedAt = new Date();
     const lastAccessedAt = new Date();
 
     // when
-    const app = factory.createRunningAppForRegistration(providerName, providerZone, appKey, null);
+    const app = factory.createRunningAppForRegistration(appKey, linkedApps);
 
     // then
     expect(app).toBeInstanceOf(RunningApp);
-    expect(app.provider).toBe('clever-cloud');
-    expect(app.region).toBe('par');
-    expect(app.name).toBe('toto-pr123-back');
-    expect(app.group).toBe(appGroup);
+    expect(app.provider).toBe('scalingo');
+    expect(app.region).toBe('to_be_defined');
+    expect(app.name).toBe('renamed-app-pr123-back');
+    expect(app.linkedApps).toStrictEqual(['app-review-pr123-front']);
     expect(app.maxIdleTime).toStrictEqual(30);
     expect(app.startedAt).toStrictEqual(startedAt);
     expect(app.lastAccessedAt).toStrictEqual(lastAccessedAt);

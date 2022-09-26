@@ -67,6 +67,7 @@ curl -v http://localhost:3000 -H Host:my-cloud-app.proxy.example.com
 | START_AND_STOP_CHECKING_INTERVAL_CRON | false                                   | String  | CRON expression                       | * * * * *                    |  
 | START_AND_STOP_MAX_IDLE_TIME          | false                                   | Number  | Number of minutes                     | 15                           |  
 | PROVIDER_NAME                         | **true**                                | String  | "scalingo" or "clever-cloud"          | -                            |  
+| PROVIDER_REGION                       | false                                   | String  | "osc-fr1", "rbx", etc.                | -                            |  
 | PROVIDER_SCALINGO_API_TOKEN           | only if PROVIDER_NAME is "scalingo"     | String  | Token string                          | -                            |  
 | PROVIDER_SCALINGO_OPERATION_TIMEOUT   | false                                   | Number  | Number of seconds                     | -                            |  
 | PROVIDER_HEROKU_API_TOKEN             | only if PROVIDER_NAME is "heroku"       | String  | Token string                          | -                            |  

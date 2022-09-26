@@ -26,7 +26,7 @@ export default class Scheduler {
   async _stopIdleApps() {
     try {
       console.log('⏰ Checking apps to idle');
-      const now = new Date();
+      const now = new Date(Date.now());
 
       const ignoredApps = this._config.registry.ignoredApps;
 

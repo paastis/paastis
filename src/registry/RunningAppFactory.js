@@ -1,7 +1,4 @@
-import fs from 'fs';
-import yaml from 'js-yaml';
 import RunningApp from './RunningApp.js';
-import provider from '../provider/index.js';
 import config from '../config.js';
 
 export default class RunningAppFactory {
@@ -10,8 +7,8 @@ export default class RunningAppFactory {
     this._userConfig = userConfig;
   }
 
-  createRunningAppForRegistration(providerName, providerZone, appKey, appGroup) {
-    const runningApp = new RunningApp(provider.name, providerZone, appKey, appGroup, config.startAndStop.maxIdleTime);
+  createRunningAppForRegistration(appKey, linkedApps) {
+    const runningApp = new RunningApp(config.provider.name, config.provider.region, appKey, config.startAndStop.maxIdleTime, linkedApps);
 
     this._userConfig?.rules?.forEach((rule) => {
       const regex = new RegExp(rule.pattern);
@@ -27,13 +24,12 @@ export default class RunningAppFactory {
           return result;
         }
 
-        if (rule.provider_name) runningApp.provider = interpolate(rule.provider_name);
-        if (rule.provider_zone) runningApp.region = interpolate(rule.provider_zone);
         if (rule.app_name) runningApp.name = interpolate(rule.app_name);
-        if (rule.app_group) runningApp.group = interpolate(rule.app_group);
-        if (rule.app_max_idle_time) runningApp.maxIdleTime = rule.app_max_idle_time;
+        if (typeof(rule.app_max_idle_time) !== 'undefined') runningApp.maxIdleTime = rule.app_max_idle_time;
+        if (rule.linked_apps) runningApp.linkedApps = rule.linked_apps.map(linkedApp => interpolate(linkedApp));
       }
     });
+
     return runningApp;
   }
 }

@@ -1,11 +1,12 @@
 export default class RunningApp {
 
-  constructor(provider, region, name, group, maxIdleTime, startedAt, lastAccessedAt) {
-    const now = new Date();
+  constructor(provider, region, name, maxIdleTime, linkedApps, startedAt, lastAccessedAt) {
+    const now = new Date(Date.now());
+
     this.provider = provider;
     this.region = region;
     this.name = name;
-    this.group = group;
+    this.linkedApps = linkedApps || [];
     this.maxIdleTime = maxIdleTime;
 
     if (startedAt) {
@@ -22,7 +23,11 @@ export default class RunningApp {
   }
 
   updateLastAccessedAt(lastAccessedAt) {
-    this.lastAccessedAt = lastAccessedAt || new Date();
+    this.lastAccessedAt = lastAccessedAt || new Date(Date.now());
+  }
+
+  get hasLinkedApps() {
+    return this.linkedApps.length > 0;
   }
 }
 
