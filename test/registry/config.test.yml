@@ -13,3 +13,7 @@ rules:
     linked_apps:
       - 'my-app-pr$1-back'
 
+  - pattern: 'infinite-app-(back|front)'
+    linked_apps:
+      - 'infinite-app-back'
+      - 'infinite-app-front'

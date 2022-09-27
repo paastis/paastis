@@ -84,12 +84,23 @@ describe('RunningAppRegistry', function() {
       // then
     });
 
-    it.skip('should not loop infinitely', async () => {
+    it('should not loop infinitely', async () => {
       // given
+      const store = new InMemoryRunningAppStore();
+      const rules = yaml.load(fs.readFileSync(process.cwd() + '/test/registry/config.test.yml', 'utf8'));
+      const factory = new RunningAppFactory(rules);
+      const registry = new RunningAppRegistry(store, factory);
+      const appKey = 'infinite-app-front';
 
       // when
+      const registeredAppNames = await registry.registerApp(appKey);
 
       // then
+      const registeredApp = await store.get(appKey);
+      expect(registeredApp).toBeDefined();
+      expect(registeredApp.lastAccessedAt).toStrictEqual(new Date('2022-09-27T00:25:00.000Z'));
+      expect((await store.all()).length).toStrictEqual(2);
+      expect(registeredAppNames).toStrictEqual(['infinite-app-front', 'infinite-app-back']);
     });
   });
 });
