@@ -57,6 +57,8 @@ curl -v http://localhost:3000 -H Host:my-cloud-app.proxy.example.com
 
 ## Configuration
 
+### Environment variables
+
 | Variable                              | Required                                | Type    | Format                                | Default                      |  
 |---------------------------------------|-----------------------------------------|---------|---------------------------------------|------------------------------|
 | HOST                                  | false                                   | String  | IP or name                            | 0.0.0.0                      |  
@@ -84,3 +86,58 @@ curl -v http://localhost:3000 -H Host:my-cloud-app.proxy.example.com
 | HOOKS_AFTER_STOP                      | false                                   | String  | Shell command(s)                      | -                            |  
 | ROUTING_SYSTEM_API_ENABLED            | false                                   | Boolean |                                       | false                        |  
 | ROUTING_SYSTEM_API_TOKEN              | false                                   | String  | xxx-yyy-zzz                           | -                            | 
+
+### App rules
+
+Declare a file `paastis.yml` (or copy and rename `paastis.yml.sample`).
+
+You can set or edit the following `RunningApp.js` properties : 
+- `app_name` → set `RunningApp.name`
+- `app_max_idle_time` → set `RunningApp.maxIdleTime`
+- `linked_apps` → set (without any concatenation) `RunningApp.linkedApps`
+
+```yaml
+rules:
+  - pattern: 'app-review-pr(\d+)-(back|front)'
+    linked_apps:
+      - 'app-review-pr$1-front'
+
+  - pattern: 'hello-fastify'
+    linked_apps:
+      - 'hellofastifydeux'
+
+  - pattern: 'hello-fastify-2'
+    app_name: 'hellofastifydeux'
+
+  - pattern: '.*fastify.*'
+    app_max_idle_time: 0
+```
+
+## Docker
+
+**1/** Build the Docker image
+
+```shell
+$ docker build -t paastis-engine .
+```
+
+> 💡 If you define a file `paastis.yml` it will be added to the image.
+
+**2/** Run a container
+
+```shell
+$ docker run \
+-it --rm -p 3000:3000 \
+--name paastis-engine \
+-e PROVIDER_SCALINGO_API_TOKEN=tk-us-xxx \
+-e ROUTING_SYSTEM_API_ENABLED=true \
+-e ROUTING_SYSTEM_API_TOKEN=abcd-1234-EFGH-5678 \
+paastis-engine
+```
+
+**3/** Test
+
+```shell
+$ curl -v localhost:3000 -H "Host: my-app.proxy.example.net"
+$ curl -v localhost:3000/apps -H "PaastisProxyTarget: system" -H "PaastisProxySystemApiToken: abcd-1234-EFGH-5678" | jq .
+```
