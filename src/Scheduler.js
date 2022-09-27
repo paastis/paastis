@@ -52,7 +52,7 @@ export default class Scheduler {
             }
           } else {
             // not yet managed
-            const runningApp = factory.createRunningAppForRegistration(provider.name, 'zone', app.key, null);
+            const runningApp = factory.createRunningAppForRegistration(app.key);
             await registry.setApp(runningApp);
           }
         }

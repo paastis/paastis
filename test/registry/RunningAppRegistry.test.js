@@ -43,7 +43,7 @@ describe('RunningAppRegistry', function() {
       const registry = new RunningAppRegistry(store, factory);
       const appKey = 'my-app-pr456-back';
       const createdAt = new Date('2022-09-26T00:00:00.000Z');
-      const alreadyRegisteredApp = new RunningApp('scalingo', 'osc-fr1', 'my-app-pr456-back', 15, createdAt, createdAt);
+      const alreadyRegisteredApp = new RunningApp('scalingo', 'osc-fr1', 'my-app-pr456-back', 15, [], createdAt, createdAt);
       await store.set(appKey, alreadyRegisteredApp);
 
       // when

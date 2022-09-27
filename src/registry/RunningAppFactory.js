@@ -7,8 +7,8 @@ export default class RunningAppFactory {
     this._userConfig = userConfig;
   }
 
-  createRunningAppForRegistration(appKey, linkedApps) {
-    const runningApp = new RunningApp(config.provider.name, config.provider.region, appKey, config.startAndStop.maxIdleTime, linkedApps);
+  createRunningAppForRegistration(appKey) {
+    const runningApp = new RunningApp(config.provider.name, config.provider.region, appKey, config.startAndStop.maxIdleTime);
 
     this._userConfig?.rules?.forEach((rule) => {
       const regex = new RegExp(rule.pattern);
