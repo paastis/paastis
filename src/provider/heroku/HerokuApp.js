@@ -18,7 +18,6 @@ export default class HerokuApp extends PaasApp {
       if (web) return "running";
       return "stopped";
     }
-    return this._formation;
   }
 
   get isRunning() {
