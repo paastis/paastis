@@ -37,7 +37,7 @@ export default class CleverCloudApp extends PaasApp {
   }
 
   get updatedAt() {
-    return this._app.updated_at;
+    return this.lastDeployedAt;
   }
 
   get lastDeployedAt() {
