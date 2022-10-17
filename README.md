@@ -1,25 +1,25 @@
-# paastis-engine
+# paastis
 
 ## Features
 
-Paastis engine is the heart of the Paastis project.
+Paastis module is the heart of the Paastis project.
 
 **Its goal is to monitor and manage (start & stop) PaaS applications based on their activity.**
 
 ![Paastis schema](./docs/paastis_schema.png)
 
 Scenario : 
-- Paastis detects that there is a new review app on Scalingo ; it begins to monitor it
-- If the app is not accessed during the next 15mn (editable duration), then it is shut down (but not delete)
-- If someone wants to finally access the app, then it is awakened
-- Thus, the engine proxies the HTTP request to the upstream desired location 
+1. Auto-discovery: Paastis detects that there is a new review app on Scalingo ; it begins to monitor it
+2. Scale-to-zero: If the app is not accessed during the next 15mn (editable duration), then it is shut down (but not delete)
+3. Run on-demand: If someone wants to finally access the app, then it is awakened
+4. Smart proxy: Thus, the engine proxies the HTTP request to the upstream desired location 
 
 It is composed of the following building blocks :
 - a proxy that forwards ingoing HTTP requests to an upstream server (based on the predefined PaaS provider)
 - a registry of the running PaaS applications to monitor (in-memory or Redis-based)
-- a cron process that regularly (every minute by default) update the registry with new / deleted / running / sleeping PaaS applications
+- a schedule (cron-based) process that regularly (every minute by default) update the registry with new / deleted / running / sleeping PaaS applications
 
-Paastis engine supports **multiple PaaS providers** (but not yet all their regions) : 
+Paastis supports **multiple PaaS providers** (but not yet all their regions) : 
 - Clever Cloud
 - Heroku
 - Scalingo
@@ -32,6 +32,17 @@ It is also possible to define Shell commands (a.k.a. **hooks**) to be executed f
 
 Sometimes, we do not want to monitor and manage some apps (for example, an instance of Paastis engine 😙).
 We can exclude / **ignore apps to me managed** (with environment variable `REGISTRY_IGNORED_APPS`. 
+
+## Getting started in 2 minutes
+
+The easiest and quickest way to try Paastis is to launch a program instance with npx.
+
+```shell
+$ npx paastis
+```
+
+You can add a `.env` and `paastis.yml` file(s) (cf. below) to configure your instance.
+
 
 ## Installation
 
