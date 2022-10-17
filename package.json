@@ -15,6 +15,7 @@
   "dependencies": {
     "@clevercloud/client": "^7.10.0",
     "bluebird": "^3.7.2",
+    "commander": "^9.4.1",
     "dotenv": "^16.0.2",
     "heroku-client": "^3.1.0",
     "http-proxy": "^1.18.1",
