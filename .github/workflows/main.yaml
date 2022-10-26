@@ -8,13 +8,24 @@ on:
 name: Main
 jobs:
   Test:
-    name: 'Test'
-    runs-on: 'ubuntu-latest'
+    name: "Test"
+    runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          cache: "npm"
       - run: npm install
       - run: npm run test
+  Prettier:
+    name: "Prettier"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+      - run: npm install
+      - run: npm run prettier
