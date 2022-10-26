@@ -48,10 +48,10 @@ You can add a `.env` and `paastis.yml` file(s) (cf. below) to configure your ins
 
 ```shell
 # 1/ Fetch sources
-git clone git@github.com:paastis/paastis-engine.git
+git clone git@github.com:paastis/paastis.git
 
 # 2/ Enter project directory
-cd paastis-engine
+cd paastis
 
 # 3/ Generate and edit .env file (especially, define SCALINGO_API_TOKEN value with your own API key)
 cp env.sample .env
@@ -129,7 +129,7 @@ rules:
 **1/** Build the Docker image
 
 ```shell
-$ docker build -t paastis-engine .
+$ docker build -t paastis .
 ```
 
 > 💡 If you define a file `paastis.yml` it will be added to the image.
@@ -139,11 +139,11 @@ $ docker build -t paastis-engine .
 ```shell
 $ docker run \
 -it --rm -p 3000:3000 \
---name paastis-engine \
+--name paastis \
 -e PROVIDER_SCALINGO_API_TOKEN=tk-us-xxx \
 -e ROUTING_SYSTEM_API_ENABLED=true \
 -e ROUTING_SYSTEM_API_TOKEN=abcd-1234-EFGH-5678 \
-paastis-engine
+paastis
 ```
 
 **3/** Test
