@@ -5,4 +5,3 @@
 > 💡 Ajout du fichier `.dockerignore` pour être sûr de ne pas embarquer de fichiers inutiles.
 
 ## Docker Compose
-

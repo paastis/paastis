@@ -22,7 +22,7 @@ C'est pour gérer ce type de cas que j'ai introduit la notion + fonctionnalité 
 Je comptais gérer une propriété `group` pour chaque règle, ex : toutes les apps qui matchent le pattern `app-review-pr(\d+)-(.*)` font partir du groupe "`app-review-pr$1`".
 
 Je me suis rendu compte au moment de l'implémentation qu'il y a un souci au moment où l'on se rend compte qu'une _non-running app_ (inconnue ou dormante, donc non-monitorée) appartient à un groupe :
-autant je connais l'app et grâce à sa clé (`id` ou `name`) je peux solliciter le provider pour la réveiller ; 
+autant je connais l'app et grâce à sa clé (`id` ou `name`) je peux solliciter le provider pour la réveiller ;
 autant avec ce système, je ne peux pas savoir quelles sont les autres applications à ajouter au _registry_ (des _running apps_).
 
 **Solution 1 : bourriner l'API du provider**
@@ -32,11 +32,12 @@ Une première solution consiste à interroger à nouveau l'API du provider, pour
 ```yaml
 rules:
   - pattern: 'pix-app-review-pr(\d+)-(back|front)'
-    app_group: 'pix-app-review-pr$1'
+    app_group: "pix-app-review-pr$1"
     # ...
 ```
 
 Je vois 2 risques :
+
 - la complexité du code
 - le fait de sur-solliciter le provider
   - c'est lent
@@ -52,8 +53,8 @@ Une seconde solution est de définir, dans les règles de découvrabilité, non 
 rules:
   - pattern: 'pix-app-review-pr(\d+)-(back|front)'
     linked_apps:
-    - 'pix-app-review-pr$1-front'  
-    - 'pix-app-review-pr$1-back' 
+      - "pix-app-review-pr$1-front"
+      - "pix-app-review-pr$1-back"
     # ...
 ```
 
@@ -63,4 +64,3 @@ rules:
 
 Je trouve cette solution un poil moins élégante.
 Mais elle permet de connaître à tout moment la clé des apps à réveiller côté Provider.
-

@@ -2,7 +2,7 @@
 
 ## Version Alpha
 
-J'ai commencé à parler un peu du projet et solliciter quelques copains pour leur faire une démo et les inciter à tester dans leur infra. 
+J'ai commencé à parler un peu du projet et solliciter quelques copains pour leur faire une démo et les inciter à tester dans leur infra.
 
 ## Business model
 
@@ -11,6 +11,7 @@ J'ai commencé à parler un peu du projet et solliciter quelques copains pour le
 `paastis-console` closed source.
 
 Pour les organisations qui ne veulent pas se prendre la tête :
+
 - proposer une version SaaS :
   - free : 1 provider, 3 apps monitorées en même temps
   - team : 3 providers, 20 apps monitorées en même temps
@@ -18,6 +19,7 @@ Pour les organisations qui ne veulent pas se prendre la tête :
 - avec `paastis-console`
 
 Histoire d'être consistent avec la promesse "écolo", et pour ne pas subir une éventuelle panne d'un des providers, l'hébergement se ferait chez un host 100% écolo :
+
 - [Digital Forest 🇫🇷](https://digitalforest.fr/hebergement-eco-responsable.php),
 - [Infomaniak 🇨🇭](https://www.infomaniak.com/fr/hebergement/serveurs-dedies-et-cloud/serveur-cloud-manage),
 - [Planet Hoster 🇨🇦](https://www.planethoster.com/fr/Hebergement-Vert)
@@ -27,7 +29,8 @@ Offre spéciale pour les entreprises green, SRE ou NPO.
 
 ## DNS
 
-Vu que le projet semble bien lancé, j'ai acquis : 
+Vu que le projet semble bien lancé, j'ai acquis :
+
 - paastis.dev (main)
 - paastis.tech
 - paastis.fr
@@ -35,6 +38,7 @@ Vu que le projet semble bien lancé, j'ai acquis :
 ## Design
 
 Création d'une arborescence objet :
+
 - `PaasProvider`
 - `ScalingoProvider`
 - `CleverCloudProvider`
@@ -54,6 +58,7 @@ Il y a un travail à faire incluant un peu de remaniement de code pour variabili
 ## Clever Cloud
 
 Les régions :
+
 - infra:clever-cloud (Paris, France)
 - infra:oracle (Jeddah, Saudi Arabia)
 - infra:ovh (Monreal, Canada)
@@ -66,11 +71,11 @@ Les régions :
 
 Je suis assez désemparé devant la difficulté de consommer une API de CleverCloud.
 Tout est compliqué.
-La doc est ultra sommaire. 
+La doc est ultra sommaire.
 Quand on clique sur un endpoint en bas de menu, le scroll de la page ne remonte même pas automatiquement !
 Ils proposent [un client JS](https://github.com/CleverCloud/clever-client.js), mais il est obscur.
 Pourquoi ont-ils choisi `superagent` comme lib de requête par défaut ?!
-Et pourquoi faut-il avoir conscience de toute la mécanique sous-jacente pour pouvoir consommer les services ?! 
+Et pourquoi faut-il avoir conscience de toute la mécanique sous-jacente pour pouvoir consommer les services ?!
 Je ne peux m'empêcher de comparer avec la simplicité d'usage du client Scalingo.
 
 Et pourquoi diable utilisent-ils OAuth 1 ?!
@@ -89,9 +94,10 @@ Il a fallu que je recharge la page pour savoir que l'app était prête.
 Ex, quand on tente d'accéder à une app endormie, on a un _loader_ qui tourne disant que l'app est en cours de démarrage.
 Dans la console, on voit bien que non.
 
-Ex, par défaut, le forçage HTTPS n'est pas activé. 
+Ex, par défaut, le forçage HTTPS n'est pas activé.
 
 On me demande 4 informations, quand avec Scalingo, une seule clé d'API suffit :
+
 - OAUTH_CONSUMER_KEY
 - OAUTH_CONSUMER_SECRET
 - CLEVER_TOKEN

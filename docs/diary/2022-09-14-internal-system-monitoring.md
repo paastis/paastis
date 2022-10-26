@@ -5,6 +5,7 @@
 Il est important de pouvoir monitorer, alerter et déboguer le proxy, cette espèce de réseau de canalisation HTTP.
 
 Parmi les métriques intéressantes :
+
 - les `RunningApps` indiquées dans le registre (in-memory ou Redis-based)
 - connaître l'état général du système via une query `/ping` ou `/health`
 - avoir un aperçu plus fin des ressources système via une query `/metrics`
@@ -31,17 +32,19 @@ Depuis, cette recommandation a été annulée dans une RFC officielle (la [RFC 6
 
 Le problème d'utiliser le préfixe `X-` est que si le header devient un standard, ça devient très dur de le renommer.
 
-À noter aussi qu'un header `X-` ne peut être considéré comme un header ou une info de sécurité.  
+À noter aussi qu'un header `X-` ne peut être considéré comme un header ou une info de sécurité.
 
-[Il est préconisé](https://specs.openstack.org/openstack/api-wg/guidelines/headers.html) aujourd'hui de préfixer les custom headers par le domain de la plateforme qui les introduit / exploite,  
+[Il est préconisé](https://specs.openstack.org/openstack/api-wg/guidelines/headers.html) aujourd'hui de préfixer les custom headers par le domain de la plateforme qui les introduit / exploite,
 
-Ex : 
+Ex :
+
 - `PaastisProxyTarget` : `system`, `upstream`
 - `PaastisProxyToken` : `tk-us-xxx-yyy-zzz`
 
 ## Décision
 
 Afin de monitorer, alerter, déboguer le système interne du module `paastis-proxy` :
+
 - celui-ci expose des endpoints `/system/health`, `/system/registry`, `/system/metrics`, etc.
 - au format JSON
 - pour y accéder, il faut que la requête contienne les headers `PaastisProxyTarget` et `PaastisProxyToken`

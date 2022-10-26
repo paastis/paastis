@@ -1,31 +1,29 @@
 export class RunningAppStore {
-
   async delete(appName) {
-    throw new Error('Implement #delete()');
+    throw new Error("Implement #delete()");
   }
 
   async get(appName) {
-    throw new Error('Implement #get()');
+    throw new Error("Implement #get()");
   }
 
   async has(appName) {
-    throw new Error('Implement #has()');
+    throw new Error("Implement #has()");
   }
 
   async set(appName, managedApp) {
-    throw new Error('Implement #set()');
+    throw new Error("Implement #set()");
   }
 
   async all() {
-    throw new Error('Implement #all()');
+    throw new Error("Implement #all()");
   }
 
   async keys() {
-    throw new Error('Implement #keys()');
+    throw new Error("Implement #keys()");
   }
 
   async clear() {
-    throw new Error('Implement #clear()');
+    throw new Error("Implement #clear()");
   }
 }
-

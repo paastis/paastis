@@ -1,8 +1,7 @@
 import PaasApp from "../PaasApp.js";
-import _ from 'lodash';
+import _ from "lodash";
 
 export default class HerokuApp extends PaasApp {
-
   constructor(app, formation) {
     super(app);
     this._formation = formation;
@@ -14,22 +13,22 @@ export default class HerokuApp extends PaasApp {
 
   get status() {
     if (this._formation) {
-      const web = _.find(this._formation, { type: 'web'});
+      const web = _.find(this._formation, { type: "web" });
       if (web) return "running";
       return "stopped";
     }
   }
 
   get isRunning() {
-    return this.status === 'running'
+    return this.status === "running";
   }
 
   get id() {
-    return this._app.id
+    return this._app.id;
   }
 
   get provider() {
-    return 'heroku';
+    return "heroku";
   }
 
   get region() {
@@ -63,5 +62,4 @@ export default class HerokuApp extends PaasApp {
   get gitUrl() {
     return this._app.git_url;
   }
-
 }

@@ -4,9 +4,9 @@
 
 console.log("🍻 Hello Paastis!");
 
-import config from '../src/config.js';
-import Server from '../src/Server.js';
-import Scheduler from '../src/Scheduler.js';
+import config from "../src/config.js";
+import Server from "../src/Server.js";
+import Scheduler from "../src/Scheduler.js";
 
 let proxy = new Server(config);
 let scheduler = new Scheduler(config);

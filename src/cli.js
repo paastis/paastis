@@ -1,8 +1,7 @@
-import { Command } from 'commander';
+import { Command } from "commander";
 const program = new Command();
 
-program
-  .option('-c, --config <file>');
+program.option("-c, --config <file>");
 
 program.parse();
 

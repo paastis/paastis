@@ -2,7 +2,6 @@ import { getStatus } from "@clevercloud/client/cjs/utils/app-status.js";
 import PaasApp from "../PaasApp.js";
 
 export default class CleverCloudApp extends PaasApp {
-
   _deployments;
   _instances;
 
@@ -21,7 +20,7 @@ export default class CleverCloudApp extends PaasApp {
   }
 
   get provider() {
-    return 'clever-cloud';
+    return "clever-cloud";
   }
 
   get region() {
@@ -45,7 +44,7 @@ export default class CleverCloudApp extends PaasApp {
   }
 
   get forceHttps() {
-    return this._app.forceHttps === 'ENABLED';
+    return this._app.forceHttps === "ENABLED";
   }
 
   get stickySessions() {

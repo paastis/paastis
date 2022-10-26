@@ -1,14 +1,18 @@
-import RunningApp from './RunningApp.js';
-import config from '../config.js';
+import RunningApp from "./RunningApp.js";
+import config from "../config.js";
 
 export default class RunningAppFactory {
-
   constructor(userConfig) {
     this._userConfig = userConfig;
   }
 
   createRunningAppForRegistration(appKey) {
-    const runningApp = new RunningApp(config.provider.name, config.provider.region, appKey, config.startAndStop.maxIdleTime);
+    const runningApp = new RunningApp(
+      config.provider.name,
+      config.provider.region,
+      appKey,
+      config.startAndStop.maxIdleTime
+    );
 
     this._userConfig?.rules?.forEach((rule) => {
       const regex = new RegExp(rule.pattern);
@@ -25,8 +29,12 @@ export default class RunningAppFactory {
         }
 
         if (rule.app_name) runningApp.name = interpolate(rule.app_name);
-        if (typeof(rule.app_max_idle_time) !== 'undefined') runningApp.maxIdleTime = rule.app_max_idle_time;
-        if (rule.linked_apps) runningApp.linkedApps = rule.linked_apps.map(linkedApp => interpolate(linkedApp));
+        if (typeof rule.app_max_idle_time !== "undefined")
+          runningApp.maxIdleTime = rule.app_max_idle_time;
+        if (rule.linked_apps)
+          runningApp.linkedApps = rule.linked_apps.map((linkedApp) =>
+            interpolate(linkedApp)
+          );
       }
     });
 

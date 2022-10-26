@@ -6,12 +6,13 @@ Retour aux affaires après 1 semaine de séminaire en Touraine.
 
 Ça devenait le bazar dans les sources.
 
-Afin de préparer la mise en place de tests et pour rendre le code plus modulaire et manipulable : 
+Afin de préparer la mise en place de tests et pour rendre le code plus modulaire et manipulable :
 
 - déclaration et organisation autour d'un package `/src`
 - définition des classes `Server` et `Scheduler` afin de faciliter les futurs tests auto et de rendre ces 2 notions centrales explicites et visibles
 
 Gains potentiels :
+
 - plus facile de passer à du TypeScript
 - possibilité d'exporter ces classes dans un binaire npm
 
@@ -70,11 +71,12 @@ $ curl -v localhost:3000/apps -H "PaastisProxyTarget: system" -H "PaastisProxySy
 Un des problèmes actuels est la gestion des groupes d'applications.
 
 Imaginons que j'ai une plateforme constituée d'un front et d'un back (avec lui-même un Redis et un Postgres) :
+
 - réveiller le front seul ne suffit pas
 - il faut que lorsqu'on accède le front, le back soit lui aussi up
 
 Une solution est de faire émerger la notion de "Groupe applicatif".
-Ce qui donne : 
+Ce qui donne :
 
 ```shell
 group:
@@ -91,11 +93,11 @@ Un tel système donne de la flexibilité dans la gestion des apps.
 
 ## (Apps) Groups management
 
-Il y a 3 endroits dans le code où l'on fait `= new RunningApp(` : 
+Il y a 3 endroits dans le code où l'on fait `= new RunningApp(` :
+
 - lorsque l'on démarre une App qui n'est pas encore monitorée
 - lorsque l'on découvre une App au statut `running` lors du CRON
 - au moment de récupérer une App depuis le registre
-
 
 ## 🙌 Tests with Jest
 
@@ -113,7 +115,7 @@ $ npm install jest --save-dev
 /** @type {import('jest').Config} */
 const config = {
   verbose: true,
-  transform: {}
+  transform: {},
 };
 
 export default config;
@@ -124,12 +126,12 @@ export default config;
 **3/** Les tests sont exécutés dans `./test/**/*` :
 
 ```javascript
-import RunningAppFactory from '../../src/registry/RunningAppFactory.js';
-import {jest} from '@jest/globals';
+import RunningAppFactory from "../../src/registry/RunningAppFactory.js";
+import { jest } from "@jest/globals";
 
 jest.useFakeTimers();
 
-test('adds 1 + 2 to equal 3', () => {
+test("adds 1 + 2 to equal 3", () => {
   expect(1).toBe(2);
 });
 ```

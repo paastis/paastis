@@ -1,32 +1,35 @@
-import _ from 'lodash';
+import _ from "lodash";
 import getClient from "./scalingo.js";
 import PaasProvider from "../PaasProvider.js";
 import ScalingoApp from "./ScalingoApp.js";
 
 export default class ScalingoProvider extends PaasProvider {
-
   constructor() {
-    super('scalingo');
+    super("scalingo");
   }
 
   async listAllApps() {
     let clientOscFr1 = await getClient();
     let scalingoApps = await clientOscFr1.Apps.all();
-    return scalingoApps.map(app => new ScalingoApp(app));
+    return scalingoApps.map((app) => new ScalingoApp(app));
   }
 
   async isAppRunning(appId) {
     let client = await getClient();
     const processes = await client.Containers.processes(appId);
-    const webProcesses = _.filter(processes, { type: 'web' });
-    return webProcesses.length > 0 && _.every(webProcesses, { state: 'running' });
+    const webProcesses = _.filter(processes, { type: "web" });
+    return (
+      webProcesses.length > 0 && _.every(webProcesses, { state: "running" })
+    );
   }
 
   async isAppStopped(appId) {
     let client = await getClient();
     const processes = await client.Containers.processes(appId);
-    const webProcesses = _.filter(processes, { type: 'web' });
-    return webProcesses.length > 0 && _.every(webProcesses, { state: 'stopped' });
+    const webProcesses = _.filter(processes, { type: "web" });
+    return (
+      webProcesses.length > 0 && _.every(webProcesses, { state: "stopped" })
+    );
   }
 
   async awakeApp(appId) {

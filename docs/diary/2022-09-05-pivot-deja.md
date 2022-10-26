@@ -10,7 +10,7 @@ En plus le site est beau et le tout a l'air bien ficelé.
 Allez, à la rigueur, je dirais qu'il manque un peu d'emphase sur le côté GreenIT.
 Ça reste un service 🇺🇸…
 
-Le bon point, c'est que le service se concentre sur Heroku. 
+Le bon point, c'est que le service se concentre sur Heroku.
 C'est d'ailleurs un add-on Heroku.
 Il y aurait donc de la place pour d'autres plateformes, dont render.com.
 
@@ -19,7 +19,7 @@ Mais le coup reste dur à encaisser.
 AutoIdle se targue d'avoir 300 clients.
 Je pourrais me concentrer sur les PaaS 🇫🇷 / 🇪🇺.
 
-Le temps de / pour retrouver mes esprits, je vais creuser la partie technique, notamment la gateway proxy http.  
+Le temps de / pour retrouver mes esprits, je vais creuser la partie technique, notamment la gateway proxy http.
 
 ## 🌱 Le projet est mort ; vive le projet !
 
@@ -55,22 +55,21 @@ Je trouve un plugin qui a l'air très bien pour Fastify : @fastify/http-proxy.
 Après analyse vite faite du code, le scope couvert semble assez large (dont les web sockets).
 Je décide de partir dessus.
 
-  –––––––––––––
-  | Web front |
-  –––––––––––––
-       ↑
-       |
-  -–––––––––––
-  | Database |
-  ––––––––––––
-       ↑
-       |
- ––––––––––––––––
- | HTTP gateway |
- ––––––––––––––––
-       ↑
-       |
- ––––––––––––––––
- | HTTP traefik |
- ––––––––––––––––
-
+–––––––––––––
+| Web front |
+–––––––––––––
+↑
+|
+-–––––––––––
+| Database |
+––––––––––––
+↑
+|
+––––––––––––––––
+| HTTP gateway |
+––––––––––––––––
+↑
+|
+––––––––––––––––
+| HTTP traefik |
+––––––––––––––––

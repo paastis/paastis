@@ -1,10 +1,9 @@
-import { spawn } from 'child_process';
-import Promise from 'bluebird';
+import { spawn } from "child_process";
+import Promise from "bluebird";
 import config from "../config.js";
 
 export default class PaasProvider {
-
-  _name = 'undefined';
+  _name = "undefined";
 
   constructor(name) {
     this._name = name;
@@ -16,15 +15,15 @@ export default class PaasProvider {
   }
 
   async listAllApps() {
-    throw new Error('Not yet implemented');
+    throw new Error("Not yet implemented");
   }
 
   async isAppRunning(appId) {
-    throw new Error('Not yet implemented');
+    throw new Error("Not yet implemented");
   }
 
   async isAppStopped(appId) {
-    throw new Error('Not yet implemented');
+    throw new Error("Not yet implemented");
   }
 
   async ensureAppIsRunning(appId) {
@@ -34,21 +33,22 @@ export default class PaasProvider {
   }
 
   async ensureGroupIsRunning(appKeys) {
-    return Promise.all(appKeys.map(appKey => this.ensureAppIsRunning(appKey)));
+    return Promise.all(
+      appKeys.map((appKey) => this.ensureAppIsRunning(appKey))
+    );
   }
 
   async awakeApp(appId) {
-    throw new Error('Not yet implemented');
+    throw new Error("Not yet implemented");
   }
 
   async startApp(appId) {
-
     const that = this;
 
     async function executeStartApp(resolve, reject) {
-      console.log(`Going to start app ${appId}`)
+      console.log(`Going to start app ${appId}`);
 
-      await that.awakeApp(appId)
+      await that.awakeApp(appId);
 
       let count = 0;
 
@@ -57,67 +57,71 @@ export default class PaasProvider {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const isAppRunning = await that.isAppRunning(appId);
         if (isAppRunning) {
-          console.log(`✅ App ${appId} started and running`)
+          console.log(`✅ App ${appId} started and running`);
 
           if (config.hooks.afterAppStart) {
-            const afterAppStart = spawn(config.hooks.afterAppStart, { shell: true });
-            afterAppStart.stdout.on('data', (data) => {
+            const afterAppStart = spawn(config.hooks.afterAppStart, {
+              shell: true,
+            });
+            afterAppStart.stdout.on("data", (data) => {
               console.log(`stdout: ${data}`);
             });
-            afterAppStart.stderr.on('data', (data) => {
+            afterAppStart.stderr.on("data", (data) => {
               console.error(`stderr: ${data}`);
             });
-            afterAppStart.on('close', async (code) => {
+            afterAppStart.on("close", async (code) => {
               return resolve();
             });
           }
           return resolve();
         }
       }
-      return reject(new Error(`Timed out waiting for app ${appId} to be running`));
+      return reject(
+        new Error(`Timed out waiting for app ${appId} to be running`)
+      );
     }
 
     return new Promise((resolve, reject) => {
       if (config.hooks.beforeAppStart) {
-        const beforeAppStart = spawn(config.hooks.beforeAppStart, { shell: true });
-        beforeAppStart.stdout.on('data', (data) => {
+        const beforeAppStart = spawn(config.hooks.beforeAppStart, {
+          shell: true,
+        });
+        beforeAppStart.stdout.on("data", (data) => {
           console.log(`stdout: ${data}`);
         });
-        beforeAppStart.stderr.on('data', (data) => {
+        beforeAppStart.stderr.on("data", (data) => {
           console.error(`stderr: ${data}`);
         });
-        beforeAppStart.on('close', (code) => {
+        beforeAppStart.on("close", (code) => {
           executeStartApp(resolve, reject);
         });
       } else {
         executeStartApp(resolve, reject);
       }
     });
-
   }
 
   async asleepApp(appId) {
-    throw new Error('Not yet implemented');
+    throw new Error("Not yet implemented");
   }
 
   async stopApp(appId) {
-
     const that = this;
 
     async function executeStopApp(resolve, reject) {
-      console.log(`Stopping app ${appId}`)
+      console.log(`Stopping app ${appId}`);
 
       await that.asleepApp(appId);
 
       if (config.hooks.afterAppStop) {
         const afterAppStop = spawn(config.hooks.afterAppStop, { shell: true });
-        afterAppStop.stdout.on('data', (data) => {
+        afterAppStop.stdout.on("data", (data) => {
           console.log(`stdout: ${data}`);
         });
-        afterAppStop.stderr.on('data', (data) => {
+        afterAppStop.stderr.on("data", (data) => {
           console.error(`stderr: ${data}`);
         });
-        afterAppStop.on('close', async (code) => {
+        afterAppStop.on("close", async (code) => {
           return resolve();
         });
       }
@@ -126,14 +130,16 @@ export default class PaasProvider {
 
     return new Promise((resolve, reject) => {
       if (config.hooks.beforeAppStop) {
-        const beforeAppStop = spawn(config.hooks.beforeAppStop, { shell: true });
-        beforeAppStop.stdout.on('data', (data) => {
+        const beforeAppStop = spawn(config.hooks.beforeAppStop, {
+          shell: true,
+        });
+        beforeAppStop.stdout.on("data", (data) => {
           console.log(`stdout: ${data}`);
         });
-        beforeAppStop.stderr.on('data', (data) => {
+        beforeAppStop.stderr.on("data", (data) => {
           console.error(`stderr: ${data}`);
         });
-        beforeAppStop.on('close', (code) => {
+        beforeAppStop.on("close", (code) => {
           executeStopApp(resolve, reject);
         });
       } else {

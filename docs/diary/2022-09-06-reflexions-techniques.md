@@ -7,6 +7,7 @@
 Je m'étais déjà posé la question avant de lui lâcher le terme.
 
 J'ai creusé plusieurs pistes / articles :
+
 - [Serveur Fault](https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-server-and-a-gateway-server)
 - [Stack Overflow](https://stackoverflow.com/a/34284700/2120773)
 - [Akana](https://www.akana.com/blog/api-proxy-vs-api-gateway)
@@ -20,7 +21,7 @@ Faute de mieux, je reste sur "gateway".
 
 Il faut que `app-1.gateway.example.com`, `app-2.gateway.example.com` et `app-n.gateway.example.com` redirige respectivement vers `app-1.scalingo.com`, `app-2.scalingo.com` et `app-n.scalingo.com`.
 
-Mon idée est de définir 2 entrées `CNAME` : 
+Mon idée est de définir 2 entrées `CNAME` :
 
 ```shell
 # Zone DNS pour example.com
@@ -30,7 +31,7 @@ gateway 10800 IN CNAME paastis-gateway.osc-fr1.scalingo.io.
 
 Il faut que le FQDN de l'app "paastis-gateway" soit associé côté Scalingo au DNS `gateway.example.com`.
 
-Si tout se passe comme je le pense / l'espère, ça devrait fonctionner 🤞. 
+Si tout se passe comme je le pense / l'espère, ça devrait fonctionner 🤞.
 
 ### Intéragir avec Scalingo
 
@@ -50,12 +51,12 @@ Pour le moment, avec une vingtaine d'apps et malgré de nombreux refresh de page
 
 ### Registre des apps
 
-La solution qui me paraît la plus simple (et performante ?) est de conserver à tout moment un "registre des applications actives". 
+La solution qui me paraît la plus simple (et performante ?) est de conserver à tout moment un "registre des applications actives".
 
 Pour être en capacité d'avoir une gateway multi-instances, je décide de conserver le registre dans un Redis.
 
 | App name | Last request datetime |
-|----------|-----------------------|
+| -------- | --------------------- |
 | app-1    | 2022-09-06_17:39:09   |
 | app-2    | 2022-09-06_17:17:54   |
 | app-n    | 2022-09-06_17:23:31   |
@@ -75,11 +76,12 @@ Avec ce genre de mécanisme, si une application est ajoutée, le premier qui ten
 
 ### Réveil d'une app
 
-Il faut prévoir un mécanisme qui vérifie toutes les 6 secondes (pour faire 6 * 10 = 60s) qu'une app est correctement restartée. 
+Il faut prévoir un mécanisme qui vérifie toutes les 6 secondes (pour faire 6 \* 10 = 60s) qu'une app est correctement restartée.
 
 ### Cron
 
-Plusieurs pistes possibles : 
+Plusieurs pistes possibles :
+
 - node-cron
 - pgboss
 - BullMQ
@@ -93,7 +95,7 @@ J'ai créé une app [hello-fastify](https://github.com/jbuget/hello-fastify) pou
 Micro pétouille avec le multi-région Scalingo.
 Quant on index un proxy Fastify pour une app, il faut penser à tenir compte de la région pour l'upstream.
 
-Je suis embêté à cause de la double-régions, qu'il faut aussi gérer côté DNS. 
+Je suis embêté à cause de la double-régions, qu'il faut aussi gérer côté DNS.
 
 J'ai oublié de mettre un pre-handler qui récupère le sous-domaine et redirige avec préfixe.
 
@@ -109,7 +111,7 @@ C'est alors que je tombe sur cette page de documentation de Fastify : "[Recommen
 
 > With Node.js, one can write an application that directly handles HTTP requests. As a result, the temptation is to write applications that handle requests for multiple domains, listen on multiple ports (i.e. HTTP and HTTPS), and then expose these applications directly to the Internet to handle requests.
 > The Fastify team strongly considers this to be an anti-pattern and extremely bad practice:
-> 
+>
 > It adds unnecessary complexity to the application by diluting its focus.
 > It prevents horizontal scalability.
 
@@ -124,12 +126,13 @@ Donc ça passe.
 Testons.
 
 La première chose à faire est de reconfigurer le projet Scalingo pour qu'il comprenne qu'on a :
+
 - un Nginx
 - une app Node.js
 
 Penser à ajouter un Procfile, vu qu'on est sur un Multi Buildpacks.
 
-Rahhh… quel idiot ! 
+Rahhh… quel idiot !
 J'avais oublié qu'il faut déclarer le buildpack Node avant celui de Nginx, pour que ce dernier écoute bien le port de Scalingo.
 
 ```bash
@@ -139,10 +142,11 @@ web: exec node index & bin/run
 Ça fonctionne !
 
 Les trucs moyens :
+
 - Il me manque juste la gestion des certificats SSL.
 - Je suis passé par `servers.conf.erb` plutôt que `nginx.conf` ou `nginx.conf.erb`, alors que la doc de Scalingo indique que c'est plutôt le fichier optionnel du lot
 - J'ai dû mettre en dur "gateway" dans ma config Nginx, ce qui couple fortement ma config DNS avec le code de l'app
 
 > 💡 Truc intéressant/notable :
 > Quand l'application paastis-gateway boote, elle ne remonte pas dans les app au statut running, donc elle n'est pas ajoutée au registre.
-> Sinon, il faudrait ajouter un test dans le code.  
+> Sinon, il faudrait ajouter un test dans le code.

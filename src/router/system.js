@@ -1,18 +1,17 @@
-import _ from 'lodash';
+import _ from "lodash";
 import config from "../config.js";
 import { registry } from "../registry/index.js";
 import provider from "../provider/index.js";
 
 export default async (req, res) => {
   try {
-
-    const givenApiToken = req.headers['PaastisProxySystemApiToken'.toLowerCase()];
+    const givenApiToken =
+      req.headers["PaastisProxySystemApiToken".toLowerCase()];
 
     if (givenApiToken && givenApiToken === config.routing.systemApiToken) {
-
       const { url, method } = req;
 
-      if (url === '/apps' && method === 'GET') {
+      if (url === "/apps" && method === "GET") {
         // GET /apps
         const providerApps = await provider.listAllApps();
         const registeredApps = await registry.listApps();
@@ -43,23 +42,26 @@ export default async (req, res) => {
           return arr;
         }, []);
 
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(apps));
       }
 
       // DELETE /apps
-      if (url === '/apps' && method === 'DELETE') {
+      if (url === "/apps" && method === "DELETE") {
         await registry.clear();
         res.statusCode = 204;
         res.end();
       }
       res.end();
     } else {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(new Error('Wrong or missing Paastis proxy system API token')));
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify(
+          new Error("Wrong or missing Paastis proxy system API token")
+        )
+      );
     }
-  } catch
-    (err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};

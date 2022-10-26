@@ -2,7 +2,7 @@
 
 ## Erreur incompréhensible de proxyfication
 
-Voilà plusieurs que je me tape cette erreur au moment d'accéder à l'app via le proxy : 
+Voilà plusieurs que je me tape cette erreur au moment d'accéder à l'app via le proxy :
 
 ```shell
 /Users/jeremy.buget/Works/jbuget/paastis/paastis-proxy/node_modules/http-proxy/lib/http-proxy/index.js:120
@@ -40,16 +40,19 @@ J'ai tenté de suivre [des pistes](https://github.com/nodejs/node/issues/43798) 
 Ça ne donne rien.
 
 Et je viens seulement d'observer que :
+
 - l'`appId` récupéré via le client CC est : `https://app_0210ab5c-6baf-477b-8c0f-32c18a0e7fb6.cleverapps.io/`
 - l'`appId` indiqué dans la select box du header de l'IHM Web CC est : `https://app_0210ab5c-6baf-477b-8c0f-32c18a0e7fb6.cleverapps.io/`
 - l'`appId` indiqué dans la section "domain names" de l'IHM Web CC est : `https://app-0210ab5c-6baf-477b-8c0f-32c18a0e7fb6.cleverapps.io/`
 
-La différence, c'est ce put*** de `_` VS. `-` en début d'URL 🤬 !!!
+La différence, c'est ce put\*\*\* de `_` VS. `-` en début d'URL 🤬 !!!
 
 La transformation ci-dessous fonctionne ! (quelle blague…)
 
 ```javascript
-proxy.web(req, res, { target: `https://${appName.replace('app_', 'app-')}.cleverapps.io` })
+proxy.web(req, res, {
+  target: `https://${appName.replace("app_", "app-")}.cleverapps.io`,
+});
 ```
 
 Au passage, j'ai confirmé [en demandant sur Twitter](https://twitter.com/jbuget/status/1568723184337166339?s=20&t=2Mv4Jv7d-lfT0HEkniasgw) que Clever Cloud ne propose pas de Review Apps par défaut.

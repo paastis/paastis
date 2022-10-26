@@ -1,28 +1,31 @@
-import http from 'http';
+import http from "http";
 import { system, upstream } from "./router/index.js";
 
 export default class Server {
-
   constructor(config) {
     this._config = config;
     this._host = this._config.server.host;
     this._port = this._config.server.port;
     this._systemApiEnabled = this._config.routing.systemApiEnabled;
-    this._server = http.createServer({
-      insecureHTTPParser: true
-    }, async (req, res) => {
-      try {
-        let proxyTarget = req.headers['PaastisProxyTarget'.toLowerCase()] || 'upstream';
-        if (this._systemApiEnabled && proxyTarget === 'system') {
-          return system(req, res);
+    this._server = http.createServer(
+      {
+        insecureHTTPParser: true,
+      },
+      async (req, res) => {
+        try {
+          let proxyTarget =
+            req.headers["PaastisProxyTarget".toLowerCase()] || "upstream";
+          if (this._systemApiEnabled && proxyTarget === "system") {
+            return system(req, res);
+          }
+          return upstream(req, res);
+        } catch (err) {
+          console.error(err);
+          res.statusCode = 502;
+          res.end(err.toString());
         }
-        return upstream(req, res);
-      } catch (err) {
-        console.error(err);
-        res.statusCode = 502;
-        res.end(err.toString());
       }
-    });
+    );
   }
 
   async start() {
@@ -44,5 +47,4 @@ export default class Server {
       process.exit(1);
     }
   }
-
 }

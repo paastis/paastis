@@ -1,6 +1,6 @@
-import Server from './Server.js';
-import config from './config.js';
-import Scheduler from './Scheduler.js';
+import Server from "./Server.js";
+import config from "./config.js";
+import Scheduler from "./Scheduler.js";
 
 let server = new Server(config);
 let scheduler = new Scheduler(config);
