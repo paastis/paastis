@@ -1,101 +1,101 @@
-import { describe, it, expect } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import CleverCloudApp from "../../../src/provider/clever-cloud/CleverCloudApp.js";
 
 describe('CleverCloudApp', () => {
 
-  const app = {
-    id: 'abcd-1234',
-    name: 'my-app',
-    zone: 'rbx',
-    status: 'running',
-    deployment: { url: 'https://my-app.osc-fr1.clever-cloud.io' },
-    creationDate: 1664323200000,
-    last_deploy: 1664323200000,
-    forceHttps: 'ENABLED',
-    stickySessions: true,
-    deployUrl: 'git://my-app.osc-fr1.CleverCloud.io.git'
-  };
+ const app = {
+  id: 'abcd-1234',
+  name: 'my-app',
+  zone: 'rbx',
+  status: 'running',
+  deployment: { url: 'https://my-app.osc-fr1.clever-cloud.io' },
+  creationDate: 1664323200000,
+  last_deploy: 1664323200000,
+  forceHttps: 'ENABLED',
+  stickySessions: true,
+  deployUrl: 'git://my-app.osc-fr1.CleverCloud.io.git'
+ };
 
-  const deployments = [];
+ const deployments = [];
 
-  const instances = [];
+ const instances = [];
 
-  const paasApp = new CleverCloudApp(app, deployments, instances);
+ const paasApp = new CleverCloudApp(app, deployments, instances);
 
-  describe('.provider', () => {
+ describe('.provider', () => {
 
-    it('should return "CleverCloud"', () => {
-      expect(paasApp.provider).toStrictEqual('clever-cloud');
-    });
+  it('should return "CleverCloud"', () => {
+   expect(paasApp.provider).toStrictEqual('clever-cloud');
   });
+ });
 
-  describe('.region', () => {
+ describe('.region', () => {
 
-    it('should return app region', () => {
-      expect(paasApp.region).toStrictEqual('rbx');
-    });
+  it('should return app region', () => {
+   expect(paasApp.region).toStrictEqual('rbx');
   });
+ });
 
-  describe('.id', () => {
+ describe('.id', () => {
 
-    it('should return app ID', () => {
-      expect(paasApp.id).toStrictEqual('abcd-1234');
-    });
+  it('should return app ID', () => {
+   expect(paasApp.id).toStrictEqual('abcd-1234');
   });
+ });
 
-  describe('.key', () => {
+ describe('.key', () => {
 
-    it('should return app name', () => {
-      expect(paasApp.key).toStrictEqual('abcd-1234');
-    });
+  it('should return app name', () => {
+   expect(paasApp.key).toStrictEqual('abcd-1234');
   });
+ });
 
-  describe('.url', () => {
+ describe('.url', () => {
 
-    it('should return app URL', () => {
-      expect(paasApp.url).toStrictEqual('https://my-app.osc-fr1.clever-cloud.io');
-    });
+  it('should return app URL', () => {
+   expect(paasApp.url).toStrictEqual('https://my-app.osc-fr1.clever-cloud.io');
   });
+ });
 
-  describe('.createdAt', () => {
+ describe('.createdAt', () => {
 
-    it('should return app creation date', () => {
-      expect(paasApp.createdAt).toStrictEqual(new Date('2022-09-28T00:00:00.000Z'));
-    });
+  it('should return app creation date', () => {
+   expect(paasApp.createdAt).toStrictEqual(new Date('2022-09-28T00:00:00.000Z'));
   });
+ });
 
-  describe('.updatedAt', () => {
+ describe('.updatedAt', () => {
 
-    it('should return app last update date', () => {
-      expect(paasApp.updatedAt).toStrictEqual(new Date('2022-09-28T00:00:00.000Z'));
-    });
+  it('should return app last update date', () => {
+   expect(paasApp.updatedAt).toStrictEqual(new Date('2022-09-28T00:00:00.000Z'));
   });
+ });
 
-  describe('.lastDeployedAt', () => {
+ describe('.lastDeployedAt', () => {
 
-    it('should return app last deployment date', () => {
-      expect(paasApp.lastDeployedAt).toStrictEqual(new Date('2022-09-28T00:00:00.000Z'));
-    });
+  it('should return app last deployment date', () => {
+   expect(paasApp.lastDeployedAt).toStrictEqual(new Date('2022-09-28T00:00:00.000Z'));
   });
+ });
 
-  describe('.forceHttps', () => {
+ describe('.forceHttps', () => {
 
-    it('should return app URL', () => {
-      expect(paasApp.forceHttps).toStrictEqual(true);
-    });
+  it('should return app URL', () => {
+   expect(paasApp.forceHttps).toStrictEqual(true);
   });
+ });
 
-  describe('.stickySessions', () => {
+ describe('.stickySessions', () => {
 
-    it('should return app URL', () => {
-      expect(paasApp.stickySessions).toStrictEqual(true);
-    });
+  it('should return app URL', () => {
+   expect(paasApp.stickySessions).toStrictEqual(true);
   });
+ });
 
-  describe('.gitUrl', () => {
+ describe('.gitUrl', () => {
 
-    it('should return app URL', () => {
-      expect(paasApp.gitUrl).toStrictEqual('git://my-app.osc-fr1.CleverCloud.io.git');
-    });
+  it('should return app URL', () => {
+   expect(paasApp.gitUrl).toStrictEqual('git://my-app.osc-fr1.CleverCloud.io.git');
   });
+ });
 });

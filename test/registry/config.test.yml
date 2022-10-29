@@ -1,19 +1,18 @@
-
 rules:
-  - pattern: 'app-review-pr(\d+)-(back|front)'
-    app_name: 'renamed-app-pr$1-$2'
-    app_max_idle_time: 30
-    linked_apps:
-      - 'app-review-pr$1-front'
+ - pattern: 'app-review-pr(\d+)-(back|front)'
+   app_name: 'renamed-app-pr$1-$2'
+   app_max_idle_time: 30
+   linked_apps:
+    - 'app-review-pr$1-front'
 
-  - pattern: 'titi(.*)'
-    name: 'titi'
+ - pattern: 'titi(.*)'
+   name: 'titi'
 
-  - pattern: 'my-app-pr(\d+)-front'
-    linked_apps:
-      - 'my-app-pr$1-back'
+ - pattern: 'my-app-pr(\d+)-front'
+   linked_apps:
+    - 'my-app-pr$1-back'
 
-  - pattern: 'infinite-app-(back|front)'
-    linked_apps:
-      - 'infinite-app-back'
-      - 'infinite-app-front'
+ - pattern: 'infinite-app-(back|front)'
+   linked_apps:
+    - 'infinite-app-back'
+    - 'infinite-app-front'
