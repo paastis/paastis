@@ -7,7 +7,8 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "format": "prettier './**/*.{js,ts}' --write",
+    "format:check": "prettier --check './**/*.{js,ts}'",
+    "format:write": "prettier --write './**/*.{js,ts}'",
     "start": "node src/index.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules ./node_modules/.bin/jest"
   },

@@ -8,7 +8,7 @@ on:
 name: Main
 jobs:
   Test:
-    name: 'Test'
+    name: 'Lint & test'
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v3
@@ -17,4 +17,5 @@ jobs:
           node-version: 16
           cache: 'npm'
       - run: npm install
+      - run: npm run format:check
       - run: npm test
