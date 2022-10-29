@@ -20,6 +20,8 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     const lastAccessedAt = new Date();
 
     // when
+    console.log('userConfig');
+    console.log(config);
     const app = factory.createRunningAppForRegistration(appKey);
 
     // then
