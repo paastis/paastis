@@ -20,8 +20,6 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     const lastAccessedAt = new Date();
 
     // when
-    console.log('userConfig');
-    console.log(config);
     const app = factory.createRunningAppForRegistration(appKey);
 
     // then
@@ -30,7 +28,7 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     expect(app.region).toBe(providerZone);
     expect(app.name).toBe(appKey);
     expect(app.linkedApps).toStrictEqual([]);
-    expect(app.maxIdleTime).toStrictEqual(1);
+    expect(app.maxIdleTime).toStrictEqual(15);
     expect(app.startedAt).toStrictEqual(startedAt);
     expect(app.lastAccessedAt).toStrictEqual(lastAccessedAt);
   });

@@ -2,11 +2,11 @@ import application from '@clevercloud/client/cjs/api/v2/application.js';
 import { addOauthHeader } from '@clevercloud/client/cjs/oauth.node.js';
 import { prefixUrl } from '@clevercloud/client/cjs/prefix-url.js';
 import { request } from '@clevercloud/client/cjs/request.superagent.js';
-import { getStatus } from "@clevercloud/client/cjs/utils/app-status.js";
+import { getStatus } from '@clevercloud/client/cjs/utils/app-status.js';
 
-import config from "../../config.js";
-import PaasProvider from "../PaasProvider.js";
-import CleverCloudApp from "./CleverCloudApp.js";
+import config from '../../config.js';
+import PaasProvider from '../PaasProvider.js';
+import CleverCloudApp from './CleverCloudApp.js';
 
 export default class CleverCloudProvider extends PaasProvider {
 

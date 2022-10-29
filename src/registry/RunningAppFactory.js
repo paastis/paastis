@@ -8,8 +8,6 @@ export default class RunningAppFactory {
   }
 
   createRunningAppForRegistration(appKey) {
-    console.log('config');
-    console.log(config);
     const runningApp = new RunningApp(config.provider.name, config.provider.region, appKey, config.startAndStop.maxIdleTime);
 
     this._userConfig?.rules?.forEach((rule) => {

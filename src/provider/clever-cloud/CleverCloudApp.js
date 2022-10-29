@@ -1,5 +1,5 @@
-import { getStatus } from "@clevercloud/client/cjs/utils/app-status.js";
-import PaasApp from "../PaasApp.js";
+import { getStatus } from '@clevercloud/client/cjs/utils/app-status.js';
+import PaasApp from '../PaasApp.js';
 
 export default class CleverCloudApp extends PaasApp {
 
