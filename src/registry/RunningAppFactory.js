@@ -25,7 +25,7 @@ export default class RunningAppFactory {
         }
 
         if (rule.app_name) runningApp.name = interpolate(rule.app_name);
-        if (typeof(rule.app_max_idle_time) !== 'undefined') runningApp.maxIdleTime = rule.app_max_idle_time;
+        if (typeof (rule.app_max_idle_time) !== 'undefined') runningApp.maxIdleTime = rule.app_max_idle_time;
         if (rule.linked_apps) runningApp.linkedApps = rule.linked_apps.map(linkedApp => interpolate(linkedApp));
       }
     });

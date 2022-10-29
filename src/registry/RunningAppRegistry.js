@@ -1,4 +1,3 @@
-import config from '../config.js';
 import RunningApp from './RunningApp.js';
 
 export default class RunningAppRegistry {

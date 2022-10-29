@@ -4,12 +4,12 @@ import config from '../config.js';
 
 export default class PaasProvider {
 
-  _name = 'undefined';
-
   constructor(name) {
     this._name = name;
     this.ensureAppIsRunning = this.ensureAppIsRunning.bind(this);
   }
+
+  _name = 'undefined';
 
   get name() {
     return this._name;

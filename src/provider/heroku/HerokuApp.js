@@ -14,7 +14,7 @@ export default class HerokuApp extends PaasApp {
 
   get status() {
     if (this._formation) {
-      const web = _.find(this._formation, { type: 'web'});
+      const web = _.find(this._formation, { type: 'web' });
       if (web) return "running";
       return "stopped";
     }

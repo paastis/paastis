@@ -22,12 +22,12 @@ export default class RunningApp {
     }
   }
 
-  updateLastAccessedAt(lastAccessedAt) {
-    this.lastAccessedAt = lastAccessedAt || new Date(Date.now());
-  }
-
   get hasLinkedApps() {
     return this.linkedApps.length > 0;
+  }
+
+  updateLastAccessedAt(lastAccessedAt) {
+    this.lastAccessedAt = lastAccessedAt || new Date(Date.now());
   }
 }
 
