@@ -3,7 +3,6 @@ import Promise from 'bluebird';
 import config from '../config.js';
 
 export default class PaasProvider {
-
   constructor(name) {
     this._name = name;
     this.ensureAppIsRunning = this.ensureAppIsRunning.bind(this);
@@ -34,7 +33,9 @@ export default class PaasProvider {
   }
 
   async ensureGroupIsRunning(appKeys) {
-    return Promise.all(appKeys.map(appKey => this.ensureAppIsRunning(appKey)));
+    return Promise.all(
+      appKeys.map((appKey) => this.ensureAppIsRunning(appKey))
+    );
   }
 
   async awakeApp(appId) {
@@ -42,13 +43,12 @@ export default class PaasProvider {
   }
 
   async startApp(appId) {
-
     const that = this;
 
     async function executeStartApp(resolve, reject) {
-      console.log(`Going to start app ${appId}`)
+      console.log(`Going to start app ${appId}`);
 
-      await that.awakeApp(appId)
+      await that.awakeApp(appId);
 
       let count = 0;
 
@@ -57,10 +57,12 @@ export default class PaasProvider {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const isAppRunning = await that.isAppRunning(appId);
         if (isAppRunning) {
-          console.log(`✅ App ${appId} started and running`)
+          console.log(`✅ App ${appId} started and running`);
 
           if (config.hooks.afterAppStart) {
-            const afterAppStart = spawn(config.hooks.afterAppStart, { shell: true });
+            const afterAppStart = spawn(config.hooks.afterAppStart, {
+              shell: true,
+            });
             afterAppStart.stdout.on('data', (data) => {
               console.log(`stdout: ${data}`);
             });
@@ -74,12 +76,16 @@ export default class PaasProvider {
           return resolve();
         }
       }
-      return reject(new Error(`Timed out waiting for app ${appId} to be running`));
+      return reject(
+        new Error(`Timed out waiting for app ${appId} to be running`)
+      );
     }
 
     return new Promise((resolve, reject) => {
       if (config.hooks.beforeAppStart) {
-        const beforeAppStart = spawn(config.hooks.beforeAppStart, { shell: true });
+        const beforeAppStart = spawn(config.hooks.beforeAppStart, {
+          shell: true,
+        });
         beforeAppStart.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
         });
@@ -93,7 +99,6 @@ export default class PaasProvider {
         executeStartApp(resolve, reject);
       }
     });
-
   }
 
   async asleepApp(appId) {
@@ -101,11 +106,10 @@ export default class PaasProvider {
   }
 
   async stopApp(appId) {
-
     const that = this;
 
     async function executeStopApp(resolve, reject) {
-      console.log(`Stopping app ${appId}`)
+      console.log(`Stopping app ${appId}`);
 
       await that.asleepApp(appId);
 
@@ -126,7 +130,9 @@ export default class PaasProvider {
 
     return new Promise((resolve, reject) => {
       if (config.hooks.beforeAppStop) {
-        const beforeAppStop = spawn(config.hooks.beforeAppStop, { shell: true });
+        const beforeAppStop = spawn(config.hooks.beforeAppStop, {
+          shell: true,
+        });
         beforeAppStop.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
         });

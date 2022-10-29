@@ -1,5 +1,4 @@
 export class RunningAppStore {
-
   async delete(appName) {
     throw new Error('Implement #delete()');
   }
@@ -28,4 +27,3 @@ export class RunningAppStore {
     throw new Error('Implement #clear()');
   }
 }
-

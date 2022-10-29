@@ -1,7 +1,6 @@
 import RunningApp from './RunningApp.js';
 
 export default class RunningAppRegistry {
-
   /**
    * @param runningAppsStore  // [app_name<String>, app<MonitoredApplication>]
    */
@@ -15,7 +14,6 @@ export default class RunningAppRegistry {
    * @returns {Promise<*[]>} An array with the app's name and its linked apps names
    */
   async registerApp(appKey) {
-
     const that = this;
 
     const registeredApps = [];
@@ -48,7 +46,15 @@ export default class RunningAppRegistry {
   async getApp(appName) {
     const data = await this._store.get(appName);
     if (data) {
-      return new RunningApp(data.provider, data.region, data.name, data.maxIdleTime, data.linkedApps, data.startedAt, data.lastAccessedAt);
+      return new RunningApp(
+        data.provider,
+        data.region,
+        data.name,
+        data.maxIdleTime,
+        data.linkedApps,
+        data.startedAt,
+        data.lastAccessedAt
+      );
     }
   }
 

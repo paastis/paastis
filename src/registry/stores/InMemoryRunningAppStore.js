@@ -2,7 +2,6 @@ import RunningApp from '../RunningApp.js';
 import { RunningAppStore } from './RunningAppStore.js';
 
 export default class InMemoryRunningAppStore extends RunningAppStore {
-
   constructor() {
     super();
     this._map = new Map();
@@ -38,8 +37,18 @@ export default class InMemoryRunningAppStore extends RunningAppStore {
 
   async findByGroup(groupName) {
     return Array.from(this._map.values())
-      .filter((object) => (object.group && object.group === groupName))
-      .map(object => new RunningApp(object.provider, object.region, object.name, object.maxIdleTime, object.linkedApps, object.startedAt, object.lastAccessedAt));
+      .filter((object) => object.group && object.group === groupName)
+      .map(
+        (object) =>
+          new RunningApp(
+            object.provider,
+            object.region,
+            object.name,
+            object.maxIdleTime,
+            object.linkedApps,
+            object.startedAt,
+            object.lastAccessedAt
+          )
+      );
   }
 }
-

@@ -1,5 +1,4 @@
 export default class PaasApp {
-
   _app;
 
   constructor(app) {
@@ -11,7 +10,7 @@ export default class PaasApp {
   }
 
   get isRunning() {
-    return this.status === 'running'
+    return this.status === 'running';
   }
 
   get key() {
@@ -69,6 +68,4 @@ export default class PaasApp {
   get framework() {
     throw new Error('Not yet implemented');
   }
-
 }
-

@@ -5,17 +5,16 @@ import HerokuApp from './HerokuApp.js';
 import heroku from './heroku.js';
 
 export default class HerokuProvider extends PaasProvider {
-
   constructor() {
     super('heroku');
   }
 
   async listAllApps() {
     const apps = await heroku.get('/apps');
-    return Promise.map(apps, (async app => {
+    return Promise.map(apps, async (app) => {
       const formation = await heroku.get(`/apps/${app.name}/formation`);
       return new HerokuApp(app, formation);
-    }));
+    });
   }
 
   async isAppRunning(appId) {
@@ -32,15 +31,23 @@ export default class HerokuProvider extends PaasProvider {
 
   async awakeApp(appId) {
     const formations = await heroku.get(`/apps/${appId}/formation`);
-    return await Promise.all(formations.map((formation) => {
-      return heroku.patch(`/apps/${appId}/formation/${formation.type}`, { body: { quantity: 1 } });
-    }));
+    return await Promise.all(
+      formations.map((formation) => {
+        return heroku.patch(`/apps/${appId}/formation/${formation.type}`, {
+          body: { quantity: 1 },
+        });
+      })
+    );
   }
 
   async asleepApp(appId) {
     const formations = await heroku.get(`/apps/${appId}/formation`);
-    return await Promise.all(formations.map((formation) => {
-      return heroku.patch(`/apps/${appId}/formation/${formation.type}`, { body: { quantity: 0 } });
-    }));
+    return await Promise.all(
+      formations.map((formation) => {
+        return heroku.patch(`/apps/${appId}/formation/${formation.type}`, {
+          body: { quantity: 0 },
+        });
+      })
+    );
   }
 }

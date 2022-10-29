@@ -2,7 +2,7 @@
 
 // Cf. https://dev.to/rushankhan1/build-a-cli-with-node-js-4jbi
 
-console.log("🍻 Hello Paastis!");
+console.log('🍻 Hello Paastis!');
 
 import config from '../src/config.js';
 import Server from '../src/Server.js';

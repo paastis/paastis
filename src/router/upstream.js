@@ -3,7 +3,11 @@ import { registry } from '../registry/index.js';
 import config from '../config.js';
 import httpProxy from 'http-proxy';
 
-const proxy = httpProxy.createProxyServer({ changeOrigin: true, secure: false, preserveHeaderKeyCase: true });
+const proxy = httpProxy.createProxyServer({
+  changeOrigin: true,
+  secure: false,
+  preserveHeaderKeyCase: true,
+});
 
 proxy.on('error', console.error);
 
@@ -29,4 +33,4 @@ export default async (req, res) => {
     target = `https://${appKey}.osc-fr1.scalingo.io`;
   }
   return proxy.web(req, res, { target });
-}
+};
