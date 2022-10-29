@@ -1,5 +1,5 @@
-import RunningApp from "../RunningApp.js";
-import { RunningAppStore } from "./RunningAppStore.js";
+import RunningApp from '../RunningApp.js';
+import { RunningAppStore } from './RunningAppStore.js';
 
 export default class InMemoryRunningAppStore extends RunningAppStore {
 

@@ -1,0 +1,18 @@
+rules:
+  - pattern: 'app-review-pr(\d+)-(back|front)'
+    linked_apps:
+      - 'app-review-pr$1-front'
+
+  - pattern: 'hello-fastify'
+    linked_apps:
+      - 'hellofastifydeux'
+
+  - pattern: 'hello-fastify-2'
+    app_name: 'hellofastifydeux'
+
+  - pattern: '.*fastify.*'
+    app_max_idle_time: 1
+
+  - pattern: 'paastis-console'
+    linked_apps:
+      - 'paastis-api'

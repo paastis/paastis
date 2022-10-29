@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import provider from "./provider/index.js";
-import { factory, registry } from "./registry/index.js";
+import provider from './provider/index.js';
+import { factory, registry } from './registry/index.js';
 
 export default class Scheduler {
 

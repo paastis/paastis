@@ -1,11 +1,11 @@
 import fs from 'fs';
-import yaml from "js-yaml";
+import yaml from 'js-yaml';
 import config from '../config.js';
 import redis from '../redis.js';
-import RunningAppsRegistry from "./RunningAppRegistry.js";
-import RunningAppFactory from "./RunningAppFactory.js";
-import RedisRunningAppStore from "./stores/RedisRunningAppStore.js";
-import InMemoryRunningAppStore from "./stores/InMemoryRunningAppStore.js";
+import RunningAppsRegistry from './RunningAppRegistry.js';
+import RunningAppFactory from './RunningAppFactory.js';
+import RedisRunningAppStore from './stores/RedisRunningAppStore.js';
+import InMemoryRunningAppStore from './stores/InMemoryRunningAppStore.js';
 
 let store;
 if (!store) {

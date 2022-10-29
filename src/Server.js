@@ -1,5 +1,5 @@
 import http from 'http';
-import { system, upstream } from "./router/index.js";
+import { system, upstream } from './router/index.js';
 
 export default class Server {
 

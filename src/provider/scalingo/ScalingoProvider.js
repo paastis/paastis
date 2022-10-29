@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import getClient from "./scalingo.js";
-import PaasProvider from "../PaasProvider.js";
-import ScalingoApp from "./ScalingoApp.js";
+import getClient from './scalingo.js';
+import PaasProvider from '../PaasProvider.js';
+import ScalingoApp from './ScalingoApp.js';
 
 export default class ScalingoProvider extends PaasProvider {
 

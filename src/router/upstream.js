@@ -1,9 +1,7 @@
-import provider from "../provider/index.js";
-import { factory, registry } from "../registry/index.js";
-import config from "../config.js";
-import httpProxy from "http-proxy";
-import yaml from "js-yaml";
-import fs from "fs";
+import provider from '../provider/index.js';
+import { registry } from '../registry/index.js';
+import config from '../config.js';
+import httpProxy from 'http-proxy';
 
 const proxy = httpProxy.createProxyServer({ changeOrigin: true, secure: false, preserveHeaderKeyCase: true });
 

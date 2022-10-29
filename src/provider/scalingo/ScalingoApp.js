@@ -1,4 +1,4 @@
-import PaasApp from "../PaasApp.js";
+import PaasApp from '../PaasApp.js';
 
 export default class ScalingoApp extends PaasApp {
 

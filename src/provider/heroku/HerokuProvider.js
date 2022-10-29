@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
-import PaasProvider from "../PaasProvider.js";
-import HerokuApp from "./HerokuApp.js";
+import PaasProvider from '../PaasProvider.js';
+import HerokuApp from './HerokuApp.js';
 import heroku from './heroku.js';
 
 export default class HerokuProvider extends PaasProvider {

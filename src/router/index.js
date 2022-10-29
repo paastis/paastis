@@ -1,5 +1,5 @@
-import system from "./system.js";
-import upstream from "./upstream.js";
+import system from './system.js';
+import upstream from './upstream.js';
 
 export {
   system,

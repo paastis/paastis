@@ -1,5 +1,5 @@
-import { clientFromToken } from "scalingo";
-import config from "../../config.js";
+import { clientFromToken } from 'scalingo';
+import config from '../../config.js';
 
 let client;
 let tokenLastUpdate;

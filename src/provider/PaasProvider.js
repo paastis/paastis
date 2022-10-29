@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 import Promise from 'bluebird';
-import config from "../config.js";
+import config from '../config.js';
 
 export default class PaasProvider {
 

@@ -1,6 +1,6 @@
-import Promise from "bluebird";
-import RunningApp from "../RunningApp.js";
-import { RunningAppStore } from "./RunningAppStore.js";
+import Promise from 'bluebird';
+import RunningApp from '../RunningApp.js';
+import { RunningAppStore } from './RunningAppStore.js';
 
 export default class RedisRunningAppStore extends RunningAppStore {
 
