@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "An HTTP-proxy/gateway that automatically pause and restart Scalingo apps in case of inactivity ",
   "bin": {
-    "paastis": "./bin/index.js"
+    "paastis": "./bin/index.js",
+    "@paastis/paastis": "./bin/index.js"
   },
   "main": "src/index.js",
   "scripts": {
