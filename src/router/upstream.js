@@ -24,13 +24,13 @@ export default async (req, res) => {
   }
 
   // 3) Redirect to upstream
-  let target;
+  let upstream;
   if (config.provider.name === 'clever-cloud') {
-    target = `https://${appKey.replace('app_', 'app-')}.cleverapps.io`;
+    upstream = `https://${appKey.replace('app_', 'app-')}.cleverapps.io`;
   } else if (config.provider.name === 'heroku') {
-    target = `https://${appKey}.herokuapp.com`;
+    upstream = `https://${appKey}.herokuapp.com`;
   } else {
-    target = `https://${appKey}.osc-fr1.scalingo.io`;
+    upstream = `https://${appKey}.osc-fr1.scalingo.io`;
   }
-  return proxy.web(req, res, { target });
+  return proxy.web(req, res, { target: upstream });
 };
