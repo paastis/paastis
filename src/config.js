@@ -69,7 +69,11 @@ let config = {
     this.startAndStop.maxIdleTime = maxIdleTime > 0 ? maxIdleTime : 0;
   },
 
-  updatePort(port) {
+  updateServerHost(host) {
+    this.server.host = host;
+  },
+
+  updateServerPort(port) {
     this.server.port = port;
   },
 };
