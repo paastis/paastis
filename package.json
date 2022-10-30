@@ -24,7 +24,8 @@
     "lodash": "^4.17.21",
     "node-cron": "^3.0.2",
     "redis": "^4.3.1",
-    "scalingo": "^0.7.0"
+    "scalingo": "^0.7.0",
+    "yargs": "^17.6.0"
   },
   "type": "module",
   "engines": {

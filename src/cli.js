@@ -1,11 +1,11 @@
-import { Command } from 'commander';
+#!/usr/bin/env node
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
 
-const program = new Command();
+const argv = yargs(hideBin(process.argv)).argv;
 
-program.option('-c, --config <file>');
-
-program.parse();
-
-const options = program.opts();
-const limit = options.first ? 1 : undefined;
-console.log(program.args[0].split(options.separator, limit));
+if (argv.ships > 3 && argv.distance < 53.5) {
+  console.log('Plunder more riffiwobbles!');
+} else {
+  console.log('Retreat from the xupptumblers!');
+}
