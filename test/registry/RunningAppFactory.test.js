@@ -1,16 +1,15 @@
-import fs from "fs";
-import { jest, describe, it, expect } from '@jest/globals';
-import yaml from "js-yaml";
+import fs from 'fs';
+import { describe, expect, it, jest } from '@jest/globals';
+import yaml from 'js-yaml';
 import RunningAppFactory from '../../src/registry/RunningAppFactory.js';
-import RunningApp from "../../src/registry/RunningApp.js";
+import RunningApp from '../../src/registry/RunningApp.js';
 
 jest.useFakeTimers();
 
 describe('RunningAppFactory#createRunningAppForRegistration', () => {
-
   it('should create an App', () => {
     // given
-    const config = { "rules": [] };
+    const config = { rules: [] };
     const factory = new RunningAppFactory(config);
 
     const providerName = 'scalingo';
@@ -35,7 +34,9 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
 
   it('should take into account Paastis config file', () => {
     // given
-    const config = yaml.load(fs.readFileSync(process.cwd() + '/test/registry/config.test.yml', 'utf8'));
+    const config = yaml.load(
+      fs.readFileSync(process.cwd() + '/test/registry/config.test.yml', 'utf8')
+    );
     const factory = new RunningAppFactory(config);
 
     const appKey = 'app-review-pr123-back';
@@ -56,5 +57,4 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     expect(app.startedAt).toStrictEqual(startedAt);
     expect(app.lastAccessedAt).toStrictEqual(lastAccessedAt);
   });
-
 });

@@ -3,7 +3,7 @@ import config from '../../config.js';
 
 let heroku;
 if (!heroku) {
-  heroku = new Heroku({ token: config.provider.heroku.apiToken })
+  heroku = new Heroku({ token: config.provider.heroku.apiToken });
 }
 
 export default heroku;

@@ -1,7 +1,6 @@
 import { createClient } from 'redis';
 import config from './config.js';
 
-
 let client;
 
 if (config.registry.type === 'redis') {
@@ -9,7 +8,7 @@ if (config.registry.type === 'redis') {
     client = createClient({
       url: config.registry.redisUrl,
       disableOfflineQueue: true,
-      legacyMode: false
+      legacyMode: false,
     });
 
     client.on('error', (err) => {

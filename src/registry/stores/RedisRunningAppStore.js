@@ -3,7 +3,6 @@ import RunningApp from '../RunningApp.js';
 import { RunningAppStore } from './RunningAppStore.js';
 
 export default class RedisRunningAppStore extends RunningAppStore {
-
   #_redisClient;
 
   constructor(redisClient) {
@@ -35,16 +34,27 @@ export default class RedisRunningAppStore extends RunningAppStore {
     try {
       const keys = await this.#_redisClient.keys('*');
       if (keys) {
-        const managedApps = Promise.reduce(keys, async (apps, k) => {
-          const result = await this.#_redisClient.get(k);
-          const object = JSON.parse(result);
-          if (object) {
-            const app = new RunningApp(object.provider, object.region, object.name, object.maxIdleTime, object.linkedApps, object.startedAt, object.lastAccessedAt);
-            apps.push(app);
-          }
-          return apps;
-
-        }, []);
+        const managedApps = Promise.reduce(
+          keys,
+          async (apps, k) => {
+            const result = await this.#_redisClient.get(k);
+            const object = JSON.parse(result);
+            if (object) {
+              const app = new RunningApp(
+                object.provider,
+                object.region,
+                object.name,
+                object.maxIdleTime,
+                object.linkedApps,
+                object.startedAt,
+                object.lastAccessedAt
+              );
+              apps.push(app);
+            }
+            return apps;
+          },
+          []
+        );
         return managedApps;
       }
       return [];
@@ -65,16 +75,27 @@ export default class RedisRunningAppStore extends RunningAppStore {
     try {
       const keys = await this.#_redisClient.keys('*');
       if (keys) {
-        const managedApps = Promise.reduce(keys, async (apps, k) => {
-          const result = await this.#_redisClient.get(k);
-          const object = JSON.parse(result);
-          if (object && object.group && object.group === groupName) {
-            const app = new RunningApp(object.provider, object.region, object.name, object.maxIdleTime, object.linkedApps, object.startedAt, object.lastAccessedAt);
-            apps.push(app);
-          }
-          return apps;
-
-        }, []);
+        const managedApps = Promise.reduce(
+          keys,
+          async (apps, k) => {
+            const result = await this.#_redisClient.get(k);
+            const object = JSON.parse(result);
+            if (object && object.group && object.group === groupName) {
+              const app = new RunningApp(
+                object.provider,
+                object.region,
+                object.name,
+                object.maxIdleTime,
+                object.linkedApps,
+                object.startedAt,
+                object.lastAccessedAt
+              );
+              apps.push(app);
+            }
+            return apps;
+          },
+          []
+        );
         return managedApps;
       }
       return [];

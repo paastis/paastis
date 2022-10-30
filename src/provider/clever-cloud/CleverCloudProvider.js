@@ -9,13 +9,11 @@ import PaasProvider from '../PaasProvider.js';
 import CleverCloudApp from './CleverCloudApp.js';
 
 export default class CleverCloudProvider extends PaasProvider {
-
   constructor() {
     super('clever-cloud');
   }
 
   async _sendToApi(requestParams) {
-
     // load and cache config and tokens
     const API_HOST = config.provider.clever.apiHost;
     const tokens = {
@@ -23,7 +21,7 @@ export default class CleverCloudProvider extends PaasProvider {
       OAUTH_CONSUMER_SECRET: config.provider.clever.oauthConsumerSecret,
       API_OAUTH_TOKEN: config.provider.clever.apiOauthToken,
       API_OAUTH_TOKEN_SECRET: config.provider.clever.apiOauthTokenSecret,
-    }
+    };
 
     return Promise.resolve(requestParams)
       .then(prefixUrl(API_HOST))
@@ -34,16 +32,22 @@ export default class CleverCloudProvider extends PaasProvider {
 
   async listAllApps() {
     const apps = await application.getAll({}).then(this._sendToApi);
-    return await Promise.all(apps.map(async (app) => {
-      const instances = await (application.getAllInstances({ appId: app.id }).then(this._sendToApi));
-      return new CleverCloudApp(app, null, instances);
-    }));
+    return await Promise.all(
+      apps.map(async (app) => {
+        const instances = await application
+          .getAllInstances({ appId: app.id })
+          .then(this._sendToApi);
+        return new CleverCloudApp(app, null, instances);
+      })
+    );
   }
 
   async isAppRunning(appId) {
     // Inspired / copied from https://github.com/CleverCloud/clever-tools/blob/c276982ddd73982c92a70721ae9a9c939b1b8a6e/src/commands/status.js#L24-L43
     const app = await application.get({ appId }).then(this._sendToApi);
-    const instances = await application.getAllInstances({ appId }).then(this._sendToApi);
+    const instances = await application
+      .getAllInstances({ appId })
+      .then(this._sendToApi);
     const status = getStatus(app, null, instances);
     return status === 'running';
   }

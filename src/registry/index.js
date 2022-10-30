@@ -36,9 +36,4 @@ if (!registry) {
   registry = new RunningAppsRegistry(store, factory);
 }
 
-export {
-  factory,
-  store,
-  registry,
-};
-
+export { factory, store, registry };

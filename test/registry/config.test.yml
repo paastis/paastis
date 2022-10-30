@@ -1,4 +1,3 @@
-
 rules:
   - pattern: 'app-review-pr(\d+)-(back|front)'
     app_name: 'renamed-app-pr$1-$2'

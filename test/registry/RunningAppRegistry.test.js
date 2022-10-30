@@ -1,15 +1,13 @@
-import { jest, describe, beforeAll, it, expect } from '@jest/globals';
-import RunningAppRegistry from "../../src/registry/RunningAppRegistry.js";
-import InMemoryRunningAppStore from "../../src/registry/stores/InMemoryRunningAppStore.js";
-import RunningAppFactory from "../../src/registry/RunningAppFactory.js";
-import RunningApp from "../../src/registry/RunningApp.js";
-import yaml from "js-yaml";
-import fs from "fs";
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import RunningAppRegistry from '../../src/registry/RunningAppRegistry.js';
+import InMemoryRunningAppStore from '../../src/registry/stores/InMemoryRunningAppStore.js';
+import RunningAppFactory from '../../src/registry/RunningAppFactory.js';
+import RunningApp from '../../src/registry/RunningApp.js';
+import yaml from 'js-yaml';
+import fs from 'fs';
 
-describe('RunningAppRegistry', function() {
-
-  describe('#registerApp', function() {
-
+describe('RunningAppRegistry', function () {
+  describe('#registerApp', function () {
     beforeAll(() => {
       // Lock Time
       jest
@@ -32,7 +30,9 @@ describe('RunningAppRegistry', function() {
       // then
       const registeredApp = await store.get(appKey);
       expect(registeredApp).toBeDefined();
-      expect(registeredApp.lastAccessedAt).toStrictEqual(new Date('2022-09-27T00:25:00.000Z'));
+      expect(registeredApp.lastAccessedAt).toStrictEqual(
+        new Date('2022-09-27T00:25:00.000Z')
+      );
       expect((await store.all()).length).toStrictEqual(1);
     });
 
@@ -43,7 +43,15 @@ describe('RunningAppRegistry', function() {
       const registry = new RunningAppRegistry(store, factory);
       const appKey = 'my-app-pr456-back';
       const createdAt = new Date('2022-09-26T00:00:00.000Z');
-      const alreadyRegisteredApp = new RunningApp('scalingo', 'osc-fr1', 'my-app-pr456-back', 15, [], createdAt, createdAt);
+      const alreadyRegisteredApp = new RunningApp(
+        'scalingo',
+        'osc-fr1',
+        'my-app-pr456-back',
+        15,
+        [],
+        createdAt,
+        createdAt
+      );
       await store.set(appKey, alreadyRegisteredApp);
 
       // when
@@ -52,14 +60,21 @@ describe('RunningAppRegistry', function() {
       // then
       const registeredApp = await store.get(appKey);
       expect(registeredApp).toBeDefined();
-      expect(registeredApp.lastAccessedAt).toStrictEqual(new Date('2022-09-27T00:25:00.000Z'));
+      expect(registeredApp.lastAccessedAt).toStrictEqual(
+        new Date('2022-09-27T00:25:00.000Z')
+      );
       expect((await store.all()).length).toStrictEqual(1);
     });
 
     it('should add to the registry an app with linked apps', async () => {
       // given
       const store = new InMemoryRunningAppStore();
-      const rules = yaml.load(fs.readFileSync(process.cwd() + '/test/registry/config.test.yml', 'utf8'));
+      const rules = yaml.load(
+        fs.readFileSync(
+          process.cwd() + '/test/registry/config.test.yml',
+          'utf8'
+        )
+      );
       const factory = new RunningAppFactory(rules);
       const registry = new RunningAppRegistry(store, factory);
       const appKey = 'my-app-pr123-front'; // my-app-review-pr(\d+)-front
@@ -70,24 +85,32 @@ describe('RunningAppRegistry', function() {
       // then
       const registeredApp = await store.get(appKey);
       expect(registeredApp).toBeDefined();
-      expect(registeredApp.lastAccessedAt).toStrictEqual(new Date('2022-09-27T00:25:00.000Z'));
+      expect(registeredApp.lastAccessedAt).toStrictEqual(
+        new Date('2022-09-27T00:25:00.000Z')
+      );
       expect((await store.all()).length).toStrictEqual(2);
-      expect((await store.get('my-app-pr123-back'))).toBeDefined();
-      expect(registeredAppNames).toStrictEqual(['my-app-pr123-front', 'my-app-pr123-back']);
+      expect(await store.get('my-app-pr123-back')).toBeDefined();
+      expect(registeredAppNames).toStrictEqual([
+        'my-app-pr123-front',
+        'my-app-pr123-back',
+      ]);
     });
 
     it.skip('should add to the registry an app with linked apps which some of them were already registered', async () => {
       // given
-
       // when
-
       // then
     });
 
     it('should not loop infinitely', async () => {
       // given
       const store = new InMemoryRunningAppStore();
-      const rules = yaml.load(fs.readFileSync(process.cwd() + '/test/registry/config.test.yml', 'utf8'));
+      const rules = yaml.load(
+        fs.readFileSync(
+          process.cwd() + '/test/registry/config.test.yml',
+          'utf8'
+        )
+      );
       const factory = new RunningAppFactory(rules);
       const registry = new RunningAppRegistry(store, factory);
       const appKey = 'infinite-app-front';
@@ -98,9 +121,14 @@ describe('RunningAppRegistry', function() {
       // then
       const registeredApp = await store.get(appKey);
       expect(registeredApp).toBeDefined();
-      expect(registeredApp.lastAccessedAt).toStrictEqual(new Date('2022-09-27T00:25:00.000Z'));
+      expect(registeredApp.lastAccessedAt).toStrictEqual(
+        new Date('2022-09-27T00:25:00.000Z')
+      );
       expect((await store.all()).length).toStrictEqual(2);
-      expect(registeredAppNames).toStrictEqual(['infinite-app-front', 'infinite-app-back']);
+      expect(registeredAppNames).toStrictEqual([
+        'infinite-app-front',
+        'infinite-app-back',
+      ]);
     });
   });
 });

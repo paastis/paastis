@@ -5,11 +5,10 @@ import provider from '../provider/index.js';
 
 export default async (req, res) => {
   try {
-
-    const givenApiToken = req.headers['PaastisProxySystemApiToken'.toLowerCase()];
+    const givenApiToken =
+      req.headers['PaastisProxySystemApiToken'.toLowerCase()];
 
     if (givenApiToken && givenApiToken === config.routing.systemApiToken) {
-
       const { url, method } = req;
 
       if (url === '/apps' && method === 'GET') {
@@ -56,10 +55,13 @@ export default async (req, res) => {
       res.end();
     } else {
       res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(new Error('Wrong or missing Paastis proxy system API token')));
+      res.end(
+        JSON.stringify(
+          new Error('Wrong or missing Paastis proxy system API token')
+        )
+      );
     }
-  } catch
-    (err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};

@@ -1,7 +1,6 @@
 import PaasApp from '../PaasApp.js';
 
 export default class ScalingoApp extends PaasApp {
-
   constructor(app) {
     super(app);
   }
@@ -15,11 +14,11 @@ export default class ScalingoApp extends PaasApp {
   }
 
   get isRunning() {
-    return this.status === 'running'
+    return this.status === 'running';
   }
 
   get id() {
-    return this._app.id
+    return this._app.id;
   }
 
   get provider() {
@@ -57,5 +56,4 @@ export default class ScalingoApp extends PaasApp {
   get gitUrl() {
     return this._app.git_url;
   }
-
 }

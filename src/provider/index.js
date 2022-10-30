@@ -12,7 +12,9 @@ if (!provider) {
   } else if (config.provider.name === 'scalingo') {
     provider = new ScalingoProvider();
   } else {
-    throw new Error('PaaS provider not defined. Check that `PROVIDER_NAME` environment variable is set.')
+    throw new Error(
+      'PaaS provider not defined. Check that `PROVIDER_NAME` environment variable is set.'
+    );
   }
 }
 
