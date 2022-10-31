@@ -11,9 +11,7 @@ node_modules
 .log
 .idea
 .clever.json
-build
 coverage
-.github
+paastis.yml
 .history
 .vscode
-dist

@@ -55,7 +55,7 @@ git clone git@github.com:paastis/paastis.git
 cd paastis
 
 # 3/ Generate and edit .env file (especially, define SCALINGO_API_TOKEN value with your own API key)
-cp env.sample .env
+cp sample.env .env
 
 # 4/ Install project dependencies
 npm install
