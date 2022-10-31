@@ -14,7 +14,7 @@ function parseBoolean(value) {
   return value && value.trim().toLowerCase() === 'true';
 }
 
-const config = {
+let config = {
   server: {
     host: process.env.HOST || '0.0.0.0',
     port: parseInt(process.env.PORT, 10) || 3000,
@@ -63,6 +63,18 @@ const config = {
     afterAppStart: process.env.HOOKS_AFTER_START,
     beforeAppStop: process.env.HOOKS_BEFORE_STOP,
     afterAppStop: process.env.HOOKS_AFTER_STOP,
+  },
+
+  updateActivityMaxIdleTime(maxIdleTime) {
+    this.startAndStop.maxIdleTime = maxIdleTime > 0 ? maxIdleTime : 0;
+  },
+
+  updateServerHost(host) {
+    this.server.host = host;
+  },
+
+  updateServerPort(port) {
+    this.server.port = port;
   },
 };
 

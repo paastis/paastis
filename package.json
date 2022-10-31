@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "An HTTP-proxy/gateway that automatically pause and restart Scalingo apps in case of inactivity ",
   "bin": {
-    "paastis": "./bin/index.js"
+    "paastis": "./bin/index.js",
+    "@paastis/paastis": "./bin/index.js"
   },
   "main": "src/index.js",
   "scripts": {
@@ -17,7 +18,6 @@
   "dependencies": {
     "@clevercloud/client": "^7.10.0",
     "bluebird": "^3.7.2",
-    "commander": "^9.4.1",
     "dotenv": "^16.0.2",
     "heroku-client": "^3.1.0",
     "http-proxy": "^1.18.1",
@@ -25,7 +25,8 @@
     "lodash": "^4.17.21",
     "node-cron": "^3.0.2",
     "redis": "^4.3.1",
-    "scalingo": "^0.7.0"
+    "scalingo": "^0.7.0",
+    "yargs": "^17.6.0"
   },
   "type": "module",
   "engines": {

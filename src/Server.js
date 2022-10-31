@@ -31,7 +31,7 @@ export default class Server {
   async start() {
     try {
       this._server.listen(this._port, this._host, () => {
-        console.log(`Server is running on https://${this._host}:${this._port}`);
+        console.log(`Server is running on http://${this._host}:${this._port}`);
       });
     } catch (err) {
       console.error(err);
