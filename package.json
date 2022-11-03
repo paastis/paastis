@@ -8,6 +8,7 @@
   },
   "main": "src/index.js",
   "scripts": {
+    "clean": "rm -rf dist",
     "format:check": "prettier --check './**/*.{js,ts}'",
     "format:write": "prettier --write './**/*.{js,ts}'",
     "start": "node src/index.js",
@@ -36,5 +37,6 @@
   "devDependencies": {
     "jest": "^29.0.3",
     "prettier": "2.7.1"
-  }
+  },
+  "files": ["src/*", "sample.env", "paastis.yml.sample"]
 }
