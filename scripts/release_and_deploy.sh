@@ -26,7 +26,7 @@ GITHUB_OWNER="paastis"
 GITHUB_REPOSITORY="paastis"
 VERSION_TYPE=(${1-""})
 BRANCH_NAME="main"
-REPOSITORY_URL=https://github.com/paastis/paastis
+REPOSITORY_URL=git@github.com:paastis/paastis.git
 REGISTRY_URL=https://www.npmjs.com/package/paastis
 
 function clone_repository_and_move_inside {
