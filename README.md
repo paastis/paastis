@@ -33,17 +33,53 @@ It is also possible to define Shell commands (a.k.a. **hooks**) to be executed f
 Sometimes, we do not want to monitor and manage some apps (for example, an instance of Paastis engine 😙).
 We can exclude / **ignore apps to me managed** (with environment variable `REGISTRY_IGNORED_APPS`.
 
-## Getting started in 2 minutes
+## Getting started
 
-The easiest and quickest way to try Paastis is to launch a program instance with npx.
+**1/** Generate and get your target PaaS (Heroku, Scalingo, Clever Cloud) API key / token / credentials (with rights to scale up and down entities).
+
+Resources:
+- [Heroku](https://help.heroku.com/PBGP6IDE/how-should-i-generate-an-api-key-that-allows-me-to-use-the-heroku-platform-api)
+- [Scalingo](https://doc.scalingo.com/platform/deployment/continuous-integration/deploy-scalingo-from-gitlab#scalingo-api-token)
+- [Clever Cloud](https://www.clever-cloud.com/doc/extend/cc-api/)
+
+**2/** Use `npx paastis` to fetch and run an instance of Paastis.
 
 ```shell
-$ PROVIDER_NAME=scalingo \
-PROVIDER_SCALINGO_API_TOKEN=tk-us-xxx \
+# Heroku (default provider)
+$ PROVIDER_HEROKU_API_TOKEN=tk-us-xxx npx paastis
+
+# Scalingo
+$ PROVIDER_NAME=scalingo PROVIDER_HEROKU_API_TOKEN=tk-us-xxx npx paastis
+
+# Clever CLoud
+$ PROVIDER_NAME=clever-cloud \
+PROVIDER_CLEVER_OAUTH_CONSUMER_KEY=xxx \
+PROVIDER_CLEVER_OAUTH_CONSUMER_SECRET=xxx \
+PROVIDER_CLEVER_TOKEN=xxx \
+PROVIDER_CLEVER_SECRET=xxx \
 npx paastis
 ```
 
-You can add a `.env` and `paastis.yml` file(s) (cf. below) to configure your instance.
+By default, the proxy listens on port `3000`.
+
+> 💡 You can add a `.env` and `paastis.yml` file(s) (cf. below) to configure your instance.
+
+**3/** Query your target app / dyno / pod resource with paastis URL (`localhost:3000`) including request header `Host`. Only the final subdomain (i.e. the first part of the URL) matters.
+
+```shell
+# for a PaaS app named "my-paas-app"
+$ curl -v localhost:3000 -H "Host: my-paas-app.proxy.paastis.localhost"
+
+# for the app resource /api/v1/products
+$ curl -v localhost:3000/api/v1/products -H "Host: my-paas-app.proxy.paastis.localhost"
+```
+
+If the upstream exists:
+- if it is sleeping, then it will be awake
+- else it will be called with given URI, headers and parameters (query and body)
+- finally, your resource will be served
+
+… else an error will be thrown.
 
 ## Installation
 
@@ -153,3 +189,7 @@ paastis
 $ curl -v localhost:3000 -H "Host: my-app.proxy.example.net"
 $ curl -v localhost:3000/apps -H "PaastisProxyTarget: system" -H "PaastisProxySystemApiToken: abcd-1234-EFGH-5678" | jq .
 ```
+
+## License
+
+[![GNU Affero General Public License v3 (AGPL-3.0) license](https://img.shields.io/badge/license-AGPL3.0-informational?logo=gnu&color=important)](https://www.gnu.org/licenses/agpl-3.0.html)
