@@ -20,7 +20,7 @@ Paastis is a Node.js server app, library and CLI.
 
 Paastis is open source, under license AGPL-3.0, [hosted on GitHub](https://github.com/paastis/paastis).
 
-Paastis is distributed on [the npm Registry](https://www.npmjs.com/paastis/paastis).
+Paastis is distributed on [the npm Registry](https://www.npmjs.com/package/paastis).
 
 ### Who
 
