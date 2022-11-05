@@ -1,37 +1,48 @@
-# paastis
+# Paastis
 
-## Features
+**🚀 Optimize your PaaS experience.**
 
-Paastis module is the heart of the Paastis project.
+### Why
 
-**Its goal is to monitor and manage (start & stop) PaaS applications based on their activity.**
+Paastis helps development teams or workers that build and manage many PaaS applications with few usage (ex: demo, ephemeral or in-progress apps) to optimize their resource consumption.
 
-![Paastis schema](./docs/paastis_schema.png)
+### How
 
-Scenario :
-1. Auto-discovery: Paastis detects that there is a new review app on Scalingo ; it begins to monitor it
-2. Scale-to-zero: If the app is not accessed during the next 15mn (editable duration), then it is shut down (but not delete)
-3. Run on-demand: If someone wants to finally access the app, then it is awakened
-4. Smart proxy: Thus, the engine proxies the HTTP request to the upstream desired location
+Paastis automatically scales down (to-zero) and up (to-x) PaaS applications according to their idle time.
 
-It is composed of the following building blocks :
-- a proxy that forwards ingoing HTTP requests to an upstream server (based on the predefined PaaS provider)
-- a registry of the running PaaS applications to monitor (in-memory or Redis-based)
-- a schedule (cron-based) process that regularly (every minute by default) update the registry with new / deleted / running / sleeping PaaS applications
+Rather than running apps with no trafic unnecessarily, Paastis automatically stops it after an optimized delay (configurable, for all apps or by app or group of apps).
 
-Paastis supports **multiple PaaS providers** (but not yet all their regions) :
-- Clever Cloud
-- Heroku
-- Scalingo
+If an app is requested, whether it is active or not, then Paastis acts as a proxy and forwards the request with all its attributes (headers, query and/or body params) to the upstream PaaS application (after eventually waking it up).
 
-It is also possible to define Shell commands (a.k.a. **hooks**) to be executed for each application on the following phases :
-- before an app to be stopped
-- after it stopped
-- before an app to be started
-- after it started
+### What
 
-Sometimes, we do not want to monitor and manage some apps (for example, an instance of Paastis engine 😙).
-We can exclude / **ignore apps to me managed** (with environment variable `REGISTRY_IGNORED_APPS`.
+Paastis is a Node.js server app, library and CLI.
+
+Paastis is open source, under license AGPL-3.0, [hosted on GitHub](https://github.com/paastis/paastis).
+
+Paastis is distributed on [the npm Registry](https://www.npmjs.com/paastis/paastis).
+
+### Who
+
+Paastis is aimed for development teams and workers that use PaaS and Cloud hosting services.
+
+Thus, really great attention is paid to Developer Experience.
+
+### When
+
+Paastis fits organizations with one or multiple applications with few usage:
+- development applications, and especially _review apps_ ;
+- projects at their very beginning ;
+- platforms with very cyclic, part-time or known time slots (ex: a scholar-based app, a midday exclusive service, a nightly treatment, etc.).
+
+### Where
+
+Paastis currently works for users of the following Cloud hosting providers:
+- [Heroku](https://heroku.com)
+- [Scalingo](https://scalingo.com)
+- [Clever Cloud](https://clever-cloud.com)
+
+Other providers will be added in the future : [render.com](https://render.com/), [Netlify](https://netlify.com), [Kubernetes](https://kubernetes.io/), [Vercel](https://vercel.com/), [platform.sh](https://platform.sh/), etc.
 
 ## Getting started
 
@@ -80,6 +91,41 @@ If the upstream exists:
 - finally, your resource will be served
 
 … else an error will be thrown.
+
+## Features
+
+![Paastis schema](./docs/paastis_schema.png)
+
+Scenario :
+1. Auto-discovery: Paastis detects that there is a new review app on Scalingo ; it begins to monitor it
+2. Scale-to-zero: If the app is not accessed during the next 15mn (editable duration), then it is shut down (but not delete)
+3. Run on-demand: If someone wants to finally access the app, then it is awakened
+4. Smart proxy: Thus, the engine proxies the HTTP request to the upstream desired location
+
+Paastis supports **multiple PaaS providers** (but not yet all their regions) :
+- Clever Cloud
+- Heroku
+- Scalingo
+
+It is also possible to define Shell commands (a.k.a. **hooks**) to be executed for each application on the following phases :
+- before an app to be stopped
+- after it stopped
+- before an app to be started
+- after it started
+
+Sometimes, we do not want to monitor and manage some apps (for example, an instance of Paastis engine 😙).
+We can exclude / **ignore apps to me managed** (with environment variable `REGISTRY_IGNORED_APPS`.
+
+## Architecture
+
+Paastis is composed of 3 main building blocks :
+- a **proxy** that forwards ingoing HTTP requests to an upstream server (based on the predefined PaaS provider)
+- a **registry** of the running PaaS applications to monitor (in-memory or Redis-based)
+- a **scheduler** (cron-based) that regularly (every minute by default) :
+  - checks for new apps to monitor (due to manual or automated creation)
+  - remove apps with too big idle time (greater than predefined value)
+
+
 
 ## Installation
 
