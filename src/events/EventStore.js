@@ -4,12 +4,12 @@ export default class EventStore {
     this.store = [];
   }
 
-  saveEvent(paasAppEvent) {
+  async saveEvent(paasAppEvent) {
     this.store.push(paasAppEvent)
   }
 
-  listEvents() {
-    this.store.forEach(console.log);
+  async listEvents() {
+    return this.store;
   }
 
 }

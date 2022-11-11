@@ -2,6 +2,7 @@ import _ from 'lodash';
 import config from '../config.js';
 import { registry } from '../registry/index.js';
 import provider from '../provider/index.js';
+import eventStore from "../events/index.js";
 
 export default async (req, res) => {
   try {
@@ -10,6 +11,12 @@ export default async (req, res) => {
 
     if (givenApiToken && givenApiToken === config.routing.systemApiToken) {
       const { url, method } = req;
+
+      if (url === '/events' && method === 'GET') {
+        const events = await eventStore.listEvents();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(events));
+      }
 
       if (url === '/apps' && method === 'GET') {
         // GET /apps

@@ -38,16 +38,19 @@ export default class Scheduler {
       const ignoredApps = this._config.registry.ignoredApps;
 
       const allApps = await provider.listAllApps();
-      const apps = allApps.filter((a) => !ignoredApps.includes(a.name));
+      const paasApps = allApps.filter((a) => !ignoredApps.includes(a.name));
 
       // TODO: unregister apps that are not fetched from `listAllApps`
 
-      for (const app of apps) {
-        if (!app.isRunning) {
-          await registry.removeApp(app.key);
-          await eventStore.saveEvent(new AppRemoved(app.key, new Date(Date.now())));
+      for (const paasApp of paasApps) {
+        if (!paasApp.isRunning) {
+          const runningApp = await registry.getApp(paasApp.key)
+          if (runningApp) {
+            await registry.removeApp(paasApp.key);
+            await eventStore.saveEvent(new AppRemoved(paasApp.key, new Date(Date.now())));
+          }
         } else {
-          let runningApp = await registry.getApp(app.key);
+          let runningApp = await registry.getApp(paasApp.key);
           if (runningApp) {
             // already managed
             const diffMs = Math.abs(now - runningApp.lastAccessedAt);
@@ -57,15 +60,15 @@ export default class Scheduler {
 
             if (diffMins > runningApp.maxIdleTime - 1) {
               // ☠️ app should be stopped
-              await provider.stopApp(app.key, app.region);
-              await registry.removeApp(app.key);
-              await eventStore.saveEvent(new AppPaused(app.key, new Date(Date.now())));
+              await provider.stopApp(paasApp.key, paasApp.region);
+              await registry.removeApp(paasApp.key);
+              await eventStore.saveEvent(new AppPaused(paasApp.key, new Date(Date.now())));
             }
           } else {
             // not yet managed
-            const runningApp = factory.createRunningAppForRegistration(app.key);
+            const runningApp = factory.createRunningAppForRegistration(paasApp.key);
             await registry.setApp(runningApp);
-            await eventStore.saveEvent(new AppDetected(app.key, new Date(Date.now())));
+            await eventStore.saveEvent(new AppDetected(paasApp.key, new Date(Date.now())));
           }
         }
       }
