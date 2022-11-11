@@ -36,6 +36,7 @@ export default class RunningAppRegistry {
     }
 
     await doRegistration(appKey);
+
     return registeredApps;
   }
 

@@ -1,6 +1,9 @@
 import { spawn } from 'child_process';
 import Promise from 'bluebird';
 import config from '../config.js';
+import eventStore from '../events/index.js';
+import AppAccessed from "../events/AppAccessed.js";
+import AppRestarted from "../events/AppRestarted.js";
 
 export default class PaasProvider {
   constructor(name) {
@@ -29,6 +32,7 @@ export default class PaasProvider {
   async ensureAppIsRunning(appId) {
     if (!(await this.isAppRunning(appId))) {
       await this.startApp(appId);
+      await eventStore.saveEvent(new AppRestarted(appId, new Date(Date.now())));
     }
   }
 

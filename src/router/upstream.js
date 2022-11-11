@@ -2,6 +2,8 @@ import provider from '../provider/index.js';
 import { registry } from '../registry/index.js';
 import config from '../config.js';
 import httpProxy from 'http-proxy';
+import eventStore from "../events/index.js";
+import AppAccessed from "../events/AppAccessed.js";
 
 const proxy = httpProxy.createProxyServer({
   changeOrigin: true,
@@ -23,7 +25,10 @@ export default async (req, res) => {
     await provider.ensureAppIsRunning(appKey);
   }
 
-  // 3) Redirect to upstream
+  // 3) Save event
+  await eventStore.saveEvent(new AppAccessed(appKey, new Date(Date.now())));
+
+  // 4) Redirect to upstream
   let upstream;
   if (config.provider.name === 'clever-cloud') {
     upstream = `https://${appKey.replace('app_', 'app-')}.cleverapps.io`;
