@@ -2,8 +2,7 @@ import { spawn } from 'child_process';
 import Promise from 'bluebird';
 import config from '../config.js';
 import eventStore from '../events/index.js';
-import AppAccessed from "../events/AppAccessed.js";
-import AppRestarted from "../events/AppRestarted.js";
+import AppResumed from "../events/AppResumed.js";
 
 export default class PaasProvider {
   constructor(name) {
@@ -15,6 +14,14 @@ export default class PaasProvider {
 
   get name() {
     return this._name;
+  }
+
+  getSimulatorPricing() {
+    throw new Error('Not yet implemented');
+  }
+
+  getPricing() {
+    throw new Error('Not yet implemented');
   }
 
   async listAllApps() {
@@ -32,7 +39,7 @@ export default class PaasProvider {
   async ensureAppIsRunning(appId) {
     if (!(await this.isAppRunning(appId))) {
       await this.startApp(appId);
-      await eventStore.saveEvent(new AppRestarted(appId, new Date(Date.now())));
+      await eventStore.saveEvent(new AppResumed(appId, new Date(Date.now())));
     }
   }
 

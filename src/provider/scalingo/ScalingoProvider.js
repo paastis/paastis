@@ -8,6 +8,38 @@ export default class ScalingoProvider extends PaasProvider {
     super('scalingo');
   }
 
+  getSimulatorPricing() {
+    return {
+      size: 'M',
+      pricePerHour: 0.034,
+      maxPricePerMonth: null
+    }
+  }
+
+  getPricing() {
+    return [{
+      size: 'S',
+      pricePerHour: 0.017,
+      maxPricePerMonth: null
+    }, {
+      size: 'M',
+      pricePerHour: 0.034,
+      maxPricePerMonth: null
+    }, {
+      size: 'L',
+      pricePerHour: 0.068,
+      maxPricePerMonth: null
+    }, {
+      size: 'XL',
+      pricePerHour: 0.136,
+      maxPricePerMonth: null
+    }, {
+      size: '2XL',
+      pricePerHour: 0.272,
+      maxPricePerMonth: null
+    }];
+  }
+
   async listAllApps() {
     let clientOscFr1 = await getClient();
     let scalingoApps = await clientOscFr1.Apps.all();

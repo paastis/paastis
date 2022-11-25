@@ -3,6 +3,7 @@ import config from '../config.js';
 import { registry } from '../registry/index.js';
 import provider from '../provider/index.js';
 import eventStore from "../events/index.js";
+import CostSavingsSimulator from "../CostSavingsSimulator.js";
 
 export default async (req, res) => {
   try {
@@ -16,6 +17,13 @@ export default async (req, res) => {
         const events = await eventStore.listEvents();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(events));
+      }
+
+      if (url === '/savings' && method === 'GET') {
+        const costSavingsSimulator = new CostSavingsSimulator(provider, eventStore);
+        const saving = await costSavingsSimulator.estimate();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(saving));
       }
 
       if (url === '/apps' && method === 'GET') {
@@ -53,7 +61,6 @@ export default async (req, res) => {
         res.end(JSON.stringify(apps));
       }
 
-      // DELETE /apps
       if (url === '/apps' && method === 'DELETE') {
         await registry.clear();
         res.statusCode = 204;
