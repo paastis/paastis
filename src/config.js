@@ -30,7 +30,7 @@ let config = {
     redisUrl: process.env.REGISTRY_REDIS_URL || 'redis://127.0.0.1:6379',
   },
   provider: {
-    name: process.env.PROVIDER_NAME || 'heroku', // ['clever-cloud', 'scalingo']
+    name: process.env.PROVIDER_NAME || 'scalingo', // ['clever-cloud', 'scalingo', 'heroku']
     region: process.env.PROVIDER_REGION || 'to_be_defined',
     clever: {
       apiHost:
