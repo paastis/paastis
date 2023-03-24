@@ -64,6 +64,9 @@ let config = {
     beforeAppStop: process.env.HOOKS_BEFORE_STOP,
     afterAppStop: process.env.HOOKS_AFTER_STOP,
   },
+  events: {
+    store: process.env.EVENTS_STORE_TYPE || 'in-memory',
+  },
 
   updateActivityMaxIdleTime(maxIdleTime) {
     this.startAndStop.maxIdleTime = maxIdleTime > 0 ? maxIdleTime : 0;

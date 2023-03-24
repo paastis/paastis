@@ -1,12 +1,14 @@
+import { AppRegistered, AppUnregistered } from '../events/Event.js';
 import RunningApp from './RunningApp.js';
 
 export default class RunningAppRegistry {
   /**
    * @param runningAppsStore  // [app_name<String>, app<MonitoredApplication>]
    */
-  constructor(store, factory) {
-    this._store = store;
+  constructor(store, factory, eventStore) {
+    this._appStore = store;
     this._factory = factory;
+    this._eventStore = eventStore;
   }
 
   /**
@@ -30,6 +32,7 @@ export default class RunningAppRegistry {
       }
       await that.setApp(runningApp);
       registeredApps.push(appName);
+
       for (const linkedApp of runningApp.linkedApps) {
         await doRegistration(linkedApp);
       }
@@ -40,11 +43,17 @@ export default class RunningAppRegistry {
   }
 
   async setApp(runningApp) {
-    return await this._store.set(runningApp.name, runningApp);
+    const registeredApp = await this._appStore.get(runningApp.name);
+    if (!registeredApp) {
+      await this._appStore.set(runningApp.name, runningApp);
+
+      const event = new AppRegistered(runningApp.name);
+      await this._eventStore.save(event);
+    }
   }
 
   async getApp(appName) {
-    const data = await this._store.get(appName);
+    const data = await this._appStore.get(appName);
     if (data) {
       return new RunningApp(
         data.provider,
@@ -58,15 +67,21 @@ export default class RunningAppRegistry {
     }
   }
 
-  async removeApp(appName) {
-    await this._store.delete(appName);
+  async unregisterApp(appName) {
+    const runningApp = await this._appStore.get(appName);
+    if (runningApp) {
+      await this._appStore.delete(appName);
+
+      const event = new AppUnregistered(appName);
+      await this._eventStore.save(event);
+    }
   }
 
   async listApps() {
-    return await this._store.all();
+    return await this._appStore.all();
   }
 
   async clear() {
-    return await this._store.clear();
+    return await this._appStore.clear();
   }
 }

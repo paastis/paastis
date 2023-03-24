@@ -40,7 +40,7 @@ export default class Scheduler {
 
       for (const app of apps) {
         if (!app.isRunning) {
-          await registry.removeApp(app.key);
+          await registry.unregisterApp(app.key);
         } else {
           let runningApp = await registry.getApp(app.key);
           if (runningApp) {
@@ -53,7 +53,7 @@ export default class Scheduler {
             if (diffMins > runningApp.maxIdleTime - 1) {
               // ☠️ app should be stopped
               await provider.stopApp(app.key, app.region);
-              await registry.removeApp(app.key);
+              await registry.unregisterApp(app.key);
             }
           } else {
             // not yet managed
