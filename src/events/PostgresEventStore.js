@@ -1,8 +1,5 @@
-import EventStore from "./EventStore.js";
+import EventStore from './EventStore.js';
 
 export default class PostgresEventStore extends EventStore {
-    
-    async save(event) {
-
-    }   
+  async save(event) {}
 }

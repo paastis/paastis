@@ -1,5 +1,5 @@
 import config from '../config.js';
-import { eventStore} from '../events/index.js';
+import { eventStore } from '../events/index.js';
 import CleverCloudProvider from './clever-cloud/CleverCloudProvider.js';
 import HerokuProvider from './heroku/HerokuProvider.js';
 import ScalingoProvider from './scalingo/ScalingoProvider.js';

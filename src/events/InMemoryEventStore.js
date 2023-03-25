@@ -1,24 +1,25 @@
-import EventStore from "./EventStore.js";
+import EventStore from './EventStore.js';
 
 export default class InMemoryEventStore extends EventStore {
+  events;
 
-    events;
+  constructor() {
+    super();
+    this._events = [];
+  }
 
-    constructor() {
-        super();
-        this._events = [];
-    }
+  async save(event) {
+    this._events.push(event);
+  }
 
-    async save(event) {
-        this._events.push(event);
-    }
+  async find() {
+    return this._events;
+  }
 
-    async find() {
-        return this._events;
-    }
-
-    async get(objectId) {
-        const matchedEvent = this._events.find((event) => event.objectId === objectId);
-        return matchedEvent || null;
-    }
+  async get(objectId) {
+    const matchedEvent = this._events.find(
+      (event) => event.objectId === objectId
+    );
+    return matchedEvent || null;
+  }
 }

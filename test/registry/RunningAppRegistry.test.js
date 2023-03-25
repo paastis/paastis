@@ -64,7 +64,9 @@ describe('RunningAppRegistry', function () {
       // then
       const registeredApp = await store.get(appKey);
       expect(registeredApp).toBeDefined();
-      expect(registeredApp.lastAccessedAt).toStrictEqual(new Date('2022-09-27T00:25:00.000Z'));
+      expect(registeredApp.lastAccessedAt).toStrictEqual(
+        new Date('2022-09-27T00:25:00.000Z')
+      );
       expect((await store.all()).length).toStrictEqual(1);
     });
 

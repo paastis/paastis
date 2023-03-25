@@ -4,7 +4,6 @@ import config from '../config.js';
 import { AppStarted, AppStopped } from '../events/Event.js';
 
 export default class PaasProvider {
-
   constructor(name, eventStore) {
     this._name = name;
     this._eventStore = eventStore;
@@ -63,8 +62,8 @@ export default class PaasProvider {
           console.log(`✅ App ${appId} started and running`);
 
           const event = new AppStarted(appId);
-          await that._eventStore.save(event)
-    
+          await that._eventStore.save(event);
+
           if (config.hooks.afterAppStart) {
             const afterAppStart = spawn(config.hooks.afterAppStart, {
               shell: true,

@@ -5,7 +5,6 @@ import HerokuApp from './HerokuApp.js';
 import heroku from './heroku.js';
 
 export default class HerokuProvider extends PaasProvider {
-
   constructor(eventStore) {
     super('heroku', eventStore);
   }

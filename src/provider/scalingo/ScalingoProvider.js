@@ -4,7 +4,6 @@ import PaasProvider from '../PaasProvider.js';
 import ScalingoApp from './ScalingoApp.js';
 
 export default class ScalingoProvider extends PaasProvider {
-
   constructor(eventStore) {
     super('scalingo', eventStore);
   }
