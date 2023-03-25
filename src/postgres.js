@@ -8,7 +8,7 @@ const Pool = pg.Pool;
 const connectionString = config.postgres.url;
 
 const pool = new Pool({
-    connectionString,
+  connectionString,
 });
 
 console.log('Postgres Client is ready');

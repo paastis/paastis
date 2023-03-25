@@ -26,7 +26,7 @@ let config = {
   },
   registry: {
     type: process.env.REGISTRY_TYPE || 'in-memory', // ['in-memory', 'redis']
-    ignoredApps: parseIgnoredApps()
+    ignoredApps: parseIgnoredApps(),
   },
   provider: {
     name: process.env.PROVIDER_NAME || 'scalingo', // ['clever-cloud', 'scalingo', 'heroku']
@@ -70,7 +70,9 @@ let config = {
     url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
   },
   postgres: {
-    url: process.env.DATABASE_URL || 'postgresql://paastis-user:mysecretpassword@localhost:5432/paastis',
+    url:
+      process.env.DATABASE_URL ||
+      'postgresql://paastis-user:mysecretpassword@localhost:5432/paastis',
   },
 
   updateActivityMaxIdleTime(maxIdleTime) {

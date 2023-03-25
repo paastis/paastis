@@ -1,15 +1,20 @@
 import EventStore from './EventStore.js';
 import pool from '../postgres.js';
-import { AppRegistered, AppStarted, AppStopped, AppUnregistered } from './Event.js';
+import {
+  AppRegistered,
+  AppStarted,
+  AppStopped,
+  AppUnregistered,
+} from './Event.js';
 
 export default class PostgresEventStore extends EventStore {
-
   async save(event) {
     const client = await pool.connect();
 
     try {
       await client.query('BEGIN');
-      const queryText = 'INSERT INTO "Events"("oid", "name", "date") VALUES($1, $2, $3)';
+      const queryText =
+        'INSERT INTO "Events"("oid", "name", "date") VALUES($1, $2, $3)';
       const queryValues = [event.oid, event.name, event.date];
       await client.query(queryText, queryValues);
       await client.query('COMMIT');
