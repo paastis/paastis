@@ -1,7 +1,7 @@
 /* See https://node-postgres.com */
 
 import pg from 'pg';
-import config from './config';
+import config from './config.js';
 
 const Pool = pg.Pool;
 
