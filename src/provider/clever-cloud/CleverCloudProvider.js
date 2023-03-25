@@ -9,8 +9,8 @@ import PaasProvider from '../PaasProvider.js';
 import CleverCloudApp from './CleverCloudApp.js';
 
 export default class CleverCloudProvider extends PaasProvider {
-  constructor() {
-    super('clever-cloud');
+  constructor(eventStore) {
+    super('clever-cloud', eventStore);
   }
 
   async _sendToApi(requestParams) {

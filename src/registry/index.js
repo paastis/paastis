@@ -2,17 +2,18 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import config from '../config.js';
 import redis from '../redis.js';
+import { eventStore } from '../events/index.js';
 import RunningAppsRegistry from './RunningAppRegistry.js';
 import RunningAppFactory from './RunningAppFactory.js';
 import RedisRunningAppStore from './stores/RedisRunningAppStore.js';
 import InMemoryRunningAppStore from './stores/InMemoryRunningAppStore.js';
 
-let store;
-if (!store) {
+let appStore;
+if (!appStore) {
   if (config.registry.type === 'redis') {
-    store = new RedisRunningAppStore(redis);
+    appStore = new RedisRunningAppStore(redis);
   } else {
-    store = new InMemoryRunningAppStore();
+    appStore = new InMemoryRunningAppStore();
   }
 }
 
@@ -33,7 +34,7 @@ if (!factory) {
 
 let registry;
 if (!registry) {
-  registry = new RunningAppsRegistry(store, factory);
+  registry = new RunningAppsRegistry(appStore, factory, eventStore);
 }
 
-export { factory, store, registry };
+export { factory, appStore as store, registry };

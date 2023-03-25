@@ -2,6 +2,7 @@
 const config = {
   verbose: true,
   collectCoverage: true,
+  detectOpenHandles: true,
 };
 
 export default config;

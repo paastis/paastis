@@ -2,6 +2,7 @@ import _ from 'lodash';
 import config from '../config.js';
 import { registry } from '../registry/index.js';
 import provider from '../provider/index.js';
+import { eventStore } from '../events/index.js';
 
 export default async (req, res) => {
   try {
@@ -52,6 +53,20 @@ export default async (req, res) => {
         res.statusCode = 204;
         res.end();
       }
+
+      // GET /events
+      if (url === '/events' && method === 'GET') {
+        const events = await eventStore.find();
+        let statusCode;
+        if (events.length === 0) {
+          statusCode = 204;
+        } else {
+          statusCode = 200;
+        }
+        res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(events));
+      }
+
       res.end();
     } else {
       res.writeHead(400, { 'Content-Type': 'application/json' });

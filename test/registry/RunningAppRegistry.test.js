@@ -5,6 +5,8 @@ import RunningAppFactory from '../../src/registry/RunningAppFactory.js';
 import RunningApp from '../../src/registry/RunningApp.js';
 import yaml from 'js-yaml';
 import fs from 'fs';
+import InMemoryEventStore from '../../src/events/InMemoryEventStore.js';
+import { eventStore } from '../../src/events/index.js';
 
 describe('RunningAppRegistry', function () {
   describe('#registerApp', function () {
@@ -21,7 +23,8 @@ describe('RunningAppRegistry', function () {
       // given
       const store = new InMemoryRunningAppStore();
       const factory = new RunningAppFactory();
-      const registry = new RunningAppRegistry(store, factory);
+      const eventStore = new InMemoryEventStore();
+      const registry = new RunningAppRegistry(store, factory, eventStore);
       const appKey = 'my-app-pr123-back';
 
       // when
@@ -40,7 +43,8 @@ describe('RunningAppRegistry', function () {
       // given
       const store = new InMemoryRunningAppStore();
       const factory = new RunningAppFactory();
-      const registry = new RunningAppRegistry(store, factory);
+      const eventStore = new InMemoryEventStore();
+      const registry = new RunningAppRegistry(store, factory, eventStore);
       const appKey = 'my-app-pr456-back';
       const createdAt = new Date('2022-09-26T00:00:00.000Z');
       const alreadyRegisteredApp = new RunningApp(
@@ -76,7 +80,8 @@ describe('RunningAppRegistry', function () {
         )
       );
       const factory = new RunningAppFactory(rules);
-      const registry = new RunningAppRegistry(store, factory);
+      const eventStore = new InMemoryEventStore();
+      const registry = new RunningAppRegistry(store, factory, eventStore);
       const appKey = 'my-app-pr123-front'; // my-app-review-pr(\d+)-front
 
       // when
@@ -112,7 +117,8 @@ describe('RunningAppRegistry', function () {
         )
       );
       const factory = new RunningAppFactory(rules);
-      const registry = new RunningAppRegistry(store, factory);
+      const eventStore = new InMemoryEventStore();
+      const registry = new RunningAppRegistry(store, factory, eventStore);
       const appKey = 'infinite-app-front';
 
       // when

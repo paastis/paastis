@@ -1,10 +1,12 @@
 import { spawn } from 'child_process';
 import Promise from 'bluebird';
 import config from '../config.js';
+import { AppStarted, AppStopped } from '../events/Event.js';
 
 export default class PaasProvider {
-  constructor(name) {
+  constructor(name, eventStore) {
     this._name = name;
+    this._eventStore = eventStore;
     this.ensureAppIsRunning = this.ensureAppIsRunning.bind(this);
   }
 
@@ -59,6 +61,9 @@ export default class PaasProvider {
         if (isAppRunning) {
           console.log(`✅ App ${appId} started and running`);
 
+          const event = new AppStarted(appId);
+          await that._eventStore.save(event);
+
           if (config.hooks.afterAppStart) {
             const afterAppStart = spawn(config.hooks.afterAppStart, {
               shell: true,
@@ -112,6 +117,9 @@ export default class PaasProvider {
       console.log(`Stopping app ${appId}`);
 
       await that.asleepApp(appId);
+
+      const event = new AppStopped(appId);
+      await that._eventStore.save(event);
 
       if (config.hooks.afterAppStop) {
         const afterAppStop = spawn(config.hooks.afterAppStop, { shell: true });
