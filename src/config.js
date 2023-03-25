@@ -65,7 +65,7 @@ let config = {
     afterAppStop: process.env.HOOKS_AFTER_STOP,
   },
   events: {
-    store: process.env.EVENTS_STORE_TYPE || 'in-memory',
+    store: process.env.EVENTS_STORE_TYPE || 'in-memory', // ['in-memory', 'postgres']
   },
 
   updateActivityMaxIdleTime(maxIdleTime) {

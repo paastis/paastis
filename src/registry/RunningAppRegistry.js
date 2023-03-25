@@ -43,10 +43,11 @@ export default class RunningAppRegistry {
   }
 
   async setApp(runningApp) {
-    const registeredApp = await this._appStore.get(runningApp.name);
-    if (!registeredApp) {
-      await this._appStore.set(runningApp.name, runningApp);
+    const shouldStoreEvent = !(await this._appStore.get(runningApp.name));
+    
+    await this._appStore.set(runningApp.name, runningApp);
 
+    if (!shouldStoreEvent) {
       const event = new AppRegistered(runningApp.name);
       await this._eventStore.save(event);
     }
