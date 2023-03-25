@@ -9,26 +9,32 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rm -rf dist",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:down": "sequelize-cli db:migrate:undo",
     "format:check": "prettier --check './**/*.{js,ts}'",
     "format:write": "prettier --write './**/*.{js,ts}'",
-    "start": "node src/index.js",
+    "start": "npm run db:migrate && node src/index.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules ./node_modules/.bin/jest"
   },
   "author": "J. Buget <contact@jbuget.fr>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@clevercloud/client": "^7.10.0",
+    "@clevercloud/client": "^7.11.0",
+    "babel-register": "^6.26.0",
     "bluebird": "^3.7.2",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.0.3",
     "heroku-client": "^3.1.0",
     "http-proxy": "^1.18.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "node-cron": "^3.0.2",
     "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
     "redis": "^4.6.5",
     "scalingo": "^0.8.1",
-    "yargs": "^17.6.0"
+    "sequelize": "^6.30.0",
+    "sequelize-cli": "^6.6.0",
+    "yargs": "^17.7.1"
   },
   "type": "module",
   "engines": {

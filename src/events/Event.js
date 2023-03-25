@@ -1,12 +1,12 @@
 export class Event {
+  oid;
   name;
   date;
-  objectId;
 
-  constructor(name, objectId) {
+  constructor(name, id) {
+    this.oid = id;
     this.name = name;
     this.date = new Date(Date.now());
-    this.objectId = objectId;
   }
 }
 

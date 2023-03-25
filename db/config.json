@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "paastis-user",
+    "password": "mysecretpassword",
+    "database": "paastis",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "paastis-user",
+    "password": "mysecretpassword",
+    "database": "paastis",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "paastis-user",
+    "password": "mysecretpassword",
+    "database": "paastis",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

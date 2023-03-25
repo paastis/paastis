@@ -1,17 +1,16 @@
 /* See https://node-postgres.com */
 
 import pg from 'pg';
+import config from './config';
 
 const Pool = pg.Pool;
 
-const connectionString = 'postgresql://paastis-user:mysecretpassword@localhost:5432/paastis'
+const connectionString = config.postgres.url;
 
 const pool = new Pool({
     connectionString,
 });
 
-const result = await pool.query('SELECT NOW()');
-
-console.log(result);
+console.log('Postgres Client is ready');
 
 export default pool;
