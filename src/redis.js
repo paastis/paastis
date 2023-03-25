@@ -6,7 +6,7 @@ let client;
 if (config.registry.type === 'redis') {
   if (!client) {
     client = createClient({
-      url: config.registry.redisUrl,
+      url: config.redis.url,
       disableOfflineQueue: true,
       legacyMode: false,
     });

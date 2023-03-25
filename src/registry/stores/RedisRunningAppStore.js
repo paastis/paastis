@@ -26,7 +26,6 @@ export default class RedisRunningAppStore extends RunningAppStore {
   }
 
   async set(appName, managedApp) {
-    console.log(`set app ${appName}`, managedApp);
     return await this.#_redisClient.set(appName, JSON.stringify(managedApp));
   }
 

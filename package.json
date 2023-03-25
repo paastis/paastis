@@ -25,8 +25,9 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "node-cron": "^3.0.2",
-    "redis": "^4.3.1",
-    "scalingo": "^0.7.0",
+    "pg": "^8.10.0",
+    "redis": "^4.6.5",
+    "scalingo": "^0.8.1",
     "yargs": "^17.6.0"
   },
   "type": "module",
