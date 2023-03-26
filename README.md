@@ -118,14 +118,18 @@ We can exclude / **ignore apps to me managed** (with environment variable `REGIS
 
 ## Architecture
 
-Paastis is composed of 3 main building blocks :
+Paastis is composed of the following building blocks :
 - a **proxy** that forwards ingoing HTTP requests to an upstream server (based on the predefined PaaS provider)
 - a **registry** of the running PaaS applications to monitor (in-memory or Redis-based)
 - a **scheduler** (cron-based) that regularly (every minute by default) :
   - checks for new apps to monitor (due to manual or automated creation)
   - remove apps with too big idle time (greater than predefined value)
+- an **event store** for saving business and domain events, such as "app discovered", "app started", "app stopped", etc.
+- an **internal API** for administrators to monitor and understand the state of the system
 
+![Paastis architecture](./docs/paastis_dependency_workflow.png)
 
+src. [Whimsical](https://whimsical.com/paastis-dependency-workflow-Ktu7wBp4DHNikK9C69mwNZ) (private board)
 
 ## Installation
 
