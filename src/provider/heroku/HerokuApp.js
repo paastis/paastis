@@ -1,5 +1,5 @@
-import PaasApp from '../PaasApp.js';
 import _ from 'lodash';
+import PaasApp from '../PaasApp.js';
 
 export default class HerokuApp extends PaasApp {
   constructor(app, formation) {
