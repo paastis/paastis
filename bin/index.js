@@ -3,8 +3,8 @@ import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
 import config from '../src/config.js';
-import Server from '../src/Server.js';
-import Scheduler from '../src/Scheduler.js';
+
+import bootstrap from '../src/bootstrap.js';
 
 const argv = yargs(hideBin(process.argv)).options({
   'max-idle-time': {
@@ -44,12 +44,4 @@ if (argv['port']) {
   config.updateServerPort(port);
 }
 
-let proxy = new Server(config);
-let scheduler = new Scheduler(config);
-
-async function main() {
-  await proxy.start();
-  await scheduler.start();
-}
-
-await main();
+bootstrap(config);

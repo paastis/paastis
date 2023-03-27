@@ -19,4 +19,4 @@ if (!provider) {
   }
 }
 
-export default provider;
+export { provider };

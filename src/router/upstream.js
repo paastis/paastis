@@ -1,7 +1,7 @@
-import provider from '../provider/index.js';
-import { registry } from '../registry/index.js';
-import config from '../config.js';
 import httpProxy from 'http-proxy';
+import config from '../config.js';
+import { provider } from '../provider/index.js';
+import { registry } from '../registry/index.js';
 
 const proxy = httpProxy.createProxyServer({
   changeOrigin: true,
