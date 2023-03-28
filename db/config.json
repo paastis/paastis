@@ -14,10 +14,11 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "paastis-user",
-    "password": "mysecretpassword",
-    "database": "paastis",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    }
   }
 }
