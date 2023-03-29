@@ -37,5 +37,14 @@ export default async (req, res) => {
   } else {
     upstream = `https://${appKey}.osc-fr1.scalingo.io`;
   }
+
+  // Rewrite the Origin header, but only if it matches the Host header, to
+  // avoid creating a CORS vulnerbility
+  const originIsHost = req.headers.origin === url.origin;
+
+  if (originIsHost) {
+    req.headers['origin'] = upstream;
+  }
+
   return proxy.web(req, res, { target: upstream });
 };
