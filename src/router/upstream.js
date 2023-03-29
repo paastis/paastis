@@ -19,8 +19,13 @@ export default async (req, res) => {
   const appKeys = await registry.registerApp(appKey);
 
   // 2) Run apps
-  for (const appKey of appKeys) {
-    await provider.ensureAppIsRunning(appKey);
+  try {
+    for (const appKey of appKeys) {
+      await provider.ensureAppIsRunning(appKey);
+    }
+  } catch (err) {
+    console.log({ msg:'error starting app', appKey, err: err.stack });
+    res.writeHead(500).end();
   }
 
   // 3) Redirect to upstream
