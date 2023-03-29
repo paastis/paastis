@@ -12,7 +12,7 @@ if (config.registry.type === 'redis') {
     });
 
     client.on('error', (err) => {
-      console.log('Redis Client Error', err);
+      console.log(JSON.stringify({ msg: 'Redis Client Error', err: err.stack }));
     });
 
     client.on('ready', () => {

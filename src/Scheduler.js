@@ -65,8 +65,7 @@ export default class Scheduler {
       const runningApps = await registry.listApps();
       if (runningApps) {
         console.log(
-          'Active apps: ',
-          runningApps.map((app) => app.name)
+          JSON.stringify({ active_apps: runningApps.map((app) => app.name) })
         );
       }
     } catch (err) {
