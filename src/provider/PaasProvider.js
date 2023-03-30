@@ -69,10 +69,10 @@ export default class PaasProvider {
               shell: true,
             });
             afterAppStart.stdout.on('data', (data) => {
-              console.log(`stdout: ${data}`);
+              console.log({ event: 'after_app_start', appId, stdout: data });
             });
             afterAppStart.stderr.on('data', (data) => {
-              console.error(`stderr: ${data}`);
+              console.error({ event: 'after_app_start', appId, stderr: data });
             });
             afterAppStart.on('close', async (code) => {
               return resolve();
@@ -92,10 +92,10 @@ export default class PaasProvider {
           shell: true,
         });
         beforeAppStart.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          console.log({ event: 'before_app_start', appId, stdout: data });
         });
         beforeAppStart.stderr.on('data', (data) => {
-          console.error(`stderr: ${data}`);
+          console.log({ event: 'before_app_start', appId, stderr: data });
         });
         beforeAppStart.on('close', (code) => {
           executeStartApp(resolve, reject);
@@ -124,10 +124,10 @@ export default class PaasProvider {
       if (config.hooks.afterAppStop) {
         const afterAppStop = spawn(config.hooks.afterAppStop, { shell: true });
         afterAppStop.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          console.log({ event: 'after_app_stop', appId, stdout: data });
         });
         afterAppStop.stderr.on('data', (data) => {
-          console.error(`stderr: ${data}`);
+          console.log({ event: 'after_app_stop', appId, stderr: data });
         });
         afterAppStop.on('close', async (code) => {
           return resolve();
@@ -142,10 +142,10 @@ export default class PaasProvider {
           shell: true,
         });
         beforeAppStop.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          console.log({ event: 'before_app_stop', appId, stdout: data });
         });
         beforeAppStop.stderr.on('data', (data) => {
-          console.error(`stderr: ${data}`);
+          console.log({ event: 'before_app_stop', appId, stderr: data });
         });
         beforeAppStop.on('close', (code) => {
           executeStopApp(resolve, reject);

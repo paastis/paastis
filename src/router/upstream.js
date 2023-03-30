@@ -19,8 +19,13 @@ export default async (req, res) => {
   const appKeys = await registry.registerApp(appKey);
 
   // 2) Run apps
-  for (const appKey of appKeys) {
-    await provider.ensureAppIsRunning(appKey);
+  try {
+    for (const appKey of appKeys) {
+      await provider.ensureAppIsRunning(appKey);
+    }
+  } catch (err) {
+    console.log({ msg: 'error starting app', appKey, err: err.stack });
+    res.writeHead(500).end();
   }
 
   // 3) Redirect to upstream
@@ -32,5 +37,14 @@ export default async (req, res) => {
   } else {
     upstream = `https://${appKey}.osc-fr1.scalingo.io`;
   }
+
+  // Rewrite the Origin header, but only if it matches the Host header, to
+  // avoid creating a CORS vulnerbility
+  const originIsHost = req.headers.origin === url.origin;
+
+  if (originIsHost) {
+    req.headers['origin'] = upstream;
+  }
+
   return proxy.web(req, res, { target: upstream });
 };
