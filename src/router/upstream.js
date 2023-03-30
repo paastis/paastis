@@ -24,7 +24,7 @@ export default async (req, res) => {
       await provider.ensureAppIsRunning(appKey);
     }
   } catch (err) {
-    console.log({ msg:'error starting app', appKey, err: err.stack });
+    console.log({ msg: 'error starting app', appKey, err: err.stack });
     res.writeHead(500).end();
   }
 
