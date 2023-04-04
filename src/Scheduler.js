@@ -31,18 +31,18 @@ export default class Scheduler {
       console.log('⏰ Checking apps to idle');
       const now = new Date(Date.now());
 
-      const ignoredApps = this._config.registry.ignoredApps;
-
       const allApps = await provider.listAllApps();
-      const apps = allApps.filter((a) => !ignoredApps.includes(a.name));
+
+      const ignoredApps = this._config.registry.ignoredApps;
+      const providerApps = allApps.filter((a) => !ignoredApps.includes(a.name));
 
       // TODO: unregister apps that are not fetched from `listAllApps`
 
-      for (const app of apps) {
-        if (!app.isRunning) {
-          await registry.unregisterApp(app.key);
+      for (const providerApp of providerApps) {
+        if (!providerApp.isRunning) {
+          await registry.unregisterApp(providerApp.key);
         } else {
-          let runningApp = await registry.getApp(app.key);
+          let runningApp = await registry.getApp(providerApp.key);
           if (runningApp) {
             // already managed
             const diffMs = Math.abs(now - runningApp.lastAccessedAt);
@@ -52,12 +52,12 @@ export default class Scheduler {
 
             if (diffMins > runningApp.maxIdleTime - 1) {
               // ☠️ app should be stopped
-              await provider.stopApp(app.key, app.region);
-              await registry.unregisterApp(app.key);
+              await provider.stopApp(providerApp.key, providerApp.region);
+              await registry.unregisterApp(providerApp.key);
             }
           } else {
             // not yet managed
-            const runningApp = factory.createRunningAppForRegistration(app.key);
+            const runningApp = factory.createRunningAppForRegistration(providerApp.key);
             await registry.setApp(runningApp);
           }
         }
