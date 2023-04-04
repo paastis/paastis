@@ -1,5 +1,5 @@
 import Promise from 'bluebird';
-import { logger } from "../../logger.js";
+import { logger } from '../../logger.js';
 import RunningApp from '../RunningApp.js';
 import { RunningAppStore } from './RunningAppStore.js';
 

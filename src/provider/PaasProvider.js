@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import Promise from 'bluebird';
 import config from '../config.js';
-import { logger } from "../logger.js";
+import { logger } from '../logger.js';
 import { AppStarted, AppStopped } from '../events/Event.js';
 
 export default class PaasProvider {

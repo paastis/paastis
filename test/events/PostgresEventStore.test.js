@@ -9,7 +9,6 @@ import {
 import PostgresEventStore from '../../src/events/PostgresEventStore';
 
 describe('PostgresEventStore', () => {
-
   let client;
 
   const eventStore = new PostgresEventStore();

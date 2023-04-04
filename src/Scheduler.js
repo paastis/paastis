@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { logger } from "./logger.js";
+import { logger } from './logger.js';
 import { provider } from './provider/index.js';
 import { factory, registry } from './registry/index.js';
 
@@ -67,9 +67,8 @@ export default class Scheduler {
       }
       const runningApps = await registry.listApps();
       if (runningApps) {
-        logger.info(
-          JSON.stringify({ active_apps: runningApps.map((app) => app.name) })
-        );
+        const runningAppNames = runningApps.map((app) => app.name);
+        logger.info({"active_apps": runningAppNames});
       }
     } catch (err) {
       logger.error(err);

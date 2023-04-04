@@ -1,5 +1,5 @@
 import http from 'http';
-import { logger } from "./logger.js";
+import { logger } from './logger.js';
 import { system, upstream } from './router/index.js';
 
 export default class Server {

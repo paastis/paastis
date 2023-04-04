@@ -1,6 +1,6 @@
 import httpProxy from 'http-proxy';
 import config from '../config.js';
-import { logger } from "../logger.js";
+import { logger } from '../logger.js';
 import { provider } from '../provider/index.js';
 import { registry } from '../registry/index.js';
 

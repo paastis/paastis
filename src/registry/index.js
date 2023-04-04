@@ -1,6 +1,6 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
-import logger from '../logger.js';
+import { logger } from '../logger.js';
 import config from '../config.js';
 import redis from '../redis.js';
 import { eventStore } from '../events/index.js';

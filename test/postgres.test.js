@@ -1,9 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import pool from '../src/postgres.js';
-import { logger } from "../src/logger.js";
+import { logger } from '../src/logger.js';
 
 describe('postgres', () => {
-
   let client;
 
   beforeEach(async () => {
