@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import config from '../config.js';
+import { logger } from "../logger.js";
 import { registry } from '../registry/index.js';
 import { provider } from '../provider/index.js';
 import { eventStore } from '../events/index.js';
@@ -77,6 +78,6 @@ export default async (req, res) => {
       );
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
   }
 };

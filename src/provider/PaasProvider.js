@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import Promise from 'bluebird';
 import config from '../config.js';
+import { logger } from "../logger.js";
 import { AppStarted, AppStopped } from '../events/Event.js';
 
 export default class PaasProvider {
@@ -48,18 +49,18 @@ export default class PaasProvider {
     const that = this;
 
     async function executeStartApp(resolve, reject) {
-      console.log(`Going to start app ${appId}`);
+      logger.info(`Going to start app ${appId}`);
 
       await that.awakeApp(appId);
 
       let count = 0;
 
       while (count++ < config.provider.scalingo.operationTimeout) {
-        console.log(`Waiting app ${appId} to be running…`);
+        logger.info(`Waiting app ${appId} to be running…`);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const isAppRunning = await that.isAppRunning(appId);
         if (isAppRunning) {
-          console.log(`✅ App ${appId} started and running`);
+          logger.info(`✅ App ${appId} started and running`);
 
           const event = new AppStarted(appId);
           await that._eventStore.save(event);
@@ -69,10 +70,10 @@ export default class PaasProvider {
               shell: true,
             });
             afterAppStart.stdout.on('data', (data) => {
-              console.log({ event: 'after_app_start', appId, stdout: data });
+              logger.info({ event: 'after_app_start', appId, stdout: data });
             });
             afterAppStart.stderr.on('data', (data) => {
-              console.error({ event: 'after_app_start', appId, stderr: data });
+              logger.error({ event: 'after_app_start', appId, stderr: data });
             });
             afterAppStart.on('close', async (code) => {
               return resolve();
@@ -92,10 +93,10 @@ export default class PaasProvider {
           shell: true,
         });
         beforeAppStart.stdout.on('data', (data) => {
-          console.log({ event: 'before_app_start', appId, stdout: data });
+          logger.info({ event: 'before_app_start', appId, stdout: data });
         });
         beforeAppStart.stderr.on('data', (data) => {
-          console.log({ event: 'before_app_start', appId, stderr: data });
+          logger.info({ event: 'before_app_start', appId, stderr: data });
         });
         beforeAppStart.on('close', (code) => {
           executeStartApp(resolve, reject);
@@ -114,7 +115,7 @@ export default class PaasProvider {
     const that = this;
 
     async function executeStopApp(resolve, reject) {
-      console.log(`Stopping app ${appId}`);
+      logger.info(`Stopping app ${appId}`);
 
       await that.asleepApp(appId);
 
@@ -124,10 +125,10 @@ export default class PaasProvider {
       if (config.hooks.afterAppStop) {
         const afterAppStop = spawn(config.hooks.afterAppStop, { shell: true });
         afterAppStop.stdout.on('data', (data) => {
-          console.log({ event: 'after_app_stop', appId, stdout: data });
+          logger.info({ event: 'after_app_stop', appId, stdout: data });
         });
         afterAppStop.stderr.on('data', (data) => {
-          console.log({ event: 'after_app_stop', appId, stderr: data });
+          logger.info({ event: 'after_app_stop', appId, stderr: data });
         });
         afterAppStop.on('close', async (code) => {
           return resolve();
@@ -142,10 +143,10 @@ export default class PaasProvider {
           shell: true,
         });
         beforeAppStop.stdout.on('data', (data) => {
-          console.log({ event: 'before_app_stop', appId, stdout: data });
+          logger.info({ event: 'before_app_stop', appId, stdout: data });
         });
         beforeAppStop.stderr.on('data', (data) => {
-          console.log({ event: 'before_app_stop', appId, stderr: data });
+          logger.info({ event: 'before_app_stop', appId, stderr: data });
         });
         beforeAppStop.on('close', (code) => {
           executeStopApp(resolve, reject);

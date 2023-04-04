@@ -2,6 +2,7 @@
 
 import pg from 'pg';
 import config from './config.js';
+import { logger } from "./logger.js";
 
 const Pool = pg.Pool;
 
@@ -11,6 +12,6 @@ const pool = new Pool({
   connectionString,
 });
 
-console.log('Postgres Client is ready');
+logger.info('Postgres Client is ready');
 
 export default pool;

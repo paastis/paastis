@@ -1,5 +1,6 @@
 import httpProxy from 'http-proxy';
 import config from '../config.js';
+import { logger } from "../logger.js";
 import { provider } from '../provider/index.js';
 import { registry } from '../registry/index.js';
 
@@ -9,7 +10,7 @@ const proxy = httpProxy.createProxyServer({
   preserveHeaderKeyCase: true,
 });
 
-proxy.on('error', console.error);
+proxy.on('error', logger.error);
 
 export default async (req, res) => {
   const url = new URL(req.url, `https://${req.headers.host}`);
@@ -24,7 +25,7 @@ export default async (req, res) => {
       await provider.ensureAppIsRunning(appKey);
     }
   } catch (err) {
-    console.log({ msg: 'error starting app', appKey, err: err.stack });
+    logger.info({ msg: 'error starting app', appKey, err: err.stack });
     res.writeHead(500).end();
   }
 

@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import { logger } from "./logger.js";
 import { provider } from './provider/index.js';
 import { factory, registry } from './registry/index.js';
 
@@ -28,7 +29,7 @@ export default class Scheduler {
 
   async _stopIdleApps() {
     try {
-      console.log('⏰ Checking apps to idle');
+      logger.info('⏰ Checking apps to idle');
       const now = new Date(Date.now());
 
       const allApps = await provider.listAllApps();
@@ -57,19 +58,21 @@ export default class Scheduler {
             }
           } else {
             // not yet managed
-            const runningApp = factory.createRunningAppForRegistration(providerApp.key);
+            const runningApp = factory.createRunningAppForRegistration(
+              providerApp.key
+            );
             await registry.setApp(runningApp);
           }
         }
       }
       const runningApps = await registry.listApps();
       if (runningApps) {
-        console.log(
+        logger.info(
           JSON.stringify({ active_apps: runningApps.map((app) => app.name) })
         );
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
   }
 }

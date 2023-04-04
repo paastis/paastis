@@ -1,4 +1,5 @@
 import http from 'http';
+import { logger } from "./logger.js";
 import { system, upstream } from './router/index.js';
 
 export default class Server {
@@ -20,7 +21,7 @@ export default class Server {
           }
           return upstream(req, res);
         } catch (err) {
-          console.error(err);
+          logger.error(err);
           res.statusCode = 502;
           res.end(err.toString());
         }
@@ -31,10 +32,10 @@ export default class Server {
   async start() {
     try {
       this._server.listen(this._port, this._host, () => {
-        console.log(`Server is running on http://${this._host}:${this._port}`);
+        logger.info(`Server is running on http://${this._host}:${this._port}`);
       });
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       process.exit(1);
     }
   }
@@ -43,7 +44,7 @@ export default class Server {
     try {
       this._server.stop();
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       process.exit(1);
     }
   }
