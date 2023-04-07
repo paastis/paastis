@@ -29,7 +29,7 @@ export default class Scheduler {
 
   async _stopIdleApps() {
     try {
-      logger.info('⏰ Checking apps to idle');
+      logger.info('Checking apps to idle');
       const now = new Date(Date.now());
 
       const allApps = await provider.listAllApps();
@@ -68,7 +68,7 @@ export default class Scheduler {
       const runningApps = await registry.listApps();
       if (runningApps) {
         const runningAppNames = runningApps.map((app) => app.name);
-        logger.info({ active_apps: runningAppNames });
+        logger.debug({ active_apps: runningAppNames });
       }
     } catch (err) {
       logger.error(err);

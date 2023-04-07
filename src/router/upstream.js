@@ -25,7 +25,7 @@ export default async (req, res) => {
       await provider.ensureAppIsRunning(appKey);
     }
   } catch (err) {
-    logger.info({ msg: 'error starting app', appKey, err: err.stack });
+    logger.error({ msg: 'error starting app', appKey, err: err.stack });
     res.writeHead(500).end();
   }
 

@@ -22,7 +22,6 @@ describe('postgres', () => {
 
       // then
       expect(result).toBeDefined;
-      logger.info(result);
     });
   });
 });
