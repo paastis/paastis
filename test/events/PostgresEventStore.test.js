@@ -9,17 +9,24 @@ import {
 import PostgresEventStore from '../../src/events/PostgresEventStore';
 
 describe('PostgresEventStore', () => {
+  let client;
+
   const eventStore = new PostgresEventStore();
 
   beforeEach(async () => {
-    await pool.query('DELETE FROM "Events"');
+    client = await pool.connect();
+    await client.query('DELETE FROM "Events"');
+  });
+
+  afterEach(async () => {
+    await client.release();
   });
 
   describe('.save', () => {
     it('should save an event in the database', async () => {
       // given
       const countBefore = parseInt(
-        (await pool.query('SELECT COUNT(*) FROM "Events"')).rows[0].count
+        (await client.query('SELECT COUNT(*) FROM "Events"')).rows[0].count
       );
 
       const eventAppRegistered = new AppRegistered('my-app');
@@ -35,7 +42,7 @@ describe('PostgresEventStore', () => {
 
       // then
       const countAfter = parseInt(
-        (await pool.query('SELECT COUNT(*) FROM "Events"')).rows[0].count
+        (await client.query('SELECT COUNT(*) FROM "Events"')).rows[0].count
       );
 
       expect(countAfter).toBe(countBefore + 4);

@@ -153,6 +153,9 @@ npm start
 curl -v http://localhost:3000 -H Host:my-cloud-app.proxy.example.com
 ```
 
+> 💡 In development phase, you can invoke pino-pretty to a more human logs format :
+> `npm start | npx pino-pretty`
+
 ## Configuration
 
 ### Environment variables

@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import { logger } from '../../logger.js';
 import RunningApp from '../RunningApp.js';
 import { RunningAppStore } from './RunningAppStore.js';
 
@@ -58,7 +59,7 @@ export default class RedisRunningAppStore extends RunningAppStore {
       }
       return [];
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
   }
 
@@ -99,7 +100,7 @@ export default class RedisRunningAppStore extends RunningAppStore {
       }
       return [];
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
   }
 }

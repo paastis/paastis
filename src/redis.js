@@ -1,5 +1,6 @@
-import config from './config.js';
 import { createClient } from 'redis';
+import config from './config.js';
+import { logger } from './logger.js';
 
 let client;
 
@@ -12,13 +13,13 @@ if (config.registry.type === 'redis') {
     });
 
     client.on('error', (err) => {
-      console.log(
+      logger.error(
         JSON.stringify({ msg: 'Redis Client Error', err: err.stack })
       );
     });
 
     client.on('ready', () => {
-      console.log('Redis Client is ready');
+      logger.info('Redis Client is ready');
     });
 
     await client.connect();

@@ -24,6 +24,9 @@ let config = {
       parseBoolean(process.env.ROUTING_SYSTEM_API_ENABLED) || false,
     systemApiToken: process.env.ROUTING_SYSTEM_API_TOKEN,
   },
+  logging: {
+    level: process.env.LOGGING_LEVEL || 'info',
+  },
   registry: {
     type: process.env.REGISTRY_TYPE || 'in-memory', // ['in-memory', 'redis']
     ignoredApps: parseIgnoredApps(),

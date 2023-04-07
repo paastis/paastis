@@ -1,5 +1,6 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
+import { logger } from '../logger.js';
 import config from '../config.js';
 import redis from '../redis.js';
 import { eventStore } from '../events/index.js';
@@ -21,10 +22,10 @@ let factory;
 if (!factory) {
   const paastisYmlPath = process.cwd() + '/paastis.yml';
   if (fs.existsSync(paastisYmlPath)) {
-    console.log('Found `paastis.yml` discovery rules config file');
+    logger.info('Found `paastis.yml` discovery rules config file');
 
     const userConfig = yaml.load(fs.readFileSync(paastisYmlPath, 'utf8'));
-    console.log('Loaded `paastis.yml` discovery rules config file');
+    logger.info('Loaded `paastis.yml` discovery rules config file');
 
     factory = new RunningAppFactory(userConfig);
   } else {
