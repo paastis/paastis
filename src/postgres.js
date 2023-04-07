@@ -16,12 +16,11 @@ pool.on('error', (err) => {
   logger.error(err);
 });
 
-;(async function () {
+(async function () {
   const client = await pool.connect();
   await client.query('SELECT NOW()');
   client.release();
   logger.info('Postgres Client is ready');
 })();
-
 
 export default pool;
