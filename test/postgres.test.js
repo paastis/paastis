@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, afterAll } from '@jest/globals';
 import pool from '../src/postgres.js';
 import { logger } from '../src/logger.js';
 
@@ -11,6 +11,13 @@ describe('postgres', () => {
 
   afterEach(() => {
     client.release();
+  });
+
+  // Pool is closed globally in test/global-teardown.js
+  afterAll(async () => {
+    try {
+      await pool.end();
+    } catch {}
   });
 
   describe('connection', () => {

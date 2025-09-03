@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, afterEach } from '@jest/globals';
+import { describe, expect, it, beforeEach, afterEach, afterAll } from '@jest/globals';
 import pool from '../../src/postgres.js';
 import {
   AppRegistered,
@@ -18,8 +18,15 @@ describe('PostgresEventStore', () => {
     await client.query('DELETE FROM "Events"');
   });
 
-  afterEach(async () => {
-    await client.release();
+  afterEach(() => {
+    client.release();
+  });
+
+  // Pool is closed globally in test/global-teardown.js
+  afterAll(async () => {
+    try {
+      await pool.end();
+    } catch {}
   });
 
   describe('.save', () => {

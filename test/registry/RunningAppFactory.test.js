@@ -1,10 +1,18 @@
 import fs from 'fs';
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it, jest, afterAll } from '@jest/globals';
 import yaml from 'js-yaml';
 import RunningAppFactory from '../../src/registry/RunningAppFactory.js';
 import RunningApp from '../../src/registry/RunningApp.js';
 
-jest.useFakeTimers();
+// Freeze Date for deterministic timestamps and avoid faking `performance`
+jest.useFakeTimers({
+  now: new Date('2022-09-27T00:25:00.000Z'),
+  doNotFake: ['performance'],
+});
+
+afterAll(() => {
+  jest.useRealTimers();
+});
 
 describe('RunningAppFactory#createRunningAppForRegistration', () => {
   it('should create an App', () => {
@@ -13,7 +21,7 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     const factory = new RunningAppFactory(config);
 
     const providerName = 'scalingo';
-    const providerZone = 'to_be_defined';
+    const providerZone = 'osc-fr-1';
     const appKey = 'hello-fastify-pr123-front';
     const startedAt = new Date();
     const lastAccessedAt = new Date();
@@ -50,7 +58,7 @@ describe('RunningAppFactory#createRunningAppForRegistration', () => {
     // then
     expect(app).toBeInstanceOf(RunningApp);
     expect(app.provider).toBe('scalingo');
-    expect(app.region).toBe('to_be_defined');
+    expect(app.region).toBe('osc-fr-1');
     expect(app.name).toBe('renamed-app-pr123-back');
     expect(app.linkedApps).toStrictEqual(['app-review-pr123-front']);
     expect(app.maxIdleTime).toStrictEqual(30);
